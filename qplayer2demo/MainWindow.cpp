@@ -13,6 +13,7 @@
 LRESULT MainWindow::renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     return LRESULT();
+    
 }
 
 LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
