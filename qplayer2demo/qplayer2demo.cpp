@@ -2,11 +2,11 @@
 //
 
 #include "framework.h"
+#include "MainWindow.h"
 #include "qplayer2demo.h"
 
-#include "MainWindow.h"
 
-
+//using namespace QMedia;
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例

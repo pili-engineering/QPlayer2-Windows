@@ -44,6 +44,9 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="qplayer2demo.rc">

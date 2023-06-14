@@ -1,9 +1,12 @@
 #pragma once
 #include "framework.h"
+
+
 class VideoRenderWindow
 {
 private:
-    
+    static LRESULT CALLBACK renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
     LRESULT onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 public:
@@ -20,8 +23,10 @@ public:
     VideoRenderWindow& operator=(VideoRenderWindow&&) = delete;
 
     HWND getHWnd();
-private:
-    
-    HWND mHwnd;
-};
 
+
+private:
+
+    HWND mHwnd;
+
+};

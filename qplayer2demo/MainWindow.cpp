@@ -2,6 +2,15 @@
 #include "resource.h"
 #include <commctrl.h>
 #include "VideoRenderWindow.h"
+
+#include "QIPlayerContext.h"
+#include "QIPlayerControlHandler.h"
+#include "QIPlayerRenderHandler.h"
+#include "QMediaModelBuilder.h"
+#include "QMediaModel.h"
+#include <iostream>
+#include <filesystem>
+
 #define ID_VIDEO_RENDER_WINDOW  200
 #define ID_PAUSE_PLAY_BUTTON    201
 #define ID_SEEK_BAR             202
@@ -9,18 +18,17 @@
 #define ID_BITRATE_STATIC_TEXT  204
 #define ID_DOWNLOAD_STATIC_TEXT 205
 #define ID_TIME_STATIC_TEXT     206
-
-LRESULT MainWindow::renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    return LRESULT();
-    
-}
+using namespace QMedia;
 
 LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     MainWindow* pmain_window = (MainWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    
+    if (pmain_window != nullptr)
+    {
+        pmain_window->onReceiveMessage(hwnd, message, wParam, lParam);
+    }
 
+    
     switch (message)
     {
     case WM_CREATE:
@@ -30,7 +38,8 @@ LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARA
     break;
     case WM_SIZE:
     {
-        if (pmain_window != nullptr) {
+        if (pmain_window != nullptr)
+        {
             pmain_window->onResize();
         }
     }
@@ -69,9 +78,23 @@ LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARA
     return 0;
 }
 
+LRESULT MainWindow::onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    if (mpPlayerContext != nullptr)
+    {
+        if (mpPlayerContext->on_receive_message(hwnd, uMsg, wParam, lParam)) {
+            return 0;
+        }
+    }
+
+    return 0;
+}
+
 MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
 	:mHinstance(hInstance),
-    mHwnd(nullptr)
+    mpVideoRenderWindow(nullptr),
+    mHwnd(nullptr),
+    mpPlayerContext(nullptr)
 {
     LoadStringW(mHinstance, IDS_APP_TITLE, mTitle, MAX_LOADSTRING);
     LoadStringW(mHinstance, IDC_QPLAYER2DEMO, mWindowClass, MAX_LOADSTRING);
@@ -104,8 +127,20 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
         throw "main window create failed!";
     }
     SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
+    
     onCreate();
 
+  
+    mpPlayerContext = QIPlayerContext::create();
+    mpPlayerContext->init(QLogLevel::LOG_VERBOSE,
+        std::filesystem::current_path().string(), "", "1.3.0", "eb4136eb62d064dcacb2afedee467384", mHwnd);
+    mpPlayerContext->get_render_hander()->set_window_hwnd(mpVideoRenderWindow->getHWnd());
+
+
+    QMediaModelBuilder builder;
+    builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO,0,
+        "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
+    mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
     ShowWindow(mHwnd, nCmdShow);
     UpdateWindow(mHwnd);
 }
@@ -145,7 +180,7 @@ LRESULT MainWindow::onCreate()
     child_hwnd = CreateWindow(TEXT("STATIC"), TEXT("FPS:25"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, NULL, NULL, NULL);
     SetWindowLong(child_hwnd, GWL_ID, ID_FPS_STATIC_TEXT);
     
-
+    
     return TRUE;
 }
 
@@ -154,6 +189,7 @@ LRESULT MainWindow::onResize()
     RECT root_window_rect;
     GetClientRect(mHwnd, &root_window_rect);
     EnumChildWindows(mHwnd, resizeChildWindowsProc, (LPARAM)(&root_window_rect));
+    notifyResizeToPlayer(&root_window_rect);
     return TRUE;
 }
 
@@ -169,7 +205,7 @@ BOOL MainWindow::resizeChildWindowsProc(HWND hwndChild, LPARAM lParam)
     int parent_width = proot_window_rect->right - proot_window_rect->left;
     int parent_height = proot_window_rect->bottom- proot_window_rect->top;
     if (child_window_id == ID_VIDEO_RENDER_WINDOW) {
-        MoveWindow(hwndChild, 10, 10, parent_width - 20, parent_height - 80, TRUE);
+        MoveWindow(hwndChild, 10, 10, getRenderWindowWidth(parent_width), getRenderWindowHeight(parent_height), TRUE);
     }
     else if (child_window_id == ID_TIME_STATIC_TEXT)
     {
@@ -208,36 +244,33 @@ BOOL MainWindow::resizeChildWindowsProc(HWND hwndChild, LPARAM lParam)
 HWND MainWindow::createVideoRenderWindow(HWND parent_hwnd)
 {
 
-    HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(parent_hwnd, GWLP_HINSTANCE);
-    //ÊÓÆµÏÔÊ¾´°¿Ú
-    WNDCLASSEXW wcex;
-
-    wcex.cbSize = sizeof(WNDCLASSEX);
-
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = mainWindowProc;
-    wcex.cbClsExtra = 0;
-    wcex.cbWndExtra = 0;
-    wcex.hInstance = hInst;
-    wcex.hIcon = NULL;
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = NULL;
-    wcex.lpszClassName = TEXT("QRenderView");
-    wcex.hIconSm = NULL;
-
+    mpVideoRenderWindow = new VideoRenderWindow(parent_hwnd, nullptr);
     
-    if (!RegisterClassExW(&wcex)) {
-        throw "render view create failed!";
-    }
-   
+    return mpVideoRenderWindow->getHWnd();
+}
 
-    HWND hwnd = CreateWindowW(wcex.lpszClassName, TEXT("QRenderView"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-        10, 10, 80, 20, parent_hwnd, NULL, hInst, NULL);
-    if (hwnd == nullptr)
+int MainWindow::getRenderWindowHeight(int parent_window_height)
+{
+    return parent_window_height - 80;
+}
+
+int MainWindow::getRenderWindowWidth(int parent_window_width)
+{
+    return parent_window_width - 20;
+}
+
+bool MainWindow::notifyResizeToPlayer(LPRECT proot_window_rect)
+{
+
+    int parent_width = proot_window_rect->right - proot_window_rect->left;
+    int parent_height = proot_window_rect->bottom - proot_window_rect->top;
+    int render_window_width = getRenderWindowWidth(parent_width);
+    int render_window_height = getRenderWindowHeight(parent_height);
+    if (mpPlayerContext != nullptr)
     {
-        throw "render view create failed!";
+        mpPlayerContext->get_render_hander()->synch_window_size(render_window_width, render_window_height);
+        return true;
+
     }
-    
-    return hwnd;
+    return false;
 }

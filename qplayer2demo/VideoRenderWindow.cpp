@@ -1,27 +1,57 @@
-//#include "VideoRenderWindow.h"
-//
-//
-//LRESULT VideoRenderWindow::renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-//{
-//    VideoRenderWindow* prender_view = (VideoRenderWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-//    if (prender_view == nullptr)
-//        return(DefWindowProc(hwnd, uMsg, wParam, lParam));
-//    else
-//        return prender_view->onReceiveMessage(hwnd, uMsg, wParam, lParam);
-//}
-//
-//LRESULT VideoRenderWindow::onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-//{
-//    return LRESULT();
-//}
-//
-//VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance)
-//    :mHwnd(nullptr)
-//{
-//
-//}
-//
-//HWND VideoRenderWindow::getHWnd()
-//{
-//    return mHwnd;
-//}
+#include "VideoRenderWindow.h"
+
+LRESULT VideoRenderWindow::renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    VideoRenderWindow* prender_view = (VideoRenderWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    if (prender_view == nullptr)
+        return(DefWindowProc(hwnd, uMsg, wParam, lParam));
+    else
+        return prender_view->onReceiveMessage(hwnd, uMsg, wParam, lParam);
+}
+
+LRESULT VideoRenderWindow::onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return LRESULT();
+}
+
+VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance)
+    :mHwnd(nullptr)
+{
+    HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(parent_hwnd, GWLP_HINSTANCE);
+    // ”∆µœ‘ æ¥∞ø⁄
+    WNDCLASSEXW wcex;
+
+    wcex.cbSize = sizeof(WNDCLASSEX);
+
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = renderViewProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInst;
+    wcex.hIcon = NULL;
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = NULL;
+    wcex.lpszClassName = TEXT(L"QRenderView");
+    wcex.hIconSm = NULL;
+
+
+    if (!RegisterClassExW(&wcex)) {
+        throw "render view create failed!";
+    }
+
+
+    mHwnd = CreateWindowW(wcex.lpszClassName, TEXT(L"QRenderView"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+        10, 10, 80, 20, parent_hwnd, NULL, hInst, NULL);
+    if (mHwnd == nullptr)
+    {
+        throw "render view create failed!";
+    }
+
+   
+}
+
+HWND VideoRenderWindow::getHWnd()
+{
+    return mHwnd;
+}
