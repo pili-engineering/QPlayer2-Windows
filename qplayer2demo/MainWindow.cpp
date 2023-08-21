@@ -261,16 +261,26 @@ int MainWindow::getRenderWindowWidth(int parent_window_width)
 
 bool MainWindow::notifyResizeToPlayer(LPRECT proot_window_rect)
 {
-
-    int parent_width = proot_window_rect->right - proot_window_rect->left;
-    int parent_height = proot_window_rect->bottom - proot_window_rect->top;
-    int render_window_width = getRenderWindowWidth(parent_width);
-    int render_window_height = getRenderWindowHeight(parent_height);
-    if (mpPlayerContext != nullptr)
+    
+    if (mpVideoRenderWindow != nullptr && mpPlayerContext != nullptr)
     {
-        mpPlayerContext->get_render_hander()->synch_window_size(render_window_width, render_window_height);
+        RECT render_window_rect;
+        GetClientRect(mpVideoRenderWindow->getHWnd(), &render_window_rect);
+        mpPlayerContext->get_render_hander()->synch_window_size(
+            render_window_rect.right - render_window_rect.left,
+            render_window_rect.bottom - render_window_rect.top);
         return true;
 
     }
+    //int parent_width = proot_window_rect->right - proot_window_rect->left;
+    //int parent_height = proot_window_rect->bottom - proot_window_rect->top;
+    //int render_window_width = getRenderWindowWidth(parent_width) - 10;
+    //int render_window_height = getRenderWindowHeight(parent_height) - 10;
+    //if (mpPlayerContext != nullptr)
+    //{
+    //    mpPlayerContext->get_render_hander()->synch_window_size(render_window_width, render_window_height);
+    //    return true;
+
+    //}
     return false;
 }
