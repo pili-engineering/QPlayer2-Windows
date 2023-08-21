@@ -140,6 +140,10 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
     QMediaModelBuilder builder;
     builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO,0,
         "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
+
+	//builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO, 0,
+	//	"https://sdk-release.qnsdk.com/video1643265479033.mp4", true);
+
     mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
     ShowWindow(mHwnd, nCmdShow);
     UpdateWindow(mHwnd);

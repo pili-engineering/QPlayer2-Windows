@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="qplayer2demo.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="VideoRenderWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
