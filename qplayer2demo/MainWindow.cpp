@@ -2,7 +2,8 @@
 #include "resource.h"
 #include <commctrl.h>
 #include "VideoRenderWindow.h"
-
+#include "PlayerWindow.h"
+#include "DemoLog.h"
 #include "QIPlayerContext.h"
 #include "QIPlayerControlHandler.h"
 #include "QIPlayerRenderHandler.h"
@@ -10,7 +11,10 @@
 #include "QMediaModel.h"
 #include <iostream>
 #include <filesystem>
+#include "UrlListWindow.h"
+#include "PlayerMenuSettingModelManager.h"
 
+#define TAG                     "MainWindow"
 #define ID_VIDEO_RENDER_WINDOW  200
 #define ID_PAUSE_PLAY_BUTTON    201
 #define ID_SEEK_BAR             202
@@ -18,35 +22,37 @@
 #define ID_BITRATE_STATIC_TEXT  204
 #define ID_DOWNLOAD_STATIC_TEXT 205
 #define ID_TIME_STATIC_TEXT     206
+#define ID_PLAYER_WINDOW        207
+#define ID_URL_LIST_WINDOW      208
+
+
 using namespace QMedia;
 
-LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param)
 {
     MainWindow* pmain_window = (MainWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    if (pmain_window != nullptr)
-    {
-        pmain_window->onReceiveMessage(hwnd, message, wParam, lParam);
-    }
 
+    
     
     switch (message)
     {
     case WM_CREATE:
     {
-
+        //pmain_window->onCreatePlayMenu();
     }
     break;
     case WM_SIZE:
     {
         if (pmain_window != nullptr)
         {
-            pmain_window->onResize();
+            pmain_window->on_resize();
         }
     }
     break;
     case WM_COMMAND:
     {
-        int wmId = LOWORD(wParam);
+        int wmId = LOWORD(w_param);
+        pmain_window->button_click(wmId);
         // 分析菜单选择:
         switch (wmId)
         {
@@ -57,7 +63,7 @@ LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARA
             DestroyWindow(hwnd);
             break;
         default:
-            return DefWindowProc(hwnd, message, wParam, lParam);
+            return DefWindowProc(hwnd, message, w_param, l_param);
         }
     }
     break;
@@ -73,28 +79,22 @@ LRESULT MainWindow::mainWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARA
         PostQuitMessage(0);
         break;
     default:
-        return DefWindowProc(hwnd, message, wParam, lParam);
+        return DefWindowProc(hwnd, message, w_param, l_param);
     }
+    
     return 0;
 }
 
-LRESULT MainWindow::onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    if (mpPlayerContext != nullptr)
-    {
-        if (mpPlayerContext->on_receive_message(hwnd, uMsg, wParam, lParam)) {
-            return 0;
-        }
-    }
-
-    return 0;
+void MainWindow::list_window_click(int item_id) {
+    char buff[200];
+    snprintf(buff, sizeof(buff),"list CLick %d", item_id);
+    DemoLog::log_string(TAG, __LINE__,buff);
 }
+
 
 MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
 	:mHinstance(hInstance),
-    mpVideoRenderWindow(nullptr),
-    mHwnd(nullptr),
-    mpPlayerContext(nullptr)
+    mHwnd(nullptr)
 {
     LoadStringW(mHinstance, IDS_APP_TITLE, mTitle, MAX_LOADSTRING);
     LoadStringW(mHinstance, IDC_QPLAYER2DEMO, mWindowClass, MAX_LOADSTRING);
@@ -104,7 +104,7 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = mainWindowProc;
+    wcex.lpfnWndProc = main_window_proc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = mHinstance;
@@ -128,23 +128,11 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
     }
     SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
     
-    onCreate();
-
-  
-    mpPlayerContext = QIPlayerContext::create();
-    mpPlayerContext->init(QLogLevel::LOG_VERBOSE,
-        std::filesystem::current_path().string(), "", "1.3.0", "eb4136eb62d064dcacb2afedee467384", mHwnd);
-    mpPlayerContext->get_render_hander()->set_window_hwnd(mpVideoRenderWindow->getHWnd());
+    on_create();
 
 
-    QMediaModelBuilder builder;
-    builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO,0,
-        "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-
-	//builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO, 0,
-	//	"https://sdk-release.qnsdk.com/video1643265479033.mp4", true);
-
-    mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
+	on_create_play_menu();
+ 
     ShowWindow(mHwnd, nCmdShow);
     UpdateWindow(mHwnd);
 }
@@ -153,51 +141,92 @@ MainWindow::~MainWindow()
 {
 }
 
-HWND MainWindow::getHWnd()
+HWND MainWindow::get_hwnd()
 {
 	return mHwnd;
 }
 
-LRESULT MainWindow::onCreate()
+LRESULT MainWindow::on_create()
 {
     HWND child_hwnd;
     //视频显示窗口
-    child_hwnd = createVideoRenderWindow(mHwnd);
-    SetWindowLong(child_hwnd, GWL_ID, ID_VIDEO_RENDER_WINDOW);
+    //child_hwnd = createVideoRenderWindow(mHwnd);
+	mpPlayerWindow = new PlayerWindow(mHwnd, mHinstance);
+	child_hwnd = mpPlayerWindow->get_hwnd();
+	SetWindowLong(child_hwnd, GWL_ID, ID_PLAYER_WINDOW);
     //进度时间
-    child_hwnd = CreateWindow(TEXT("STATIC"), TEXT("00:07/03:56"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, NULL, NULL, NULL);
-    SetWindowLong(child_hwnd, GWL_ID, ID_TIME_STATIC_TEXT);
+    CreateWindow(TEXT("STATIC"), TEXT("00:07/03:56"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_TIME_STATIC_TEXT, NULL, NULL);
+    //SetWindowLong(child_hwnd, GWL_ID, ID_TIME_STATIC_TEXT);
     //播放暂停按钮
-    child_hwnd = CreateWindow(TEXT("BUTTON"), TEXT("Play"), WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 120, 70, 54, 20, mHwnd, NULL, NULL, NULL);
-    SetWindowLong(child_hwnd, GWL_ID, ID_PAUSE_PLAY_BUTTON);
+    CreateWindow(TEXT("BUTTON"), TEXT("Play"), WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 120, 70, 54, 20, mHwnd, (HMENU)ID_PAUSE_PLAY_BUTTON, NULL, NULL);
+    //SetWindowLong(child_hwnd, GWL_ID, ID_PAUSE_PLAY_BUTTON);
     /*SetWindowText*/
     //进度条
-    child_hwnd = CreateWindow(TRACKBAR_CLASS, TEXT("Trackbar Control"), WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS, 10, 40, 200, 30, mHwnd, NULL, NULL, NULL);
-    SetWindowLong(child_hwnd, GWL_ID, ID_SEEK_BAR);
+    CreateWindow(TRACKBAR_CLASS, TEXT("Trackbar Control"), WS_CHILD | WS_VISIBLE | TBS_AUTOTICKS, 10, 40, 200, 30, mHwnd, (HMENU)ID_SEEK_BAR, NULL, NULL);
+    //SetWindowLong(child_hwnd, GWL_ID, ID_SEEK_BAR);
     //下载速度
-    child_hwnd = CreateWindow(TEXT("STATIC"), TEXT("111KB/s"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, NULL, NULL, NULL);
-    SetWindowLong(child_hwnd, GWL_ID, ID_DOWNLOAD_STATIC_TEXT);
+     CreateWindow(TEXT("STATIC"), TEXT("111KB/s"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_DOWNLOAD_STATIC_TEXT, NULL, NULL);
+    //SetWindowLong(child_hwnd, GWL_ID, ID_DOWNLOAD_STATIC_TEXT);
     //码率
-    child_hwnd = CreateWindow(TEXT("STATIC"), TEXT("842kbps"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, NULL, NULL, NULL);
-    SetWindowLong(child_hwnd, GWL_ID, ID_BITRATE_STATIC_TEXT);
+    CreateWindow(TEXT("STATIC"), TEXT("842kbps"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_BITRATE_STATIC_TEXT, NULL, NULL);
+    //SetWindowLong(child_hwnd, GWL_ID, ID_BITRATE_STATIC_TEXT);
     //FPS
-    child_hwnd = CreateWindow(TEXT("STATIC"), TEXT("FPS:25"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, NULL, NULL, NULL);
-    SetWindowLong(child_hwnd, GWL_ID, ID_FPS_STATIC_TEXT);
+    CreateWindow(TEXT("STATIC"), TEXT("FPS:25"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_FPS_STATIC_TEXT, NULL, NULL);
+    //SetWindowLong(child_hwnd, GWL_ID, ID_FPS_STATIC_TEXT);
+    mUrlListView = new UrlListWindow(mHwnd, mHinstance);
+    mUrlListView->set_play_control_callback(
+        [this](HWND hwnd, QMedia::QMediaModel* model) {
+        url_Click_call_back(hwnd, model);
+        }
+    );
+    SetWindowLong(mUrlListView->get_hwnd(), GWL_ID, ID_URL_LIST_WINDOW);
     
+
+
     
     return TRUE;
 }
 
-LRESULT MainWindow::onResize()
+void MainWindow::url_Click_call_back(HWND hwnd, QMedia::QMediaModel* model) {
+    //MainWindow* main_window = (MainWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    if (mpPlayerWindow != nullptr)
+    {
+        mpPlayerWindow->get_control_handler()->play_media_model(model, 0);
+    }
+}
+LRESULT MainWindow::on_create_play_menu() {
+    
+    PlayerMenuSettingModelManager* setting_menu_manager = new PlayerMenuSettingModelManager(mHwnd);
+    std::list<PlayerMenuSettingModel*>* setting_model = setting_menu_manager->get_menu_setting_model();
+
+    HMENU base_menu = CreateMenu();
+	for (int parent_index = 0; parent_index < setting_model->size(); parent_index++) {
+        auto parent_it = setting_model->begin();
+        std::advance(parent_it, parent_index);
+        
+		AppendMenu(base_menu, MF_STRING | MF_POPUP, (UINT_PTR)((*parent_it)->mpChildMenu->mHmenu), (*parent_it)->mName.c_str());
+        for (int child_index = 0; child_index < (*parent_it)->mpChildMenu->mpMenus->size(); child_index++) {
+
+			auto child_it = (*parent_it)->mpChildMenu->mpMenus->begin();
+			std::advance(child_it, child_index);
+			AppendMenu((*parent_it)->mpChildMenu->mHmenu, MF_STRING, (*child_it)->mId, (*child_it)->mName.c_str());
+        }
+
+    }
+    SetMenu(mHwnd, base_menu);
+
+    return 0;
+}
+LRESULT MainWindow::on_resize()
 {
     RECT root_window_rect;
     GetClientRect(mHwnd, &root_window_rect);
-    EnumChildWindows(mHwnd, resizeChildWindowsProc, (LPARAM)(&root_window_rect));
-    notifyResizeToPlayer(&root_window_rect);
+    EnumChildWindows(mHwnd, resize_child_windows_proc, (LPARAM)(&root_window_rect));
+    notify_resize_to_player(&root_window_rect);
     return TRUE;
 }
 
-BOOL MainWindow::resizeChildWindowsProc(HWND hwndChild, LPARAM lParam)
+BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
 {
     LPRECT proot_window_rect;
     int child_window_id;
@@ -208,8 +237,8 @@ BOOL MainWindow::resizeChildWindowsProc(HWND hwndChild, LPARAM lParam)
     }
     int parent_width = proot_window_rect->right - proot_window_rect->left;
     int parent_height = proot_window_rect->bottom- proot_window_rect->top;
-    if (child_window_id == ID_VIDEO_RENDER_WINDOW) {
-        MoveWindow(hwndChild, 10, 10, getRenderWindowWidth(parent_width), getRenderWindowHeight(parent_height), TRUE);
+    if (child_window_id == ID_PLAYER_WINDOW) {
+        MoveWindow(hwndChild, 10, 10, get_render_window_width(parent_width), get_render_window_height(parent_height), TRUE);
     }
     else if (child_window_id == ID_TIME_STATIC_TEXT)
     {
@@ -232,59 +261,81 @@ BOOL MainWindow::resizeChildWindowsProc(HWND hwndChild, LPARAM lParam)
     else if (child_window_id == ID_FPS_STATIC_TEXT) {
         MoveWindow(hwndChild, 150, parent_height - 25, 60, 20, TRUE);
     }
-    //MoveWindow(hwndChild,
-    //    (rcParent->right / 3) * i,
-    //    0,
-    //    rcParent->right / 3,
-    //    rcParent->bottom,
-    //    TRUE);
-
-    //ShowWindow(hwndChild, SW_SHOW);
+    else if (child_window_id == ID_URL_LIST_WINDOW)
+    {
+        MoveWindow(hwndChild, parent_width - 310 ,10, 300, parent_height - 80, TRUE);
+    }
     printf("child id=%d", child_window_id);
 
     return TRUE;
 }
 
-HWND MainWindow::createVideoRenderWindow(HWND parent_hwnd)
-{
 
-    mpVideoRenderWindow = new VideoRenderWindow(parent_hwnd, nullptr);
-    
-    return mpVideoRenderWindow->getHWnd();
-}
-
-int MainWindow::getRenderWindowHeight(int parent_window_height)
+int MainWindow::get_render_window_height(int parent_window_height)
 {
     return parent_window_height - 80;
 }
 
-int MainWindow::getRenderWindowWidth(int parent_window_width)
+int MainWindow::get_render_window_width(int parent_window_width)
 {
-    return parent_window_width - 20;
+    return parent_window_width - 320;
 }
 
-bool MainWindow::notifyResizeToPlayer(LPRECT proot_window_rect)
+bool MainWindow::notify_resize_to_player(LPRECT proot_window_rect)
 {
     
-    if (mpVideoRenderWindow != nullptr && mpPlayerContext != nullptr)
+    if (mpPlayerWindow != nullptr)
     {
         RECT render_window_rect;
-        GetClientRect(mpVideoRenderWindow->getHWnd(), &render_window_rect);
-        mpPlayerContext->get_render_hander()->synch_window_size(
-            render_window_rect.right - render_window_rect.left,
-            render_window_rect.bottom - render_window_rect.top);
+        GetClientRect(mpPlayerWindow->get_hwnd(), &render_window_rect);
         return true;
 
     }
-    //int parent_width = proot_window_rect->right - proot_window_rect->left;
-    //int parent_height = proot_window_rect->bottom - proot_window_rect->top;
-    //int render_window_width = getRenderWindowWidth(parent_width) - 10;
-    //int render_window_height = getRenderWindowHeight(parent_height) - 10;
-    //if (mpPlayerContext != nullptr)
-    //{
-    //    mpPlayerContext->get_render_hander()->synch_window_size(render_window_width, render_window_height);
-    //    return true;
 
-    //}
     return false;
+}
+void  MainWindow::button_click(int button_id) {
+    if (mpPlayerWindow == nullptr) {
+        DemoLog::log_string(TAG, __LINE__, "mPlayerWindow is null");
+        return;
+    }
+    switch (button_id)
+    {
+    case ID_RESUME_BUTTON: {
+        mpPlayerWindow->get_control_handler()->resume_render();
+        break;
+    }
+    case ID_PAUSE_BUTTON:
+        mpPlayerWindow->get_control_handler()->pause_render();
+        break;
+    case ID_STOP_BUTTON:
+        mpPlayerWindow->get_control_handler()->stop();
+        break;
+    case ID_AUTO_DECODER_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO);
+        break;
+	case ID_HARD_DECODER_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY);
+        break;
+	case ID_SOFT_DECODER_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY);
+		break;
+	case ID_SEEK_NORMAL_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL);
+		break;
+	case ID_SEEK_ACCURATE_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_ACCURATE);
+		break;
+	case ID_SEEK_START_PLAYING_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_start_action(QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING);
+		break;
+	case ID_SEEK_START_PAUSE_BUTTON:
+		mpPlayerWindow->get_control_handler()->set_start_action(QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PAUSE);
+		break;
+	case ID_AURHENTICATION_BUTTON:
+		mpPlayerWindow->get_control_handler()->force_authentication_from_network();
+		break;
+    default:
+        break;
+    }
 }
