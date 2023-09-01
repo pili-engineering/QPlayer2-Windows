@@ -1,15 +1,15 @@
 #include "VideoRenderWindow.h"
 
-LRESULT VideoRenderWindow::renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT VideoRenderWindow::render_window_proc(HWND hwnd, UINT u_msg, WPARAM w_param, LPARAM l_param)
 {
     VideoRenderWindow* prender_view = (VideoRenderWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
     if (prender_view == nullptr)
-        return(DefWindowProc(hwnd, uMsg, wParam, lParam));
+        return(DefWindowProc(hwnd, u_msg, w_param, l_param));
     else
-        return prender_view->onReceiveMessage(hwnd, uMsg, wParam, lParam);
+        return prender_view->on_receive_message(hwnd, u_msg, w_param, l_param);
 }
 
-LRESULT VideoRenderWindow::onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT VideoRenderWindow::on_receive_message(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     return LRESULT();
 }
@@ -24,7 +24,7 @@ VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = renderViewProc;
+    wcex.lpfnWndProc = render_window_proc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInst;
@@ -51,7 +51,7 @@ VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance)
    
 }
 
-HWND VideoRenderWindow::getHWnd()
+HWND VideoRenderWindow::get_hwnd()
 {
     return mHwnd;
 }

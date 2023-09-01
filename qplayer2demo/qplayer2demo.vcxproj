@@ -135,16 +135,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DemoLog.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="PlayerMenuSettingModel.h" />
+    <ClInclude Include="PlayerMenuSettingModelManager.h" />
+    <ClInclude Include="PlayerUrlListModelManager.h" />
+    <ClInclude Include="PlayerWindow.h" />
     <ClInclude Include="qplayer2demo.h" />
+    <ClInclude Include="UrlListWindow.h" />
     <ClInclude Include="VideoRenderWindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DemoLog.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="PlayerChildMenuModel.cpp" />
+    <ClCompile Include="PlayerChildMenuModel.h" />
+    <ClCompile Include="PlayerMenuSettingModel.cpp" />
+    <ClCompile Include="PlayerMenuSettingModelManager.cpp" />
+    <ClCompile Include="PlayerUrlListModel.cpp" />
+    <ClCompile Include="PlayerUrlListModel.h" />
+    <ClCompile Include="PlayerUrlListModelManager.cpp" />
+    <ClCompile Include="PlayerWindow.cpp" />
     <ClCompile Include="qplayer2demo.cpp" />
+    <ClCompile Include="UrlListWindow.cpp" />
     <ClCompile Include="VideoRenderWindow.cpp" />
   </ItemGroup>
   <ItemGroup>

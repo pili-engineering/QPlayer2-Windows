@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\log">
+      <UniqueIdentifier>{3a71ddd1-e33b-4685-945f-ee3546295f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\log">
+      <UniqueIdentifier>{d0199c4d-b528-4603-b310-29f3240169db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\model">
+      <UniqueIdentifier>{31f7b405-03e5-45a4-9eb3-08ef4d45c578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\modelManager">
+      <UniqueIdentifier>{dbde80d7-f3e8-4ce5-adcf-0f15d11a8090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\modelManager">
+      <UniqueIdentifier>{63bf98e8-64df-4944-a125-4393dc26d074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\model">
+      <UniqueIdentifier>{105e42e1-5128-4b98-a760-454d789fec5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -33,6 +51,24 @@
     <ClInclude Include="MainWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoLog.h">
+      <Filter>头文件\log</Filter>
+    </ClInclude>
+    <ClInclude Include="UrlListWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUrlListModelManager.h">
+      <Filter>头文件\modelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMenuSettingModel.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMenuSettingModelManager.h">
+      <Filter>头文件\modelManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qplayer2demo.cpp">
@@ -43,6 +79,36 @@
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoLog.cpp">
+      <Filter>源文件\log</Filter>
+    </ClCompile>
+    <ClCompile Include="UrlListWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUrlListModel.h">
+      <Filter>头文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUrlListModelManager.cpp">
+      <Filter>源文件\modelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUrlListModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMenuSettingModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChildMenuModel.h">
+      <Filter>头文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerChildMenuModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMenuSettingModelManager.cpp">
+      <Filter>源文件\modelManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
