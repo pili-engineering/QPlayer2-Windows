@@ -1,0 +1,100 @@
+#pragma once
+#include "framework.h"
+#include <string>
+#include <list>
+#include "PlayerMenuSettingModel.h"
+
+#define ID_PLAY_CHONTROL									 1000
+#define ID_RESUME_BUTTON									 1001
+#define ID_PAUSE_BUTTON										 1002
+#define ID_STOP_BUTTON										 1003
+
+#define ID_DECODER   										 1100
+#define ID_AUTO_DECODER_BUTTON								 1101
+#define ID_HARD_DECODER_BUTTON								 1102
+#define ID_SOFT_DECODER_BUTTON								 1103
+
+#define ID_SEEK												 1200
+#define ID_SEEK_NORMAL_BUTTON								 1201
+#define ID_SEEK_ACCURATE_BUTTON								 1202
+
+#define ID_SEEK_START										 1300
+#define ID_SEEK_START_PLAYING_BUTTON						 1301
+#define ID_SEEK_START_PAUSE_BUTTON							 1302
+
+#define ID_AURHENTICATION									 1400
+#define ID_AURHENTICATION_BUTTON							 1401
+
+#define ID_RENDER_RADIO										 1500
+#define ID_RENDER_RADIO_AUTO_BUTTON							 1501
+#define ID_RENDER_RADIO_STRETCH_BUTTON						 1502
+#define ID_RENDER_RADIO_FULL_SCREEN_BUTTON					 1503
+#define ID_RENDER_RADIO_16_9_BUTTON							 1504
+#define ID_RENDER_RADIO_4_3_BUTTON							 1505
+
+#define ID_BLIND											 1600
+#define ID_BLIND_NONE_BUTTON								 1601
+#define ID_BLIND_RED_BUTTON									 1602
+#define ID_BLIND_GREEN_BUTTON								 1603
+#define ID_BLIND_BLUE_BUTTON								 1604
+
+#define ID_SEI												 1700
+#define ID_SEI_OPEN_BUTTON									 1701
+#define ID_SEI_CLOSE_BUTTON									 1702
+
+#define ID_BACKGROUND										 1800
+#define ID_BACKGROUND_OPEN_BUTTON							 1801
+#define ID_BACKGROUND_CLOSE_BUTTON							 1802
+	
+#define ID_QUALITY_CHANGE									 1900
+#define ID_QUALITY_CHANGE_IMMEDIATYLY_TRUE_BUTTON			 1901
+#define ID_QUALITY_CHANGE_IMMEDIATYLY_FALSE_BUTTON			 1902
+#define ID_QUALITY_CHANGE_IMMEDIATYLY_CUSTOM_BUTTON			 1903
+
+#define ID_SUBTITLE											 2000
+#define ID_SUBTITLE_CLOSE_BUTTON							 2001
+#define ID_SUBTITLE_CHINESE_BUTTON							 2002
+#define ID_SUBTITLE_ENGLISH_BUTTON							 2003
+
+class PlayerMenuSettingModelManager
+{
+public:
+	std::list<PlayerMenuSettingModel*>* get_menu_setting_model();
+private:
+	void add_setting_model(std::string menu_name,int id);
+
+	void add_setting_child_model(std::list<ChildMenu*>* child_menu, int parent_menu_id);
+
+	ChildMenu* create_child_menu(std::string name, int id, bool is_selected);
+
+	std::list<ChildMenu*>* create_play_control_list();
+
+	std::list<ChildMenu*>* create_decoder_list();
+
+	std::list<ChildMenu*>* create_seek_list();
+
+	std::list<ChildMenu*>* create_start_seek_list();
+
+	std::list<ChildMenu*>* create_authentication_list();
+
+	std::list<ChildMenu*>* create_render_radio_list();
+
+	std::list<ChildMenu*>* create_blind_list();
+
+	std::list<ChildMenu*>* create_sei_list();
+
+	std::list<ChildMenu*>* create_background_play_list();
+
+	std::list<ChildMenu*>* create_quality_change_list();
+
+	std::list<ChildMenu*>* create_subtitle_list();
+public:
+	PlayerMenuSettingModelManager(HWND hwnd);
+	~PlayerMenuSettingModelManager();
+
+private:
+	HWND mHwnd;
+
+	std::list<PlayerMenuSettingModel*>* mpMenuSettingModels;
+};
+
