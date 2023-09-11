@@ -41,6 +41,12 @@ PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd)
 
 	add_setting_model("◊÷ƒª…Ë÷√", ID_SUBTITLE);
 	add_setting_child_model(create_subtitle_list(), ID_SUBTITLE);
+
+	add_setting_model("±∂ÀŸ≤•∑≈", ID_PLAY_SPEED);
+	add_setting_child_model(create_play_speed_list(), ID_PLAY_SPEED);
+
+	add_setting_model("æ≤“Ù…Ë÷√", ID_MUTE);
+	add_setting_child_model(create_mute_list(), ID_MUTE);
 }
 
 
@@ -202,6 +208,28 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 	subtitle_list->emplace_back(create_child_menu("”¢Œƒ", ID_SUBTITLE_ENGLISH_BUTTON, false));
 
 	return subtitle_list;
+}
+
+std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
+	std::list<ChildMenu*>* play_speed_list = new std::list<ChildMenu*>;
+
+	play_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, false));
+	play_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, false));
+	play_speed_list->emplace_back(create_child_menu("1.25x", ID_PLAY_SPEED_1_2_5_BUTTON, false));
+	play_speed_list->emplace_back(create_child_menu("1.0x", ID_PLAY_SPEED_1_0_BUTTON, true));
+	play_speed_list->emplace_back(create_child_menu("0.75x", ID_PLAY_SPEED_0_7_5_BUTTON, false));
+	play_speed_list->emplace_back(create_child_menu("0.5x", ID_PLAY_SPEED_0_5_BUTTON, false));
+
+	return play_speed_list;
+}
+
+std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_mute_list() {
+	std::list<ChildMenu*>* mute_list = new std::list<ChildMenu*>;
+
+	mute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_SUBTITLE_CLOSE_BUTTON, true));
+	mute_list->emplace_back(create_child_menu("æ≤“Ù", ID_SUBTITLE_CHINESE_BUTTON, false));
+
+	return mute_list;
 }
 
 ChildMenu* PlayerMenuSettingModelManager::create_child_menu(std::string name, int id, bool is_selected) {

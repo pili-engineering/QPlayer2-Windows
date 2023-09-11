@@ -56,6 +56,18 @@
 #define ID_SUBTITLE_CHINESE_BUTTON							 2002
 #define ID_SUBTITLE_ENGLISH_BUTTON							 2003
 
+#define ID_PLAY_SPEED										 2100
+#define ID_PLAY_SPEED_2_0_BUTTON							 2101
+#define ID_PLAY_SPEED_1_5_BUTTON							 2102
+#define ID_PLAY_SPEED_1_2_5_BUTTON							 2103
+#define ID_PLAY_SPEED_1_0_BUTTON							 2104
+#define ID_PLAY_SPEED_0_7_5_BUTTON							 2105
+#define ID_PLAY_SPEED_0_5_BUTTON							 2106
+
+#define ID_MUTE												 2200
+#define ID_MUTE_OPEN_BUTTON									 2201
+#define ID_MUTE_CLOSE_BUTTON								 2202
+
 class PlayerMenuSettingModelManager
 {
 public:
@@ -88,6 +100,10 @@ private:
 	std::list<ChildMenu*>* create_quality_change_list();
 
 	std::list<ChildMenu*>* create_subtitle_list();
+
+	std::list<ChildMenu*>* create_play_speed_list();
+
+	std::list<ChildMenu*>* create_mute_list();
 public:
 	PlayerMenuSettingModelManager(HWND hwnd);
 	~PlayerMenuSettingModelManager();
