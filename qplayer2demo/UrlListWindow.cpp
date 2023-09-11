@@ -32,7 +32,7 @@ UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance)
 	wcex.hIconSm = NULL;
 
 	if (!RegisterClassExW(&wcex)) {
-		throw "PlayerWindow  create failed!";
+		throw "UrlListWindow  create failed!";
 	}
 
 	mHwnd = CreateWindowW(wcex.lpszClassName, TEXT(L"UrlListWindow"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
@@ -62,8 +62,9 @@ LRESULT CALLBACK UrlListWindow::main_url_list_window_proc(HWND hwnd, UINT messag
 	case WM_SIZE:
 	{
 		if (url_window != nullptr) {
-			url_window->url_list_resize();
+			//url_window->url_list_resize();
 		}
+		break;
 	}
 	case WM_COMMAND:
 	{
@@ -105,7 +106,7 @@ void UrlListWindow::url_list_resize() {
 LRESULT UrlListWindow::on_list_create() {
 
 	// 创建列表视图控件
-	mListWindow = CreateWindowEx(0, WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_NOCOLUMNHEADER, 0, 0, 500, 400, mHwnd, NULL, mHinstance, NULL);
+	mListWindow = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE, 0, 0, 500, 400, mHwnd, NULL, NULL, NULL);
 
 	// 设置列表视图控件的样式
 	ListView_SetExtendedListViewStyle(mListWindow, LVS_EX_FULLROWSELECT);
