@@ -69,6 +69,18 @@
     <ClInclude Include="PlayerMenuSettingModelManager.h">
       <Filter>头文件\modelManager</Filter>
     </ClInclude>
+    <ClInclude Include="CurrentDataModel.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="CurrentDataModelManager.h">
+      <Filter>头文件\modelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ToastWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="toast2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="qplayer2demo.cpp">
@@ -109,6 +121,18 @@
     </ClCompile>
     <ClCompile Include="PlayerMenuSettingModelManager.cpp">
       <Filter>源文件\modelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CurrentDataModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="CurrentDataModelManager.cpp">
+      <Filter>源文件\modelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ToastWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="toast2.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
