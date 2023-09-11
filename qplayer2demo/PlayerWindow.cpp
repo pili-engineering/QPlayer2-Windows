@@ -7,7 +7,6 @@
 #include "QMediaModelBuilder.h"
 #include "QMediaModel.h"
 #include "VideoRenderWindow.h"
-//#include "PlayerMessageLoopQueueAdapter.h"
 #include "DemoLog.h"
 #include <iostream>
 #include <filesystem>
@@ -48,12 +47,12 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr)
 		throw "PlayerWindow create failed!";
 	}
 
+
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
 	mpVideoRenderWindow = new VideoRenderWindow(mHwnd, nullptr);
 
 	SetWindowLongPtr(mpVideoRenderWindow->get_hwnd(), GWL_ID, ID_RENDER_WINDOW);
 
-	
 
 	mpPlayerContext = QIPlayerContext::create();
 	mpPlayerContext->init(QLogLevel::LOG_VERBOSE,
@@ -67,7 +66,7 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr)
 		"http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
 
 	mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
-	
+
 
 }
 
@@ -92,6 +91,7 @@ LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message,
 			mPlayerWindow->on_resize();
 		}
 		break;
+
 	//case WM_QPLAYER_STATE:
 	//	DemoLog::log_string(TAG, __LINE__, "WM_QPLAYER_STATE");
 
@@ -181,3 +181,5 @@ QMedia::QIPlayerRenderHandler* PlayerWindow::get_render_handler() {
 	}
 	return nullptr;
 }
+
+

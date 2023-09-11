@@ -1,5 +1,6 @@
 #pragma once
 #include "framework.h"
+#include "CurrentDataModelManager.h"
 namespace QMedia {
 	class QIPlayerContext;
 	class QIPlayerControlHandler;
@@ -18,6 +19,8 @@ private:
 	bool notify_resize_to_player(LPRECT proot_window_rect);
 
 	static BOOL resize_child_windows_proc(HWND hwnd_child, LPARAM l_param);
+
+
 public:
 	PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance);
 
@@ -36,11 +39,17 @@ public:
 	QMedia::QIPlayerControlHandler* get_control_handler();
 
 	QMedia::QIPlayerRenderHandler* get_render_handler();
+
+
+
+
 private:
 
 	HWND mHwnd;
 
 	QMedia::QIPlayerContext* mpPlayerContext;
+
 	VideoRenderWindow* mpVideoRenderWindow;
+
 };
 
