@@ -205,6 +205,12 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
 
 MainWindow::~MainWindow()
 {
+    if (mpPlayerWindow != nullptr)
+    {
+        delete mpPlayerWindow;
+        mpPlayerWindow = nullptr;
+    }
+   
 }
 
 HWND MainWindow::get_hwnd()
@@ -532,7 +538,7 @@ void  MainWindow::button_click(int button_id) {
     }
 }
 
-std::string  MainWindow::to_date_string(long time) {
+std::string  MainWindow::to_date_string(int64_t time) {
 	int inner_time = time / 1000;
 	std::string inner_time_str = "";
 	if (inner_time < 60) {
@@ -673,7 +679,7 @@ void MainWindow::on_state_changed(QMedia::QPlayerState state) {
 
 }
 
-void MainWindow::on_first_frame_rendered(long elapsed_time) {
+void MainWindow::on_first_frame_rendered(int64_t elapsed_time) {
     DemoLog::log_string(TAG, __LINE__, "elapsed_time");
     std::string text = "first frame: " + std::to_string(elapsed_time) + "ms";
     
@@ -706,9 +712,9 @@ void  MainWindow::on_buffering_start() {}
 
 void  MainWindow::on_buffering_end() {}
 
-void  MainWindow::on_command_not_allow(std::string command_name, QMedia::QPlayerState state) {}
+void  MainWindow::on_command_not_allow(const std::string &command_name, QMedia::QPlayerState state) {}
 
-void  MainWindow::on_download_changed(int download_speed, int buffer_pos) {
+void  MainWindow::on_download_changed(int64_t download_speed, int64_t buffer_pos) {
 	std::ostringstream oss;
 	oss << std::fixed << std::setprecision(2) << download_speed / 1000.0;
 	std::string result_str = oss.str();
@@ -719,13 +725,13 @@ void  MainWindow::on_download_changed(int download_speed, int buffer_pos) {
 
 void  MainWindow::on_format_not_support() {}
 
-void  MainWindow::on_reconnect_start(std::string user_type, QMedia::QUrlType url_type, std::string url, int retry_time) {}
+void  MainWindow::on_reconnect_start(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time) {}
 
-void  MainWindow::on_reconnect_end(std::string user_type, QMedia::QUrlType url_type, std::string url, int retry_time, QMedia::QOpenError error) {}
+void  MainWindow::on_reconnect_end(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) {}
 
-void  MainWindow::on_open_failed(std::string user_type, QMedia::QUrlType url_type, std::string url, QMedia::QOpenError error) {}
+void  MainWindow::on_open_failed(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) {}
 
-void  MainWindow::on_progress_changed(long progress, long duration) {
+void  MainWindow::on_progress_changed(int64_t progress, int64_t duration) {
     if (CurrentDataModelManager::get_instance()->get_duration_time() != duration/100)
 	{
         CurrentDataModelManager::get_instance()->set_duration_time(duration / 100);
@@ -745,15 +751,15 @@ void  MainWindow::on_progress_changed(long progress, long duration) {
     mProgressTimeStr = progress_time_str;
 }
 
-void  MainWindow::on_quality_switch_start(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_start(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
 
-void  MainWindow::on_quality_switch_complete(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_complete(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
 
-void  MainWindow::on_quality_switch_canceled(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_canceled(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
 
-void  MainWindow::on_quality_switch_failed(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_failed(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
 
-void  MainWindow::on_quality_switch_retry_later(std::string user_type, QMedia::QUrlType url_type) {}
+void  MainWindow::on_quality_switch_retry_later(const std::string &user_type, QMedia::QUrlType url_type) {}
 
 void  MainWindow::on_seek_success() {
 
@@ -771,17 +777,17 @@ void  MainWindow::on_shoot_video_failed() {}
 
 void  MainWindow::on_sei_data(uint8_t* data, uint64_t size) {}
 
-void  MainWindow::on_speed_changed(int speed) {}
+void  MainWindow::on_speed_changed(float speed) {}
 
-void  MainWindow::on_subtitle_text_changed(std::string text) {}
+void  MainWindow::on_subtitle_text_changed(const std::string &text) {}
 
-void  MainWindow::on_subtitle_name_changed(std::string name) {}
+void  MainWindow::on_subtitle_name_changed(const std::string &name) {}
 
 void  MainWindow::on_subtitle_enable(bool enable) {}
 
-void  MainWindow::on_subtitle_loaded(std::string name, bool result) {}
+void  MainWindow::on_subtitle_loaded(const std::string &name, bool result) {}
 
-void  MainWindow::on_subtitle_decoded(std::string name, bool result) {}
+void  MainWindow::on_subtitle_decoded(const std::string &name, bool result) {}
 
 void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {}
 

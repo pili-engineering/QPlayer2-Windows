@@ -73,7 +73,11 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr)
 //析构
 PlayerWindow::~PlayerWindow()
 {
-
+	if (mpPlayerContext != nullptr)
+	{
+		delete mpPlayerContext;
+		mpPlayerContext = nullptr;
+	}
 }
 
 //处理事件循环

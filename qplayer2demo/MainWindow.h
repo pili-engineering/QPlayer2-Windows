@@ -43,7 +43,7 @@ private:
 
 	void on_state_changed(QMedia::QPlayerState state) override;
 
-    void on_first_frame_rendered(long elapsed_time) override;
+    void on_first_frame_rendered(int64_t elapsed_time) override;
 
     void on_fps_changed(long fps) override;
 
@@ -61,29 +61,29 @@ private:
 
 	 void on_buffering_end() override;
 
-	 void on_command_not_allow(std::string command_name, QMedia::QPlayerState state) override;
+	 void on_command_not_allow(const std::string &command_name, QMedia::QPlayerState state) override;
 
-	 void on_download_changed(int download_speed, int buffer_pos) override;
+	 void on_download_changed(int64_t download_speed, int64_t buffer_pos) override;
 
 	 void on_format_not_support() override;
 
-	 void on_reconnect_start(std::string user_type, QMedia::QUrlType url_type, std::string url, int retry_time) override;
+	 void on_reconnect_start(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time) override;
 
-	 void on_reconnect_end(std::string user_type, QMedia::QUrlType url_type, std::string url, int retry_time, QMedia::QOpenError error) override;
+	 void on_reconnect_end(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) override;
 
-	 void on_open_failed(std::string user_type, QMedia::QUrlType url_type, std::string url, QMedia::QOpenError error) override;
+	 void on_open_failed(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) override;
 
-	 void on_progress_changed(long progress, long duration) override;
+	 void on_progress_changed(int64_t progress, int64_t duration) override;
 
-	 void on_quality_switch_start(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	 void on_quality_switch_start(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_complete(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	 void on_quality_switch_complete(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_canceled(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	 void on_quality_switch_canceled(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_failed(std::string user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	 void on_quality_switch_failed(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_retry_later(std::string user_type, QMedia::QUrlType url_type) override;
+	 void on_quality_switch_retry_later(const std::string &user_type, QMedia::QUrlType url_type) override;
 	
 	 void on_seek_success() override;
 
@@ -95,17 +95,17 @@ private:
 
 	 void on_sei_data(uint8_t* data, uint64_t size) override;
 
-	 void on_speed_changed(int speed) override;
+	 void on_speed_changed(float speed) override;
 
-	 void on_subtitle_text_changed(std::string text) override;
+	 void on_subtitle_text_changed(const std::string &text) override;
 
-	 void on_subtitle_name_changed(std::string name) override;
+	 void on_subtitle_name_changed(const std::string &name) override;
 
 	 void on_subtitle_enable(bool enable) override;
 
-	 void on_subtitle_loaded(std::string name, bool result) override;
+	 void on_subtitle_loaded(const std::string &name, bool result) override;
 
-	 void on_subtitle_decoded(std::string name, bool result) override;
+	 void on_subtitle_decoded(const std::string &name, bool result) override;
 
 	 void on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) override;
 
@@ -145,7 +145,7 @@ private:
 	void seek_bar_click(long current_time);
 
 
-	std::string to_date_string(long time);
+	std::string to_date_string(int64_t time);
 
     bool notify_resize_to_player(LPRECT proot_window_rect);
 private:
