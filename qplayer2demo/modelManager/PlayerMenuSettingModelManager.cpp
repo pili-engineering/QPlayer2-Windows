@@ -1,13 +1,15 @@
 #include "PlayerMenuSettingModelManager.h"
-#include "DemoLog.h"
+#include "../DemoLog.h"
 
 
 #define TAG          "PlayerMenuSettingModelManager"
 
-PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd)
+PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd):
+	mHwnd(hwnd),
+	mpMenuSettingModels(new std::list<PlayerMenuSettingModel*>())
 {
-	mHwnd = hwnd;
-	mpMenuSettingModels = new std::list<PlayerMenuSettingModel*>();
+	//mHwnd = hwnd;
+	//mpMenuSettingModels = new std::list<PlayerMenuSettingModel*>();
 
 	add_setting_model("²¥·Å¿ØÖÆ", ID_PLAY_CHONTROL);
 	add_setting_child_model(create_play_control_list(), ID_PLAY_CHONTROL);
@@ -53,50 +55,46 @@ PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd)
 
 PlayerMenuSettingModelManager::~PlayerMenuSettingModelManager()
 {
-	if (mpMenuSettingModels != nullptr && !mpMenuSettingModels->empty())
+	if (mpMenuSettingModels != nullptr)
 	{
-		for (int i = 0; i < mpMenuSettingModels->size(); i++)
-		{
-			auto it = mpMenuSettingModels->begin();
-			std::advance(it, i);
-			delete (*it);
-			*it = nullptr;
-		}
+		delete mpMenuSettingModels;
+		mpMenuSettingModels = nullptr;
+
 	}
 }
 
-void PlayerMenuSettingModelManager::add_setting_model(std::string menu_name, int id) {
-	PlayerMenuSettingModel* inner_model = new PlayerMenuSettingModel();
-	inner_model->id = id;
-	inner_model->mName = menu_name;
+void PlayerMenuSettingModelManager::add_setting_model(const std::string& menu_name, int id) {
+	PlayerMenuSettingModel* pinner_model = new PlayerMenuSettingModel();
+	pinner_model->id = id;
+	pinner_model->mName = menu_name;
 	//HMENU play_menu = CreatePopupMenu();
 	//inner_model->mHmenu = play_menu;
-	mpMenuSettingModels->emplace_back(inner_model);
+	mpMenuSettingModels->emplace_back(pinner_model);
 }
 
-void PlayerMenuSettingModelManager::add_setting_child_model(std::list<ChildMenu*>* child_menu, int parent_menu_id) {
-	PlayerMenuSettingModel* inner_model = nullptr;
+void PlayerMenuSettingModelManager::add_setting_child_model(std::list<ChildMenu*>* pchild_menu, int parent_menu_id) {
+	PlayerMenuSettingModel* pinner_model = nullptr;
 	for (int index = 0; index < mpMenuSettingModels->size();index++)
 	{
 		auto it = mpMenuSettingModels->begin();
 		std::advance(it, index);
 		if ((*it)->id == parent_menu_id)
 		{
-			inner_model = *it;
+			pinner_model = *it;
 			break;
 		}
 	}
-	if (inner_model == nullptr)
+	if (pinner_model == nullptr)
 	{
 		DemoLog::log_string(TAG, __LINE__, "add_setting_child_model :inner_model is nil");
 		return;
 	}
 	HMENU child_menu_hmenu = CreatePopupMenu();
 
-	PlayerChildMenuModel* child_menu_model = new PlayerChildMenuModel();
-	child_menu_model->mHmenu = child_menu_hmenu;
-	child_menu_model->mpMenus = std::move(child_menu);
-	inner_model->mpChildMenu = child_menu_model;
+	PlayerChildMenuModel* pchild_menu_model = new PlayerChildMenuModel();
+	pchild_menu_model->mHmenu = child_menu_hmenu;
+	pchild_menu_model->mpMenus = std::move(pchild_menu);
+	pinner_model->mpChildMenu = pchild_menu_model;
 	
 
 }
@@ -232,7 +230,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_mute_list() {
 	return mute_list;
 }
 
-ChildMenu* PlayerMenuSettingModelManager::create_child_menu(std::string name, int id, bool is_selected) {
+ChildMenu* PlayerMenuSettingModelManager::create_child_menu(const std::string& name, int id, bool is_selected) {
 	ChildMenu* inner_child_menu = new ChildMenu();
 	inner_child_menu->mId = id;
 	inner_child_menu->mIsSelected = is_selected;

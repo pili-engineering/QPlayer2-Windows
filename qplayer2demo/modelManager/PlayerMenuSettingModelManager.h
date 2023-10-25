@@ -1,5 +1,5 @@
 #pragma once
-#include "framework.h"
+#include "../framework.h"
 #include <string>
 #include <list>
 #include "PlayerMenuSettingModel.h"
@@ -73,11 +73,11 @@ class PlayerMenuSettingModelManager
 public:
 	std::list<PlayerMenuSettingModel*>* get_menu_setting_model();
 private:
-	void add_setting_model(std::string menu_name,int id);
+	void add_setting_model(const std::string& menu_name,int id);
 
-	void add_setting_child_model(std::list<ChildMenu*>* child_menu, int parent_menu_id);
+	void add_setting_child_model(std::list<ChildMenu*>* pchild_menu, int parent_menu_id);
 
-	ChildMenu* create_child_menu(std::string name, int id, bool is_selected);
+	ChildMenu* create_child_menu(const std::string& name, int id, bool is_selected);
 
 	std::list<ChildMenu*>* create_play_control_list();
 

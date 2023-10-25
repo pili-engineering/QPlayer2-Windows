@@ -16,7 +16,8 @@
 #include "CurrentDataModelManager.h"
 #include <iomanip>
 #include <sstream>
-
+#include <Windows.h>
+#include <CommCtrl.h>
 #define TAG                     "MainWindow"
 #define ID_VIDEO_RENDER_WINDOW  200
 #define ID_SEEK_BAR             202
@@ -31,6 +32,7 @@
 #define ID_TOAST_WINDOW         211
 #define ID_PAUSE_PLAY_BUTTON    301
 #define ID_RESUME_PLAY_BUTTON   302
+#define ID_URL_SETTING_WINDOW   303
 
 
 using namespace QMedia;
@@ -48,7 +50,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
     {
         // 滑动条通知消息
         NMHDR* nmhdr = (NMHDR*)l_param;
-        if (nmhdr->code == NM_CLICK)
+        if ((int)(nmhdr->code) == (int)NM_CLICK)
         {
             // 鼠标点击事件
             NMUPDOWN* nmUpDown = (NMUPDOWN*)l_param;
@@ -89,18 +91,6 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
         }
     }
     break;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
-        // TODO: 在此处添加使用 hdc 的任何绘图代码...
-		EndPaint(hwnd, &ps);
-
-		//SetWindowPos(pmain_window->mToastWindow->get_hwnd(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-		break;
-    }
-
-
 	case WM_HSCROLL: {
 		// 处理水平滚动条事件
 		if (reinterpret_cast<HWND>(l_param) == pmain_window->mSeekBar)
@@ -155,7 +145,8 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 
 MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
 	:mHinstance(hInstance),
-    mHwnd(nullptr)
+    mHwnd(nullptr),
+    mpUrlListModelManger(new PlayerUrlListModelManager())
 {
     LoadStringW(mHinstance, IDS_APP_TITLE, mTitle, MAX_LOADSTRING);
     LoadStringW(mHinstance, IDC_QPLAYER2DEMO, mWindowClass, MAX_LOADSTRING);
@@ -221,10 +212,14 @@ HWND MainWindow::get_hwnd()
 LRESULT MainWindow::on_create()
 {
     HWND child_hwnd;
+
+
     //视频显示窗口
 	mpPlayerWindow = new PlayerWindow(mHwnd, mHinstance);
 	child_hwnd = mpPlayerWindow->get_hwnd();
 	SetWindowLong(child_hwnd, GWL_ID, ID_PLAYER_WINDOW);
+
+
     //进度时间
     mPlayerProgressAndDurationText = CreateWindow(TEXT("STATIC"), TEXT("00:00/00:00"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_TIME_STATIC_TEXT, NULL, NULL);
     //播放暂停按钮
@@ -245,17 +240,29 @@ LRESULT MainWindow::on_create()
 
 	mFirstFrameText = CreateWindow(TEXT("STATIC"), TEXT("first frame:"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_FIRST_FRAME_STATIC_TEXT, NULL, NULL);
 
-
-    mUrlListWindow = new UrlListWindow(mHwnd, mHinstance);
-    mUrlListWindow->set_play_control_callback(
+    
+    mpUrlListWindow = new UrlListWindow(mHwnd, mHinstance, mpUrlListModelManger);
+    mpUrlListWindow->set_play_control_callback(
         [this](HWND hwnd, QMedia::QMediaModel* model) {
-        url_Click_call_back(hwnd, model);
+            url_Click_call_back(hwnd, model);
         }
     );
-    SetWindowLong(mUrlListWindow->get_hwnd(), GWL_ID, ID_URL_LIST_WINDOW);
-	mToastWindow = new toast2(mHwnd, mHinstance);
-	child_hwnd = mToastWindow->get_hwnd();
-	SetWindowLong(child_hwnd, GWL_ID, ID_TOAST_WINDOW);
+    mpUrlListWindow->set_mouse_right_click_callback(
+        [this](int item_id, UrlClickType url_type) {
+            EnableWindow(mHwnd, FALSE);
+            mpUrlSettingWindow = new UrlSetting(mHwnd, mHinstance, mpUrlListModelManger, url_type);
+            mpUrlSettingWindow->set_url_setting_close_call_back(
+                [this]() {
+                    EnableWindow(mHwnd, TRUE);
+                }
+            );
+            SetWindowLong(mpUrlSettingWindow->get_hwnd(), GWL_ID, ID_URL_SETTING_WINDOW);
+        }
+    );
+    SetWindowLong(mpUrlListWindow->get_hwnd(), GWL_ID, ID_URL_LIST_WINDOW);
+	//mToastWindow = new toast2(mHwnd, mHinstance);
+	//child_hwnd = mToastWindow->get_hwnd();
+	//SetWindowLong(child_hwnd, GWL_ID, ID_TOAST_WINDOW);
 
     
     return TRUE;
@@ -306,9 +313,9 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
     int child_window_id;
     child_window_id = GetWindowLong(hwndChild, GWL_ID);
     proot_window_rect = (LPRECT)lParam;
-    if (child_window_id == 0 || proot_window_rect == nullptr) {
-        return FALSE;
-    }
+    //if (child_window_id == 0 || proot_window_rect == nullptr) {
+    //    return FALSE;
+    //}
     int parent_width = proot_window_rect->right - proot_window_rect->left;
     int parent_height = proot_window_rect->bottom- proot_window_rect->top;
     if (child_window_id == ID_PLAYER_WINDOW) {
@@ -350,7 +357,7 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
     }
 	else if (child_window_id == ID_TOAST_WINDOW)
 	{
-		MoveWindow(hwndChild, parent_width - 310, parent_height - 280, 300, 200, TRUE);
+		//MoveWindow(hwndChild, parent_width - 310, parent_height - 280, 300, 200, TRUE);
 	}
     return TRUE;
 }
@@ -684,7 +691,7 @@ void MainWindow::on_first_frame_rendered(int64_t elapsed_time) {
     std::string text = "first frame: " + std::to_string(elapsed_time) + "ms";
     
     SetWindowText(mFirstFrameText, text.c_str());
-    mToastWindow->add_item(text);
+    //mToastWindow->add_item(text);
 }
 void MainWindow::on_fps_changed(long fps) {
 

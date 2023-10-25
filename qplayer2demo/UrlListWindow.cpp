@@ -1,20 +1,23 @@
 #include "UrlListWindow.h"
-#include <iostream>
 #include "resource.h"
 #include "DemoLog.h"
 #include <CommCtrl.h>
 
 #define TAG					    "UrlListWindow"
+#define RIGHT_MENU_ADD          100
+#define RIGHT_MENU_MODIFY       101
+#define RIGHT_MENU_DELETE       102
 
-
-
-UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance)
+UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager* purlmanager)
 	: mHwnd(nullptr),
-	mHinstance(nullptr)
+	mHinstance(nullptr),
+	mItemId(0),
+	mpModelManager(purlmanager),
+	mListWindow(nullptr)
 {
 
-	HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-	mHinstance = hInst;
+	HINSTANCE hinst = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
+	mHinstance = hinst;
 	WNDCLASSEXW wcex;
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
@@ -23,7 +26,7 @@ UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance)
 	wcex.lpfnWndProc = main_url_list_window_proc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
-	wcex.hInstance = hInst;
+	wcex.hInstance = hinst;
 	wcex.hIcon = NULL;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
@@ -36,7 +39,7 @@ UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance)
 	}
 
 	mHwnd = CreateWindowW(wcex.lpszClassName, TEXT(L"UrlListWindow"), WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-		10, 10, 80, 20, hwnd, NULL, hInst, NULL);
+		10, 10, 300, 20, hwnd, NULL, hinst, NULL);
 
 	if (mHwnd == nullptr)
 	{
@@ -45,9 +48,19 @@ UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance)
 
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
 
-	mpModelManager = new PlayerUrlListModelManager();
 
-	on_list_create();
+	mpModelManager->set_url_update_call_back(
+		[this]() {
+			if (mListWindow != nullptr)
+			{
+				DestroyWindow(mListWindow);
+				mListWindow = nullptr;
+			}
+			on_list_create();
+		}
+	);
+	mpModelManager->url_update();
+
 }
 
 UrlListWindow::~UrlListWindow()
@@ -55,82 +68,114 @@ UrlListWindow::~UrlListWindow()
 }
 
 LRESULT CALLBACK UrlListWindow::main_url_list_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param) {
-	UrlListWindow* url_window = (UrlListWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	UrlListWindow* purl_window = (UrlListWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (message)
 	{
+	case WM_COMMAND: {
+
+		switch (LOWORD(w_param)) {
+		case RIGHT_MENU_ADD: {
+			if (purl_window != nullptr) {
+				purl_window->mouse_right_click_add();
+			}
+			break;
+		}
+		case RIGHT_MENU_MODIFY: {
+			if (purl_window != nullptr) {
+				purl_window->mouse_right_click_motify(purl_window->get_item_id());
+			}
+			break;
+		}
+		case RIGHT_MENU_DELETE: {
+			if (purl_window != nullptr) {
+				purl_window->mouse_right_click_delete(purl_window->get_item_id());
+			}
+			break;
+		}
+		default:
+			break;
+		}
+
+	}
 	case WM_SIZE:
 	{
-		if (url_window != nullptr) {
-			//url_window->url_list_resize();
+		if (purl_window != nullptr) {
+			purl_window->url_list_resize();
 		}
-		break;
-	}
-	case WM_COMMAND:
-	{
-		int wmId = LOWORD(w_param);
 		break;
 	}
 	case WM_NOTIFY:
 	{
 		NMHDR* pnmhdr = (NMHDR*)l_param;
-		if (pnmhdr->hwndFrom == url_window->mListWindow)
+		if (pnmhdr->hwndFrom == purl_window->mListWindow)
 		{
-			if (pnmhdr->code == LVN_ITEMACTIVATE)
+			LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
+			int selected_index = pnmia->iItem;
+			if ((int)(pnmhdr->code) == (int)LVN_ITEMACTIVATE)
 			{
-				LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
+				purl_window->url_click(selected_index);
+			}
+			else if((int)(pnmhdr->code) == (int)NM_RCLICK)
+			{LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
 				int selected_index = pnmia->iItem;
-				// 在这里处理双击列表视图项的逻辑
-				// 可以使用 selectedIndex 来获取所选项的索引
-				url_window->url_click(selected_index);
+				purl_window->set_item_id(selected_index);
 			}
 		}
 		break;
 	}
-	default:
+	case WM_CONTEXTMENU: {
+
+		purl_window->mouse_right_click_menu(hwnd);
 		break;
 	}
-	return (DefWindowProc(hwnd, message, w_param, l_param));
+	default:
+		return (DefWindowProc(hwnd, message, w_param, l_param));
+		break;
+	}
+	return 0;
 }
 
 void UrlListWindow::url_list_resize() {
-	RECT windowRect;
-	GetWindowRect(mHwnd, &windowRect);
+	RECT window_rect;
+	GetWindowRect(mHwnd, &window_rect);
 
-	// 计算窗口的宽度和高度
-	int width = windowRect.right - windowRect.left;
-	int height = windowRect.bottom - windowRect.top;
+	int width = window_rect.right - window_rect.left;
+	int height = window_rect.bottom - window_rect.top;
 	SetWindowPos(mListWindow, nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+	ListView_SetColumnWidth(mListWindow, width, 20);
 
 }
 LRESULT UrlListWindow::on_list_create() {
 
-	// 创建列表视图控件
-	mListWindow = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE, 0, 0, 500, 400, mHwnd, NULL, NULL, NULL);
+	RECT windowRect;
+	GetWindowRect(mHwnd, &windowRect);
 
-	// 设置列表视图控件的样式
-	ListView_SetExtendedListViewStyle(mListWindow, LVS_EX_FULLROWSELECT);
+	mListWindow = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT, 0, 0, windowRect.right - windowRect.left, 20, mHwnd, NULL, NULL, NULL);
+
+	ListView_SetExtendedListViewStyle(mListWindow, LVS_EX_FULLROWSELECT | LVS_EX_TWOCLICKACTIVATE);
 
 	// 添加列头
-	LVCOLUMNW  lvColumn;
-	lvColumn.mask = LVCF_TEXT | LVCF_WIDTH;
-	lvColumn.pszText = (LPWSTR)_T("url");
-	lvColumn.cx = 300;
-	ListView_InsertColumn(mListWindow, 0, &lvColumn);
-
-	// 添加行数据
-	LVITEMW  lvItem;
-	lvItem.mask = LVIF_TEXT;
-	lvItem.iSubItem = 0;
-	for (int i = 0; i < mpModelManager->get_url_models_count();i++)
-	{
-		lvItem.pszText = (LPWSTR)_T(mpModelManager->get_url_model_for_index(i)->mName.c_str());
-		lvItem.iItem = i;
-		ListView_InsertItem(mListWindow, &lvItem);
+	LVCOLUMNW  lv_column;
+	lv_column.mask = LVCF_WIDTH | LVCF_TEXT;
+	lv_column.pszText = (LPWSTR)_T("url");
+	lv_column.cx = windowRect.right - windowRect.left;
+	if (ListView_InsertColumn(mListWindow, 0, &lv_column) == -1) {
+		throw "ListView_InsertColumn error";
 	}
 
-
-
+	// 添加行数据
+	LVITEMW  lv_item;
+	lv_item.mask = LVIF_TEXT;
+	lv_item.iSubItem = 0;
+	for (int i = 0; i < mpModelManager->get_url_models_count();i++)
+	{
+		std::string name_str = mpModelManager->get_url_model_for_index(i)->get_name();
+		lv_item.pszText = (LPWSTR)_T(name_str.c_str());
+		lv_item.iItem = i;
+		ListView_InsertItem(mListWindow, &lv_item);
+	}
+	url_list_resize();
 	return 0;
 }
 
@@ -146,10 +191,53 @@ HWND UrlListWindow::get_hwnd() {
 
 void  UrlListWindow::url_click(int url_id) {
 
-	mPlayControlCallback(mHwnd,mpModelManager->get_url_model_for_index(url_id)->mpModel);
+	DemoLog::log_string(TAG, __LINE__, "url_click");
+	mPlayControlCallback(mHwnd,mpModelManager->get_url_model_for_index(url_id)->get_media_model());
 	
 }
 
-void UrlListWindow::set_play_control_callback(playCallbackFunction callBack) {
-	mPlayControlCallback = callBack;
+void UrlListWindow::set_play_control_callback(playCallbackFunction call_back) {
+	mPlayControlCallback = call_back;
+}
+
+
+void UrlListWindow::mouse_right_click_menu(HWND hwnd) {
+	// 创建自定义右键菜单
+	HMENU right_menu = CreatePopupMenu();
+	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_ADD, "添加");
+	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_DELETE, "删除");
+
+	// 显示自定义右键菜单
+	POINT pt;
+	GetCursorPos(&pt);
+	SetForegroundWindow(hwnd);
+	TrackPopupMenu(right_menu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwnd, NULL);
+	DestroyMenu(right_menu);
+}
+
+void UrlListWindow::mouse_right_click_add() {
+	mMouseRightClickCallBack(0, UrlClickType::ADD_URL);
+}
+
+void UrlListWindow::mouse_right_click_motify(int item_id) {
+	mMouseRightClickCallBack(item_id, UrlClickType::MOTIFY_URL);
+}
+
+void UrlListWindow::mouse_right_click_delete(int item_id) {
+	//mMouseRightClickCallBack(item_id, UrlClickType::DELETE_URL);
+	mpModelManager->delete_url_model_index(item_id);
+	mpModelManager->url_update();
+
+}
+
+
+void UrlListWindow::set_mouse_right_click_callback(mouseRightClickCallbackFunction call_back) {
+	mMouseRightClickCallBack = call_back;
+}
+void UrlListWindow::set_item_id(int url_id) {
+	mItemId = url_id;
+}
+
+int UrlListWindow::get_item_id() {
+	return mItemId;
 }

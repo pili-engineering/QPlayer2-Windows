@@ -14,7 +14,7 @@ LRESULT VideoRenderWindow::on_receive_message(HWND hwnd, UINT uMsg, WPARAM wPara
     return LRESULT();
 }
 
-VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance)
+VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hinstance)
     :mHwnd(nullptr)
 {
     HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(parent_hwnd, GWLP_HINSTANCE);

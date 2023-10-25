@@ -4,13 +4,18 @@
 
 class PlayerUrlListModel
 {
-public:
+private:
 	QMedia::QMediaModel* mpModel;
 
 	const std::string mName;
 public:
-	PlayerUrlListModel(QMedia::QMediaModel* model, const std::string name);
+	PlayerUrlListModel(QMedia::QMediaModel* pmodel, const std::string& name);
 	~PlayerUrlListModel();
+
+	QMedia::QMediaModel* get_media_model();
+
+	std::string get_name();
+	
 
 private:
 

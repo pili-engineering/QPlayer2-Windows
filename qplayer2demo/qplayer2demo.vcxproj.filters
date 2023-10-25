@@ -31,6 +31,15 @@
     <Filter Include="源文件\model">
       <UniqueIdentifier>{105e42e1-5128-4b98-a760-454d789fec5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\qplayerLocalFille">
+      <UniqueIdentifier>{837b96aa-319e-409c-9202-795da8896a9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\common">
+      <UniqueIdentifier>{39afe333-5b93-4572-aabb-abb71646975d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\common">
+      <UniqueIdentifier>{b34812a0-e109-4e8e-be5b-53dcd8cc86d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -60,26 +69,47 @@
     <ClInclude Include="UrlListWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUrlListModelManager.h">
-      <Filter>头文件\modelManager</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMenuSettingModel.h">
-      <Filter>头文件\model</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMenuSettingModelManager.h">
-      <Filter>头文件\modelManager</Filter>
-    </ClInclude>
-    <ClInclude Include="CurrentDataModel.h">
-      <Filter>头文件\model</Filter>
-    </ClInclude>
-    <ClInclude Include="CurrentDataModelManager.h">
-      <Filter>头文件\modelManager</Filter>
-    </ClInclude>
     <ClInclude Include="ToastWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="toast2.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="model\CurrentDataModel.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\PlayerChildMenuModel.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\PlayerMenuSettingModel.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\PlayerUrlListModel.h">
+      <Filter>头文件\model</Filter>
+    </ClInclude>
+    <ClInclude Include="modelManager\CurrentDataModelManager.h">
+      <Filter>头文件\modelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="modelManager\PlayerMenuSettingModelManager.h">
+      <Filter>头文件\modelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="modelManager\PlayerUrlListModelManager.h">
+      <Filter>头文件\modelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="common\UrlClickType.h">
+      <Filter>头文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="UrlSetting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UrlStreamElementSetting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UrlSubtitleElementSetting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="common\WindowCloseType.h">
+      <Filter>头文件\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,37 +131,40 @@
     <ClCompile Include="UrlListWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUrlListModel.h">
-      <Filter>头文件\model</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerUrlListModelManager.cpp">
-      <Filter>源文件\modelManager</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerUrlListModel.cpp">
-      <Filter>源文件\model</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMenuSettingModel.cpp">
-      <Filter>源文件\model</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerChildMenuModel.h">
-      <Filter>头文件\model</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerChildMenuModel.cpp">
-      <Filter>源文件\model</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMenuSettingModelManager.cpp">
-      <Filter>源文件\modelManager</Filter>
-    </ClCompile>
-    <ClCompile Include="CurrentDataModel.cpp">
-      <Filter>源文件\model</Filter>
-    </ClCompile>
-    <ClCompile Include="CurrentDataModelManager.cpp">
-      <Filter>源文件\modelManager</Filter>
-    </ClCompile>
     <ClCompile Include="ToastWindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="toast2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="model\CurrentDataModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\PlayerChildMenuModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\PlayerMenuSettingModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\PlayerUrlListModel.cpp">
+      <Filter>源文件\model</Filter>
+    </ClCompile>
+    <ClCompile Include="modelManager\CurrentDataModelManager.cpp">
+      <Filter>源文件\modelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="modelManager\PlayerMenuSettingModelManager.cpp">
+      <Filter>源文件\modelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="modelManager\PlayerUrlListModelManager.cpp">
+      <Filter>源文件\modelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UrlSetting.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UrlStreamElementSetting.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UrlSubtitleElementSetting.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

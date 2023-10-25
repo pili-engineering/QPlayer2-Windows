@@ -10,9 +10,9 @@ private:
     LRESULT on_receive_message(HWND hwnd, UINT u_msg, WPARAM w_param, LPARAM l_param);
 
 public:
-    VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance);
+    VideoRenderWindow(HWND parent_hwnd, HINSTANCE hinstance);
 
-    ~VideoRenderWindow();
+    ~VideoRenderWindow() = default;
 
     VideoRenderWindow(const VideoRenderWindow&) = delete;
 

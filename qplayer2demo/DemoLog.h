@@ -8,9 +8,9 @@ public:
 	DemoLog();
 	~DemoLog();
 
-	static void log_string(const char* class_name, int line, char* log);
+	static void log_string(const char* pclass_name, int line, char* plog);
 
-	static void log_string(const char* class_name, int line, const char* log);
+	static void log_string(const char* pclass_name, int line, const char* plog);
 private:
 
 };

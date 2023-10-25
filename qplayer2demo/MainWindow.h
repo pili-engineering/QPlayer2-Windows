@@ -2,6 +2,8 @@
 #include "framework.h"
 #include "QIPlayerListenersHeader.h"
 #include "toast2.h"
+#include "PlayerUrlListModelManager.h"
+#include "UrlSetting.h"
 namespace QMedia {
     class QIPlayerContext;
     class QMediaModel;
@@ -166,9 +168,9 @@ private:
 
 	PlayerWindow* mpPlayerWindow;
 
-	UrlListWindow* mUrlListWindow;
+	UrlListWindow* mpUrlListWindow;
 
-	toast2* mToastWindow;
+	//toast2* mToastWindow;
 
 	HWND mPlayButton;
 
@@ -186,6 +188,10 @@ private:
 
 	HWND mPlayerProgressAndDurationText;
 	//CurrentDataModelManager* mpCurrentDataModelManager;
+
+	PlayerUrlListModelManager* mpUrlListModelManger;
+
+	UrlSetting* mpUrlSettingWindow;
 };
 
  
