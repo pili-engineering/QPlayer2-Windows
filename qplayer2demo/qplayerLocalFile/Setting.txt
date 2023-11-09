@@ -1,0 +1,14 @@
+playStartPositon: 0
+decoder: 0
+seekMode: 0
+playerStart: 0
+renderRatio: 1
+blind: 0
+seiEnable: 0
+backgroundEnable: 0
+qualityImmediatyly: 0
+subtitleEnable: 0
+subtitleName: жпнд
+playSpeed: 1.0
+muteEnable: 0
+forceAuthenticationEnable: 0
