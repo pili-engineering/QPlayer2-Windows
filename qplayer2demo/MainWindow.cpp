@@ -12,7 +12,6 @@
 #include <iostream>
 #include <filesystem>
 #include "UrlListWindow.h"
-#include "PlayerMenuSettingModelManager.h"
 #include "CurrentDataModelManager.h"
 #include <iomanip>
 #include <sstream>
@@ -35,6 +34,7 @@
 #define ID_URL_SETTING_WINDOW   303
 
 
+#define CLASS_NAME L"UrlSetting"
 using namespace QMedia;
 
 
@@ -77,18 +77,6 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
     {
         int wmId = LOWORD(w_param);
         pmain_window->button_click(wmId);
-        // 分析菜单选择:
-        switch (wmId)
-        {
-        case IDM_ABOUT:
-            //DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-            break;
-        case IDM_EXIT:
-            DestroyWindow(hwnd);
-            break;
-        default:
-            return DefWindowProc(hwnd, message, w_param, l_param);
-        }
     }
     break;
 	case WM_HSCROLL: {
@@ -160,7 +148,7 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = mHinstance;
-    wcex.hIcon = LoadIcon(mHinstance, MAKEINTRESOURCE(IDI_QPLAYER2DEMO));
+	wcex.hIcon = LoadIcon(mHinstance, MAKEINTRESOURCE(IDI_QPLAYER2DEMO));
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_QPLAYER2DEMO);
@@ -170,9 +158,10 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
     if (!RegisterClassExW(&wcex)) {
         throw "main window  create failed!";
     }
-    
-    mHwnd = CreateWindowW(mWindowClass, mTitle, WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, mHinstance, nullptr);
+	/*mHwnd = CreateWindowExW(0, mWindowClass, mTitle, WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, mHinstance, nullptr);*/
+	mHwnd = CreateWindowW(mWindowClass, (LPCWSTR)_T("QPlayer2 Demo"), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, mHinstance, nullptr);
 
     if (mHwnd == nullptr)
     {
@@ -182,7 +171,6 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
 
 	CurrentDataModelManager::get_instance()->set_is_seeking(false);
 
-	//mpCurrentDataModelManager = CurrentDataModelManager::get_instance();
 
     on_create();
 
@@ -250,7 +238,7 @@ LRESULT MainWindow::on_create()
     mpUrlListWindow->set_mouse_right_click_callback(
         [this](int item_id, UrlClickType url_type) {
             EnableWindow(mHwnd, FALSE);
-            mpUrlSettingWindow = new UrlSetting(mHwnd, mHinstance, mpUrlListModelManger, url_type);
+            mpUrlSettingWindow = new UrlSetting(mHwnd, mHinstance, mpUrlListModelManger, url_type,item_id);
             mpUrlSettingWindow->set_url_setting_close_call_back(
                 [this]() {
                     EnableWindow(mHwnd, TRUE);
@@ -260,9 +248,10 @@ LRESULT MainWindow::on_create()
         }
     );
     SetWindowLong(mpUrlListWindow->get_hwnd(), GWL_ID, ID_URL_LIST_WINDOW);
-	//mToastWindow = new toast2(mHwnd, mHinstance);
-	//child_hwnd = mToastWindow->get_hwnd();
-	//SetWindowLong(child_hwnd, GWL_ID, ID_TOAST_WINDOW);
+    mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), 0);
+
+	mpToastWindow = new ToastWindow(mHwnd);
+	SetWindowLong(mpToastWindow->get_hwnd(), GWL_ID, ID_TOAST_WINDOW);
 
     
     return TRUE;
@@ -277,20 +266,24 @@ void MainWindow::url_Click_call_back(HWND hwnd, QMedia::QMediaModel* model) {
 }
 LRESULT MainWindow::on_create_play_menu() {
     
-    PlayerMenuSettingModelManager* setting_menu_manager = new PlayerMenuSettingModelManager(mHwnd);
-    std::list<PlayerMenuSettingModel*>* setting_model = setting_menu_manager->get_menu_setting_model();
+    mpSettingMenuManager = new PlayerMenuSettingModelManager(mHwnd,mpPlayerWindow);
+    std::list<PlayerMenuSettingModel*>* setting_model = mpSettingMenuManager->get_menu_setting_model();
 
     HMENU base_menu = CreateMenu();
 	for (int parent_index = 0; parent_index < setting_model->size(); parent_index++) {
         auto parent_it = setting_model->begin();
         std::advance(parent_it, parent_index);
         
-		AppendMenu(base_menu, MF_STRING | MF_POPUP, (UINT_PTR)((*parent_it)->mpChildMenu->mHmenu), (*parent_it)->mName.c_str());
-        for (int child_index = 0; child_index < (*parent_it)->mpChildMenu->mpMenus->size(); child_index++) {
+		AppendMenu(base_menu, MF_STRING | MF_POPUP, (UINT_PTR)((*parent_it)->get_child_menu_model()->get_menus()),(*parent_it)->get_name().c_str());
+        for (int child_index = 0; child_index < (*parent_it)->get_child_menu_model()->get_child_menus_list()->size(); child_index++) {
 
-			auto child_it = (*parent_it)->mpChildMenu->mpMenus->begin();
+			auto child_it = (*parent_it)->get_child_menu_model()->get_child_menus_list()->begin();
 			std::advance(child_it, child_index);
-			AppendMenu((*parent_it)->mpChildMenu->mHmenu, MF_STRING, (*child_it)->mId, (*child_it)->mName.c_str());
+			AppendMenu((*parent_it)->get_child_menu_model()->get_menus(), MF_STRING, (*child_it)->get_id(), (*child_it)->get_name().c_str());
+			if ((*child_it)->get_is_selected())
+			{
+				CheckMenuItem((*parent_it)->get_child_menu_model()->get_menus(), (*child_it)->get_id(), MF_CHECKED);
+			}
         }
 
     }
@@ -357,7 +350,7 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
     }
 	else if (child_window_id == ID_TOAST_WINDOW)
 	{
-		//MoveWindow(hwndChild, parent_width - 310, parent_height - 280, 300, 200, TRUE);
+		MoveWindow(hwndChild, parent_width - 310, parent_height - 270, 300, 190, TRUE);
 	}
     return TRUE;
 }
@@ -420,7 +413,7 @@ void  MainWindow::button_click(int button_id) {
     }
 	case ID_RESUME_PLAY_BUTTON: {
         SetWindowLongPtr(mPlayButton, GWL_ID, (LONG_PTR)ID_PAUSE_PLAY_BUTTON);
-		SetWindowText(mPlayButton, TEXT("Play"));
+		SetWindowText(mPlayButton, TEXT("Pause"));
 		mpPlayerWindow->get_control_handler()->resume_render();
 		break;
 	}
@@ -434,117 +427,230 @@ void  MainWindow::button_click(int button_id) {
     case ID_STOP_BUTTON:
         mpPlayerWindow->get_control_handler()->stop();
         break;
-    case ID_AUTO_DECODER_BUTTON:
+	case ID_AUTO_DECODER_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO);
-        break;
-	case ID_HARD_DECODER_BUTTON:
+		CurrentDataModelManager::get_instance()->set_decoder(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO);
+		break;
+	}
+	case ID_HARD_DECODER_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY);
-        break;
-	case ID_SOFT_DECODER_BUTTON:
+		CurrentDataModelManager::get_instance()->set_decoder(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY);
+		break;
+	}
+	case ID_SOFT_DECODER_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY);
+		CurrentDataModelManager::get_instance()->set_decoder(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY);
 		break;
-	case ID_SEEK_NORMAL_BUTTON:
+	}
+	case ID_SEEK_NORMAL_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL);
+		CurrentDataModelManager::get_instance()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL);
 		break;
+	}
 	case ID_SEEK_ACCURATE_BUTTON:
 		mpPlayerWindow->get_control_handler()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_ACCURATE);
+		CurrentDataModelManager::get_instance()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_ACCURATE);
 		break;
-	case ID_SEEK_START_PLAYING_BUTTON:
+	case ID_SEEK_START_PLAYING_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_start_action(QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING);
+		CurrentDataModelManager::get_instance()->set_player_start(QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING);
 		break;
-	case ID_SEEK_START_PAUSE_BUTTON:
+	}
+	case ID_SEEK_START_PAUSE_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_start_action(QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PAUSE);
+		CurrentDataModelManager::get_instance()->set_player_start(QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PAUSE);
 		break;
-	case ID_AURHENTICATION_BUTTON:
+	}
+	case ID_AURHENTICATION_BUTTON: {
 		mpPlayerWindow->get_control_handler()->force_authentication_from_network();
+		CurrentDataModelManager::get_instance()->set_force_authentication_enable(true);
 		break;
-    case ID_RENDER_RADIO_AUTO_BUTTON:
-        mpPlayerWindow->get_render_handler()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO);
-        break;
-    case ID_RENDER_RADIO_STRETCH_BUTTON:
+	}
+	case ID_RENDER_RADIO_AUTO_BUTTON: {
+		mpPlayerWindow->get_render_handler()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO);
+		CurrentDataModelManager::get_instance()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO);
+		break;
+	}
+	case ID_RENDER_RADIO_STRETCH_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_STRETCH);
+		CurrentDataModelManager::get_instance()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_STRETCH);
 		break;
-	case ID_RENDER_RADIO_FULL_SCREEN_BUTTON:
+	}
+	case ID_RENDER_RADIO_FULL_SCREEN_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_FULL_SCREEN);
+		CurrentDataModelManager::get_instance()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_FULL_SCREEN);
 		break;
-	case ID_RENDER_RADIO_4_3_BUTTON:
+	}
+	case ID_RENDER_RADIO_4_3_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_4_3);
+		CurrentDataModelManager::get_instance()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_4_3);
 		break;
-	case ID_RENDER_RADIO_16_9_BUTTON:
+	}
+	case ID_RENDER_RADIO_16_9_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_16_9);
+		CurrentDataModelManager::get_instance()->set_render_ratio(QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_16_9);
 		break;
-	case ID_BLIND_NONE_BUTTON:
+	}
+	case ID_BLIND_NONE_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_blind_type(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_NONE);
+		CurrentDataModelManager::get_instance()->set_blind(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_NONE);
 		break;
-	case ID_BLIND_RED_BUTTON:
+	}
+	case ID_BLIND_RED_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_blind_type(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_RED);
+		CurrentDataModelManager::get_instance()->set_blind(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_RED);
 		break;
-	case ID_BLIND_GREEN_BUTTON:
+	}
+	case ID_BLIND_GREEN_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_blind_type(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_GREEN);
+		CurrentDataModelManager::get_instance()->set_blind(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_GREEN);
 		break;
-	case ID_BLIND_BLUE_BUTTON:
+	}
+	case ID_BLIND_BLUE_BUTTON: {
 		mpPlayerWindow->get_render_handler()->set_blind_type(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_BLUE);
+		CurrentDataModelManager::get_instance()->set_blind(QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_BLUE);
 		break;
+	}
 	case ID_SEI_CLOSE_BUTTON:
 		mpPlayerWindow->get_control_handler()->set_sei_enable(false);
+		CurrentDataModelManager::get_instance()->set_sei_enable(false);
 		break;
-	case ID_SEI_OPEN_BUTTON:
+	case ID_SEI_OPEN_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_sei_enable(true);
+		CurrentDataModelManager::get_instance()->set_sei_enable(true);
 		break;
+	}
 	//最小化窗口---后台播放
-	case ID_BACKGROUND_OPEN_BUTTON:
+	case ID_BACKGROUND_OPEN_BUTTON: {
+		CurrentDataModelManager::get_instance()->set_background_enable(true);
 		//mpPlayerWindow->get_control_handler()->;
 		break;
-	case ID_BACKGROUND_CLOSE_BUTTON:
+	}
+	case ID_BACKGROUND_CLOSE_BUTTON: {
+		CurrentDataModelManager::get_instance()->set_background_enable(false);
 		//mpPlayerWindow->get_control_handler()->;
 		break;
+	}
     //清晰度切换
-	case ID_QUALITY_CHANGE_IMMEDIATYLY_FALSE_BUTTON:
+	case ID_QUALITY_CHANGE_IMMEDIATYLY_FALSE_BUTTON: {
+		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_FALSE);
 		//mpPlayerWindow->get_control_handler()->set_;
 		break;
-	case ID_QUALITY_CHANGE_IMMEDIATYLY_TRUE_BUTTON:
+	}
+	case ID_QUALITY_CHANGE_IMMEDIATYLY_TRUE_BUTTON: {
+		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_TRUE);
 		//mpPlayerWindow->get_control_handler()->set_;
 		break;
-	case ID_QUALITY_CHANGE_IMMEDIATYLY_CUSTOM_BUTTON:
+	}
+	case ID_QUALITY_CHANGE_IMMEDIATYLY_CUSTOM_BUTTON: {
+		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_CUSTOM);
 		//mpPlayerWindow->get_control_handler()->set_;
 		break;
-
+	}
 	//字幕设置
-	case ID_SUBTITLE_CLOSE_BUTTON:
+	case ID_SUBTITLE_CLOSE_BUTTON: {
+		mpPlayerWindow->get_control_handler()->set_subtitle_enable(false);
+		CurrentDataModelManager::get_instance()->set_subtitle_enable(false);
 		break;
-	case ID_SUBTITLE_CHINESE_BUTTON:
+	}
+	case ID_SUBTITLE_CHINESE_BUTTON: {
+		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
+		CurrentDataModelManager::get_instance()->set_subtitle_enable(true);
+		mpPlayerWindow->get_control_handler()->set_subtitle("中文");
+		CurrentDataModelManager::get_instance()->set_subtitle_name("中文");
 		break;
-    case ID_SUBTITLE_ENGLISH_BUTTON:
-        break;
-	case ID_PLAY_SPEED_0_5_BUTTON:
+	}
+	case ID_SUBTITLE_ENGLISH_BUTTON: {
+		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
+		CurrentDataModelManager::get_instance()->set_subtitle_enable(true);
+		mpPlayerWindow->get_control_handler()->set_subtitle("英文");
+		CurrentDataModelManager::get_instance()->set_subtitle_name("英文");
+		break;
+	}
+	case ID_PLAY_SPEED_0_5_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(0.5);
+		CurrentDataModelManager::get_instance()->set_play_speed(0.5);
 		break;
-	case ID_PLAY_SPEED_0_7_5_BUTTON:
+	}
+	case ID_PLAY_SPEED_0_7_5_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(0.75);
+		CurrentDataModelManager::get_instance()->set_play_speed(0.75);
 		break;
-	case ID_PLAY_SPEED_1_0_BUTTON:
+	}
+	case ID_PLAY_SPEED_1_0_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(1.0);
+		CurrentDataModelManager::get_instance()->set_play_speed(1.0);
 		break;
-	case ID_PLAY_SPEED_1_2_5_BUTTON:
+	}
+	case ID_PLAY_SPEED_1_2_5_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(1.25);
+		CurrentDataModelManager::get_instance()->set_play_speed(1.25);
 		break;
-	case ID_PLAY_SPEED_1_5_BUTTON:
+	}
+	case ID_PLAY_SPEED_1_5_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(1.5);
+		CurrentDataModelManager::get_instance()->set_play_speed(1.5);
 		break;
-	case ID_PLAY_SPEED_2_0_BUTTON:
+	}
+	case ID_PLAY_SPEED_2_0_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(2.0);
+		CurrentDataModelManager::get_instance()->set_play_speed(2.0);
 		break;
-	case ID_MUTE_CLOSE_BUTTON:
+	}
+	case ID_MUTE_CLOSE_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_mute(false);
+		CurrentDataModelManager::get_instance()->set_mute_enable(false);
 		break;
-	case ID_MUTE_OPEN_BUTTON:
+	}
+	case ID_MUTE_OPEN_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_mute(true);
+		CurrentDataModelManager::get_instance()->set_mute_enable(true);
 		break;
+	}
+	case ID_SHOOT_IMAGE_BUTTON: {
+		mpPlayerWindow->get_control_handler()->shoot_video();
+		return;
+	}
     default:
         break;
     }
+	updata_menu_ui(button_id);
 }
 
+void MainWindow::updata_menu_ui(int button_id) {
+	std::list<PlayerMenuSettingModel*>* setting_model = mpSettingMenuManager->get_menu_setting_model();
+
+	for (int parent_index = 0; parent_index < setting_model->size(); parent_index++) {
+		auto parent_it = setting_model->begin();
+		std::advance(parent_it, parent_index);
+		bool flag = false;
+		for (int child_index = 0; child_index < (*parent_it)->get_child_menu_model()->get_child_menus_list()->size(); child_index++) {
+
+			auto child_it = (*parent_it)->get_child_menu_model()->get_child_menus_list()->begin();
+			std::advance(child_it, child_index);
+
+			if ((*child_it)->get_id() == button_id)
+			{
+				for (int child_index = 0; child_index < (*parent_it)->get_child_menu_model()->get_child_menus_list()->size(); child_index++) {
+
+					auto child_it = (*parent_it)->get_child_menu_model()->get_child_menus_list()->begin();
+					std::advance(child_it, child_index);
+
+					if ((*child_it)->get_id() == button_id)
+					{
+						CheckMenuItem((*parent_it)->get_child_menu_model()->get_menus(), (*child_it)->get_id(), MF_CHECKED);
+					}
+					else
+					{
+						CheckMenuItem((*parent_it)->get_child_menu_model()->get_menus(), (*child_it)->get_id(), MF_UNCHECKED);
+					}
+				}
+				return;
+			}
+		}
+
+	}
+}
 std::string  MainWindow::to_date_string(int64_t time) {
 	int inner_time = time / 1000;
 	std::string inner_time_str = "";
@@ -653,18 +759,27 @@ void MainWindow::on_state_changed(QMedia::QPlayerState state) {
 	case QMedia::QPlayerState::PLAYING:
 		CurrentDataModelManager::get_instance()->set_is_seeking(false);
 		state_string += "playing";
+		CurrentDataModelManager::get_instance()->set_force_authentication_enable(false);
+		SetWindowLongPtr(mPlayButton, GWL_ID, (LONG_PTR)ID_PAUSE_PLAY_BUTTON);
+		SetWindowText(mPlayButton, TEXT("Pause"));
         break;
 	case QMedia::QPlayerState::PAUSED_RENDER:
 		state_string += "paused_render";
+		SetWindowLongPtr(mPlayButton, GWL_ID, (LONG_PTR)ID_RESUME_PLAY_BUTTON);
+		SetWindowText(mPlayButton, TEXT("Resume"));
         break;
 	case QMedia::QPlayerState::COMPLETED:
 		state_string += "completed";
+		SetWindowLongPtr(mPlayButton, GWL_ID, (LONG_PTR)ID_RESUME_PLAY_BUTTON);
+		SetWindowText(mPlayButton, TEXT("Resume"));
         break;
 	case QMedia::QPlayerState::SEEKING:
 		state_string += "seeking";
         break;
 	case QMedia::QPlayerState::STOPPED:
-		state_string += "stopping";
+		state_string += "stopped";
+		SetWindowLongPtr(mPlayButton, GWL_ID, (LONG_PTR)ID_PAUSE_PLAY_BUTTON);
+		SetWindowText(mPlayButton, TEXT("Play"));
         break;
 	case QMedia::QPlayerState::MISTAKE:
 		state_string += "mistake";
@@ -682,7 +797,8 @@ void MainWindow::on_state_changed(QMedia::QPlayerState state) {
 		state_string += "state is invalid";
         break;
     }
-    SetWindowText(mPlayerStateText, state_string.c_str());
+	SetWindowText(mPlayerStateText, state_string.c_str());
+	mpToastWindow->add_item(state_string);
 
 }
 
@@ -690,24 +806,66 @@ void MainWindow::on_first_frame_rendered(int64_t elapsed_time) {
     DemoLog::log_string(TAG, __LINE__, "elapsed_time");
     std::string text = "first frame: " + std::to_string(elapsed_time) + "ms";
     
-    SetWindowText(mFirstFrameText, text.c_str());
-    //mToastWindow->add_item(text);
+	SetWindowText(mFirstFrameText, text.c_str());
+	mpToastWindow->add_item(text);
+    
 }
 void MainWindow::on_fps_changed(long fps) {
 
     std::string text = "FPS: " + std::to_string(fps);
-    SetWindowText(mFPSText, text.c_str());
+	SetWindowText(mFPSText, text.c_str());
 }
 
 void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size) {
 
 }
 
-void  MainWindow::on_mute_changed(bool is_mute) {}
+void  MainWindow::on_mute_changed(bool is_mute) {
+    std::string text = "";
+    if (is_mute)
+    {
+        text = "开启静音";
+    }
+    else
+    {
+        text = "关闭静音";
+    }
+	
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_authentication_failed(QMedia::QAuthenticationErrorType error) {}
+void  MainWindow::on_authentication_failed(QMedia::QAuthenticationErrorType error) {
+	std::string text = "鉴权：";
+    switch (error)
+    {
+    case QMedia::QAuthenticationErrorType::NONE:
+        text += "NONE";
+        break;
+    case QMedia::QAuthenticationErrorType::NO_BASE_AUTH:
+        text += "NO_BASE_AUTH";
+        break;
+	case QMedia::QAuthenticationErrorType::NO_VR_AUTH:
+		text += "NO_VR_AUTH";
+        break;
+	case QMedia::QAuthenticationErrorType::NO_BLIND_AUTH:
+		text += "NO_BLIND_AUTH";
+        break;
+	case QMedia::QAuthenticationErrorType::NO_SEI_AUTH:
+		text += "NO_SEI_AUTH";
+        break;
+	case QMedia::QAuthenticationErrorType::NO_SRT_AUTH:
+		text += "NO_SRT_AUTH";
+        break;
+    default:
+        break;
+	}
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_authentication_success() {}
+void  MainWindow::on_authentication_success() {
+    std::string text = "鉴权：成功";
+	mpToastWindow->add_item(text);
+}
 
 void  MainWindow::on_bite_rate_changed(int bit_rate) {
 
@@ -715,11 +873,20 @@ void  MainWindow::on_bite_rate_changed(int bit_rate) {
 	SetWindowText(mPlayerBiteRateText, text.c_str());
 }
 
-void  MainWindow::on_buffering_start() {}
+void  MainWindow::on_buffering_start() {
+	std::string text = "buffering start";
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_buffering_end() {}
+void  MainWindow::on_buffering_end() {
+	std::string text = "buffering end";
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_command_not_allow(const std::string &command_name, QMedia::QPlayerState state) {}
+void  MainWindow::on_command_not_allow(const std::string& command_name, QMedia::QPlayerState state) {
+	std::string text = "on_command_not_allow";
+	mpToastWindow->add_item(text);
+}
 
 void  MainWindow::on_download_changed(int64_t download_speed, int64_t buffer_pos) {
 	std::ostringstream oss;
@@ -730,13 +897,25 @@ void  MainWindow::on_download_changed(int64_t download_speed, int64_t buffer_pos
 
 }
 
-void  MainWindow::on_format_not_support() {}
+void  MainWindow::on_format_not_support() {
+	std::string text = "on_format_not_support";
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_reconnect_start(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time) {}
+void  MainWindow::on_reconnect_start(const std::string& user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time) {
+	std::string text = "on_reconnect_start : " + std::to_string(retry_time);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_reconnect_end(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) {}
+void  MainWindow::on_reconnect_end(const std::string& user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) {
+	std::string text = "on_reconnect_end" + std::to_string(retry_time);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_open_failed(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) {}
+void  MainWindow::on_open_failed(const std::string& user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) {
+	std::string text = "on_open_failed : " + std::to_string((int)error);
+	mpToastWindow->add_item(text);
+}
 
 void  MainWindow::on_progress_changed(int64_t progress, int64_t duration) {
     if (CurrentDataModelManager::get_instance()->get_duration_time() != duration/100)
@@ -758,48 +937,131 @@ void  MainWindow::on_progress_changed(int64_t progress, int64_t duration) {
     mProgressTimeStr = progress_time_str;
 }
 
-void  MainWindow::on_quality_switch_start(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_start(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {
+	std::string text = "on_quality_switch_start : " + std::to_string(new_quality);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_quality_switch_complete(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_complete(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {
+	std::string text = "on_quality_switch_complete : " + std::to_string(new_quality);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_quality_switch_canceled(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_canceled(const std::string& user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {
+	std::string text = "on_quality_switch_canceled new : " + std::to_string(new_quality) + "old : " + std::to_string(old_quality);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_quality_switch_failed(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {}
+void  MainWindow::on_quality_switch_failed(const std::string& user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) {
+	std::string text = "on_quality_switch_canceled new : " + std::to_string(new_quality) + "old : " + std::to_string(old_quality);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_quality_switch_retry_later(const std::string &user_type, QMedia::QUrlType url_type) {}
+void  MainWindow::on_quality_switch_retry_later(const std::string& user_type, QMedia::QUrlType url_type) {
+	std::string text = "on_quality_switch_retry_later";
+	mpToastWindow->add_item(text);
+}
 
 void  MainWindow::on_seek_success() {
-
+	std::string text = "on_seek_success";
+	mpToastWindow->add_item(text);
 	//CurrentDataModelManager::get_instance()->set_is_seeking(false);
 }
 
 void  MainWindow::on_seek_failed() {
-
+	std::string text = "on_seek_failed";
+	mpToastWindow->add_item(text);
     //CurrentDataModelManager::get_instance()->set_is_seeking(false);
 }
 
-void  MainWindow::on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) {}
+void  MainWindow::on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) {
+	std::string text = "on_shoot_video_success";
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_shoot_video_failed() {}
+void  MainWindow::on_shoot_video_failed() {
+	std::string text = "on_shoot_video_failed";
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_sei_data(uint8_t* data, uint64_t size) {}
+void  MainWindow::on_sei_data(uint8_t* data, uint64_t size) {
+	std::vector<char> buffer(data, data + size);  // 将数据复制到缓冲区
 
-void  MainWindow::on_speed_changed(float speed) {}
+	// 转换为 std::string
+	std::string result(buffer.data(), buffer.data() + buffer.size());
+	std::string text = "on_sei_data: " + result;
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_subtitle_text_changed(const std::string &text) {}
+void  MainWindow::on_speed_changed(float speed) {
+	std::string text = "on_speed_changed: " + std::to_string(speed);
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_subtitle_name_changed(const std::string &name) {}
+void  MainWindow::on_subtitle_text_changed(const std::string& text) {
+    std::string toast_text = "on_subtitle_text_changed: " + text;
+    mpToastWindow->add_item(toast_text);
+}
 
-void  MainWindow::on_subtitle_enable(bool enable) {}
+void  MainWindow::on_subtitle_name_changed(const std::string& name) {
+	std::string text = "on_subtitle_name_changed: " + name;
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_subtitle_loaded(const std::string &name, bool result) {}
+void  MainWindow::on_subtitle_enable(bool enable) {
+	std::string text = "on_subtitle_enable: ";
+    if (enable)
+    {
+        text += "开启";
+    }
+    else
+    {
+        text += "关闭";
+    }
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_subtitle_decoded(const std::string &name, bool result) {}
+void  MainWindow::on_subtitle_loaded(const std::string& name, bool result) {
+	std::string text = "on_subtitle_loaded: " + name + "result : ";
+	if (result)
+	{
+		text += "成功";
+	}
+	else
+	{
+		text += "失败";
+	}
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {}
+void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
+	std::string text = "on_subtitle_decoded: " + name + "result : ";
+	if (result)
+	{
+		text += "成功";
+	}
+	else
+	{
+		text += "失败";
+	}
+	mpToastWindow->add_item(text);
+}
 
-void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {}
+void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {
 
-void  MainWindow::on_not_support_codec_format(int codec_id) {}
+}
 
-void  MainWindow::on_video_frame_size_changed(int width, int height) {}
+void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {
+	std::string text = "on_video_decode_by_type: " + std::to_string((int)type);
+	mpToastWindow->add_item(text);
+}
+
+void  MainWindow::on_not_support_codec_format(int codec_id) {
+	std::string text = "on_not_support_codec_format: " + std::to_string(codec_id);
+	mpToastWindow->add_item(text);
+}
+
+void  MainWindow::on_video_frame_size_changed(int width, int height) {
+    std::string text = "on_video_frame_size_changed width: " + std::to_string(width) + " height : " + std::to_string(height);
+	mpToastWindow->add_item(text);
+}

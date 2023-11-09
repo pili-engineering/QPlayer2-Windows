@@ -1,9 +1,10 @@
 #pragma once
 #include "framework.h"
 #include "QIPlayerListenersHeader.h"
-#include "toast2.h"
+#include "ToastWindow.h"
 #include "PlayerUrlListModelManager.h"
 #include "UrlSetting.h"
+#include "PlayerMenuSettingModelManager.h"
 namespace QMedia {
     class QIPlayerContext;
     class QMediaModel;
@@ -53,69 +54,69 @@ private:
 
 	void on_mute_changed(bool is_mute) override;
 
-	 void on_authentication_failed(QMedia::QAuthenticationErrorType error) override;
+	void on_authentication_failed(QMedia::QAuthenticationErrorType error) override;
 
-	 void on_authentication_success() override;
+	void on_authentication_success() override;
 
-	 void on_bite_rate_changed(int bit_rate) override;
+	void on_bite_rate_changed(int bit_rate) override;
 
-	 void on_buffering_start() override;
+	void on_buffering_start() override;
 
-	 void on_buffering_end() override;
+	void on_buffering_end() override;
 
-	 void on_command_not_allow(const std::string &command_name, QMedia::QPlayerState state) override;
+	void on_command_not_allow(const std::string &command_name, QMedia::QPlayerState state) override;
 
-	 void on_download_changed(int64_t download_speed, int64_t buffer_pos) override;
+	void on_download_changed(int64_t download_speed, int64_t buffer_pos) override;
 
-	 void on_format_not_support() override;
+	void on_format_not_support() override;
 
-	 void on_reconnect_start(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time) override;
+	void on_reconnect_start(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time) override;
 
-	 void on_reconnect_end(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) override;
+	void on_reconnect_end(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) override;
 
-	 void on_open_failed(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) override;
+	void on_open_failed(const std::string &user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) override;
 
-	 void on_progress_changed(int64_t progress, int64_t duration) override;
+	void on_progress_changed(int64_t progress, int64_t duration) override;
 
-	 void on_quality_switch_start(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	void on_quality_switch_start(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_complete(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	void on_quality_switch_complete(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_canceled(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	void on_quality_switch_canceled(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_failed(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
+	void on_quality_switch_failed(const std::string &user_type, QMedia::QUrlType url_type, int old_quality, int new_quality) override;
 
-	 void on_quality_switch_retry_later(const std::string &user_type, QMedia::QUrlType url_type) override;
+	void on_quality_switch_retry_later(const std::string &user_type, QMedia::QUrlType url_type) override;
 	
-	 void on_seek_success() override;
+	void on_seek_success() override;
 
-	 void on_seek_failed() override;
+	void on_seek_failed() override;
 
-	 void on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) override;
+	void on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) override;
 
-	 void on_shoot_video_failed() override;
+	void on_shoot_video_failed() override;
 
-	 void on_sei_data(uint8_t* data, uint64_t size) override;
+	void on_sei_data(uint8_t* data, uint64_t size) override;
 
-	 void on_speed_changed(float speed) override;
+	void on_speed_changed(float speed) override;
 
-	 void on_subtitle_text_changed(const std::string &text) override;
+	void on_subtitle_text_changed(const std::string &text) override;
 
-	 void on_subtitle_name_changed(const std::string &name) override;
+	void on_subtitle_name_changed(const std::string &name) override;
 
-	 void on_subtitle_enable(bool enable) override;
+	void on_subtitle_enable(bool enable) override;
 
-	 void on_subtitle_loaded(const std::string &name, bool result) override;
+	void on_subtitle_loaded(const std::string &name, bool result) override;
 
-	 void on_subtitle_decoded(const std::string &name, bool result) override;
+	void on_subtitle_decoded(const std::string &name, bool result) override;
 
-	 void on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) override;
+	void on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) override;
 
-	 void on_video_decode_by_type(QMedia::QDecoderType type) override;
+	void on_video_decode_by_type(QMedia::QDecoderType type) override;
 
-	 void on_not_support_codec_format(int codec_id) override;
+	void on_not_support_codec_format(int codec_id) override;
 
-	 void on_video_frame_size_changed(int width, int height) override;
+	void on_video_frame_size_changed(int width, int height) override;
 
 	void add_listeners();
 public:
@@ -136,8 +137,6 @@ private:
     LRESULT on_create();
     LRESULT on_resize();
     LRESULT on_create_play_menu();
-     
-    //HWND createVideoRenderWindow(HWND parent_hwnd);
 
     static int get_render_window_height(int parent_window_height);
     static int get_render_window_width(int parent_window_width);
@@ -150,6 +149,9 @@ private:
 	std::string to_date_string(int64_t time);
 
     bool notify_resize_to_player(LPRECT proot_window_rect);
+
+
+	void updata_menu_ui(int button_id);
 private:
 
     HWND mHwnd;
@@ -170,7 +172,7 @@ private:
 
 	UrlListWindow* mpUrlListWindow;
 
-	//toast2* mToastWindow;
+	ToastWindow* mpToastWindow;
 
 	HWND mPlayButton;
 
@@ -187,11 +189,12 @@ private:
 	HWND mPlayerBiteRateText;
 
 	HWND mPlayerProgressAndDurationText;
-	//CurrentDataModelManager* mpCurrentDataModelManager;
 
 	PlayerUrlListModelManager* mpUrlListModelManger;
 
 	UrlSetting* mpUrlSettingWindow;
+
+	PlayerMenuSettingModelManager* mpSettingMenuManager;
 };
 
  
