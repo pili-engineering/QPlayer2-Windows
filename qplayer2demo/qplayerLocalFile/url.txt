@@ -5,7 +5,7 @@ streamElements: {
 [
 userType: 
 urlType: 0
-url: http://demo-videos.qnsdk.com/long_movie.mp4
+url: http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4
 quality: 1080
 isSelected: 1
 backupUrl: 
