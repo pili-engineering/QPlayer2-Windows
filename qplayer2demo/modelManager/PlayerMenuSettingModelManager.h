@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include "PlayerMenuSettingModel.h"
+#include "../PlayerWindow.h"
 
 #define ID_PLAY_CHONTROL									 1000
 #define ID_RESUME_BUTTON									 1001
@@ -68,6 +69,8 @@
 #define ID_MUTE_OPEN_BUTTON									 2201
 #define ID_MUTE_CLOSE_BUTTON								 2202
 
+#define ID_SHOOT_IMAGE										 2300
+#define ID_SHOOT_IMAGE_BUTTON								 2301
 class PlayerMenuSettingModelManager
 {
 public:
@@ -104,13 +107,15 @@ private:
 	std::list<ChildMenu*>* create_play_speed_list();
 
 	std::list<ChildMenu*>* create_mute_list();
+
+	std::list<ChildMenu*>* create_shoot_list();
 public:
-	PlayerMenuSettingModelManager(HWND hwnd);
+	PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window);
 	~PlayerMenuSettingModelManager();
 
 private:
 	HWND mHwnd;
-
+	PlayerWindow* mpPlayerWindow;
 	std::list<PlayerMenuSettingModel*>* mpMenuSettingModels;
 };
 
