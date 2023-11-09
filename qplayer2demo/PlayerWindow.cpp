@@ -61,11 +61,11 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr)
 
 	//PlayerMessageLoopQueueAdapter* listeners = new PlayerMessageLoopQueueAdapter(mHwnd);
 
-	QMediaModelBuilder builder;
-	builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO, 0,
-		"http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
+	//QMediaModelBuilder builder;
+	//builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO, 0,
+	//	"http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
 
-	mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
+	//mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
 
 
 }
