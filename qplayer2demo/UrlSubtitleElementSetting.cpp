@@ -10,12 +10,14 @@
 
 #define ID_SUBMIT_BUTTON 400
 #define ID_CANCEL_BUTTON 401
-UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinstance):
+UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinstance, UrlClickType click_type, DemoMediaSubtitleElementModel* subtitle_element_model):
 	mHwnd(hwnd),
 	mHinstance(hinstance),
 	mIsSelected(true),
 	mNameInputText(""),
-	mUrlInputText("")
+	mUrlInputText(""),
+	mClickType(click_type),
+	mSubtitleElementModel(subtitle_element_model)
 {
 	WNDCLASSEXW wcex;
 	if (GetClassInfoExW(hinstance, CLASS_NAME, &wcex) != 0) {
@@ -38,7 +40,7 @@ UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinsta
 		wcex.hIconSm = NULL;
 
 		if (!RegisterClassExW(&wcex)) {
-			throw "UrlSetting  create failed!";
+			throw "UrlSubtitleElementSetting  create failed!";
 		}
 	}
 	int screen_width = GetSystemMetrics(SM_CXSCREEN);
@@ -47,7 +49,7 @@ UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinsta
 	int window_height = 800;
 	int window_x = (screen_width - window_width) / 2;
 	int window_y = (screen_height - window_height) / 2;
-	mHwnd = CreateWindowW(wcex.lpszClassName, CLASS_NAME, WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
+	mHwnd = CreateWindowW(wcex.lpszClassName, (LPCWSTR)_T("UrlSubtitleElementSetting"), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
 		window_x, window_y, window_width, window_height, hwnd, NULL, mHinstance, NULL);
 	if (mHwnd == nullptr)
 	{
@@ -154,10 +156,10 @@ void UrlSubtitleElementSetting::create_child_window() {
 	int width = windowRect.right - windowRect.left;
 	int height = windowRect.bottom - windowRect.top;
 	CreateWindow(TEXT("STATIC"), TEXT("name"), WS_CHILD | WS_VISIBLE, 10, 10, 90, 20, mHwnd, NULL, NULL, NULL);
-	mNameInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER, 110, 10, width - 130, 20, mHwnd, (HMENU)ID_NAME_INPUT, NULL, NULL);
+	mNameInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 10, width - 130, 20, mHwnd, (HMENU)ID_NAME_INPUT, NULL, NULL);
 
 	CreateWindow(TEXT("STATIC"), TEXT("url"), WS_CHILD | WS_VISIBLE, 10, 40, 90, 20, mHwnd, NULL, NULL, NULL);
-	mUrlInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER, 110, 40, width - 130, 20, mHwnd, (HMENU)ID_URL_INPUT, NULL, NULL);
+	mUrlInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 40, width - 130, 20, mHwnd, (HMENU)ID_URL_INPUT, NULL, NULL);
 
 	CreateWindow(TEXT("STATIC"), TEXT("is_selected"), WS_CHILD | WS_VISIBLE, 10, 70, 90, 20, mHwnd, NULL, NULL, NULL);
 	mIsSelectedTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("ture"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 70, 170, 20, mHwnd, (HMENU)ID_IS_SELECTED_OPTION, NULL, NULL);

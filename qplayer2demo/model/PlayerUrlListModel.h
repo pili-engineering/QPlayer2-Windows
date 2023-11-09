@@ -17,7 +17,5 @@ public:
 	std::string get_name();
 	
 
-private:
-
 };
 

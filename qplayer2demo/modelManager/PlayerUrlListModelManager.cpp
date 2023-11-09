@@ -2,12 +2,12 @@
 #include "../DemoLog.h"
 #include "QMediaModelBuilder.h"
 
-#define TAG               "PlayerUrlListModelManager"
+#include "../FileOfWriteAndRead.h"
 
+#define TAG               "PlayerUrlListModelManager"
+#define URL_LOCAL_FILE_NAME "url.txt"
 PlayerUrlListModelManager::PlayerUrlListModelManager():mUrlModels(), mUrlCallBack(),mpBulder(nullptr)
 {
-	//mUrlModels = std::list<PlayerUrlListModel *>();
-
 	create_url_models();
 }
 
@@ -17,6 +17,13 @@ PlayerUrlListModelManager::~PlayerUrlListModelManager()
 
 void PlayerUrlListModelManager::add_model(QMedia::QMediaModel* pmodel, const std::string& name) {
 	PlayerUrlListModel* inner_model = new PlayerUrlListModel(pmodel,name);
+	if (FileOfWriteAndRead::write_to_local_file(URL_LOCAL_FILE_NAME, inner_model))
+	{
+	}
+	else
+	{
+		DemoLog::log_string(TAG, __LINE__, "write data to local file false");
+	}
 	mUrlModels.emplace_back(inner_model);
 }
 
@@ -51,6 +58,8 @@ void PlayerUrlListModelManager::delete_url_model_index(int index) {
 	{
 		auto it = mUrlModels.begin();
 		std::advance(it, index);
+		bool delete_flag = FileOfWriteAndRead::delete_url_local_file_with_name(URL_LOCAL_FILE_NAME,(*it)->get_name());
+
 		mUrlModels.erase(it);
 	}
 }
@@ -236,349 +245,9 @@ void PlayerUrlListModelManager::build(bool is_live, const std ::string& name) {
 	}
 }
 void PlayerUrlListModelManager::create_url_models() {
-	QMedia::QMediaModelBuilder* pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
+	
+	mUrlModels = FileOfWriteAndRead::read_from_url_local_file(URL_LOCAL_FILE_NAME);
 
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023.mp4");
-
-	pbulder = new QMedia::QMediaModelBuilder();
-	pbulder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 0, "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-	add_model(pbulder->build(false), "1-qiniu-2023-100.mp4");
 }
 
 

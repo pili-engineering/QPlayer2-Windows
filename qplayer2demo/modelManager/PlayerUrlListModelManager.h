@@ -3,7 +3,7 @@
 #include <string>
 #include <list>
 #include <functional>
-
+#include "../FileOfWriteAndRead.h"
 using urlUpdateCallBackFunction = std::function<void()>;
 
 class PlayerUrlListModelManager
@@ -59,7 +59,7 @@ public:
 
 	void add_subtitle_element(const std::string& name, const std::string& url, bool is_selected);
 
-	void build(bool is_live, const std::string& name);
+	void build(bool is_live, const std::string& wname);
 
 	void url_update();
 private:

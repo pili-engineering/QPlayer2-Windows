@@ -4,12 +4,13 @@
 #include "QMediaModel.h"
 #include "UrlClickType.h"
 #include "WindowCloseType.h"
+#include "DemoMediaStreamElementModel.h"
 using streamElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type, const std::string& user_type, const std::string & url, int quality, QMedia::QUrlType type, bool is_selected, const std::string& backup_url, const std::string & referer, const std::string & hls_drm ,const std::string & mp4_drm, QMedia::QVideoRenderType video_type) > ;
 class UrlStreamElementSetting
 {
 public:
 	~UrlStreamElementSetting();
-	UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance);
+	UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance,UrlClickType click_type, DemoMediaStreamElementModel * stream_element_model);
 
 
 	HWND get_hwnd();
@@ -25,7 +26,8 @@ private:
 
 private:
 	HWND mHwnd;
-
+	UrlClickType mClickType;
+	DemoMediaStreamElementModel* mStreamElementModel;
 	HINSTANCE mHinstance;
 
 

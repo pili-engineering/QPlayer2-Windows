@@ -4,11 +4,14 @@
 #include <functional>
 #include "UrlClickType.h"
 #include "WindowCloseType.h"
+#include "DemoMediaStreamElementModel.h"
+#include "DemoMediaSubtitleElementModel.h"
+
 using urlSettingWindowCloseCallBackFunction = std::function<void()>;
 class UrlSetting
 {
 public:
-	UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager* purl_manager, UrlClickType click_type);
+	UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager* purl_manager, UrlClickType click_type, int url_id = 0);
 	~UrlSetting();
 
 
@@ -25,10 +28,18 @@ private:
 	LRESULT on_subtitle_elements_list_update(const std::string& name);
 
 	void add_subtitle_elements_window_create();
+	
+	void motify_stream_elements_window_create(int item_id);
+
+	void motify_subtitle_elements_window_create(int item_id);
 
 	void add_stream_elements_window_create();
 
 	void submit_button_click();
+
+	void set_item_id(int url_id);
+
+	int get_item_id();
 private:
 	HWND mHwnd;
 	HINSTANCE mHinstance;
@@ -54,5 +65,10 @@ private:
 	int mStreamElementIndex;
 
 	int mSubtitleElementIndex;
+
+	int mUrlModelIndex;
+	std::list<DemoMediaStreamElementModel*> mStreamElementModelList;
+
+	std::list<DemoMediaSubtitleElementModel*> mSubtitleElementModelList;
 };
 

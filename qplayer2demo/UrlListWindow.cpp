@@ -205,6 +205,7 @@ void UrlListWindow::mouse_right_click_menu(HWND hwnd) {
 	// 创建自定义右键菜单
 	HMENU right_menu = CreatePopupMenu();
 	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_ADD, "添加");
+	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_MODIFY, "修改");
 	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_DELETE, "删除");
 
 	// 显示自定义右键菜单

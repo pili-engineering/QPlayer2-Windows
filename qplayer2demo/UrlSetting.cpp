@@ -21,13 +21,23 @@
 #define ID_URL_ADD_STREAM_WINDOW 500
 #define ID_URL_ADD_SUBTITLE_WINDOW 501
 
-UrlSetting::UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager* purl_manager, UrlClickType click_type):
+#define RIGHT_STREAM_MENU_ADD          1000
+#define RIGHT_STREAM_MENU_MODIFY       1001
+#define RIGHT_STREAM_MENU_DELETE       1002
+
+#define RIGHT_SUBTITLE_MENU_ADD          2000
+#define RIGHT_SUBTITLE_MENU_MODIFY       2001
+#define RIGHT_SUBTITLE_MENU_DELETE       2002
+UrlSetting::UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager* purl_manager, UrlClickType click_type ,int url_id) :
 	mpPlayerUrlModelManager(purl_manager),
 	mIsLive(FALSE),
 	mUrlNameInputText(""),
 	mUrlClickType(click_type),
 	mStreamElementIndex(0),
-	mSubtitleElementIndex(0)
+	mSubtitleElementIndex(0),
+	mStreamElementModelList(),
+	mSubtitleElementModelList(),
+	mUrlModelIndex(url_id)
 {
 
 	mHinstance = GetModuleHandle(NULL);
@@ -61,7 +71,7 @@ UrlSetting::UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager
 	int window_height = 800;
 	int window_x = (screen_width - window_width) / 2;
 	int window_y = (screen_height - window_height) / 2;
-	mHwnd = CreateWindowW(wcex.lpszClassName, CLASS_NAME, WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
+	mHwnd = CreateWindowW(wcex.lpszClassName, (LPCWSTR)_T("UrlSetting"), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
 		window_x, window_y, window_width, window_height, hwnd, NULL, mHinstance, NULL);
 	if (mHwnd == nullptr)
 	{
@@ -94,6 +104,53 @@ LRESULT CALLBACK UrlSetting::main_url_setting_window_proc(HWND hwnd, UINT messag
 			return 0;
 		}
 
+	}
+	case WM_NOTIFY:
+	{
+		NMHDR* pnmhdr = (NMHDR*)l_param;
+		if (pnmhdr->hwndFrom == purl_setting_window->mUrlStreamElementsListWindow)
+		{
+			LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
+			int selected_index = pnmia->iItem;
+			if ((int)(pnmhdr->code) == (int)NM_RCLICK)
+			{
+				LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
+				int selected_index = pnmia->iItem;
+				purl_setting_window->set_item_id(selected_index);
+				HMENU right_menu = CreatePopupMenu();
+				AppendMenu(right_menu, MF_STRING, RIGHT_STREAM_MENU_ADD, "添加");
+				AppendMenu(right_menu, MF_STRING, RIGHT_STREAM_MENU_MODIFY, "修改");
+				AppendMenu(right_menu, MF_STRING, RIGHT_STREAM_MENU_DELETE, "删除");
+				POINT pt;
+				GetCursorPos(&pt);
+				//SetMenu(mUrlStreamElementsListWindow, right_menu);
+				SetForegroundWindow(purl_setting_window->get_hwnd());
+				TrackPopupMenu(right_menu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, purl_setting_window->get_hwnd(), NULL);
+				DestroyMenu(right_menu);
+			}
+		}
+		else if(pnmhdr->hwndFrom == purl_setting_window->mUrlSubtitleElementsListWindow)
+		{
+			LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
+			int selected_index = pnmia->iItem;
+			if ((int)(pnmhdr->code) == (int)NM_RCLICK)
+			{
+				LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
+				int selected_index = pnmia->iItem;
+				purl_setting_window->set_item_id(selected_index);
+				HMENU right_menu = CreatePopupMenu();
+				AppendMenu(right_menu, MF_STRING, RIGHT_SUBTITLE_MENU_ADD, "添加");
+				AppendMenu(right_menu, MF_STRING, RIGHT_SUBTITLE_MENU_MODIFY, "修改");
+				AppendMenu(right_menu, MF_STRING, RIGHT_SUBTITLE_MENU_DELETE, "删除");
+				POINT pt;
+				GetCursorPos(&pt);
+				//SetMenu(mUrlStreamElementsListWindow, right_menu);
+				SetForegroundWindow(purl_setting_window->get_hwnd());
+				TrackPopupMenu(right_menu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, purl_setting_window->get_hwnd(), NULL);
+				DestroyMenu(right_menu);
+			}
+		}
+		break;
 	}
 	case WM_COMMAND: {
 		int wm_id = LOWORD(w_param);
@@ -149,6 +206,40 @@ LRESULT CALLBACK UrlSetting::main_url_setting_window_proc(HWND hwnd, UINT messag
 			}
 			break;
 		}
+		case RIGHT_STREAM_MENU_ADD: {
+			if (purl_setting_window != nullptr) {
+				purl_setting_window->add_stream_elements_window_create();
+			}
+			break;
+		}
+		case RIGHT_STREAM_MENU_MODIFY: {
+			if (purl_setting_window != nullptr) {
+				purl_setting_window->motify_stream_elements_window_create(purl_setting_window->mStreamElementIndex);
+			}
+			break;
+		}
+		case RIGHT_STREAM_MENU_DELETE: {
+			if (purl_setting_window != nullptr) {
+			}
+			break;
+		}
+		case RIGHT_SUBTITLE_MENU_ADD: {
+			if (purl_setting_window != nullptr) {
+				purl_setting_window->submit_button_click();
+			}
+			break;
+		}
+		case RIGHT_SUBTITLE_MENU_MODIFY: {
+			if (purl_setting_window != nullptr) {
+				purl_setting_window->motify_stream_elements_window_create(purl_setting_window->mStreamElementIndex);
+			}
+			break;
+		}
+		case RIGHT_SUBTITLE_MENU_DELETE: {
+			if (purl_setting_window != nullptr) {
+			}
+			break;
+		}
 		default:
 			break;
 		}
@@ -164,8 +255,29 @@ void UrlSetting::set_url_setting_close_call_back(urlSettingWindowCloseCallBackFu
 }
 
 void UrlSetting::create_child_window() {
-
-
+	if (UrlClickType::MOTIFY_URL || UrlClickType::DELETE_URL)
+	{
+		for (auto it : mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_media_model()->get_stream_elements()) {
+			DemoMediaStreamElementModel* inner_ele_model = new DemoMediaStreamElementModel;
+			inner_ele_model->set_backup_url(it->get_back_url());
+			inner_ele_model->set_hls_drm(it->get_hls_drm_key());
+			inner_ele_model->set_is_selected(it->is_selected());
+			inner_ele_model->set_mp4_drm(it->get_mp4_drm_key());
+			inner_ele_model->set_quality(it->get_quality_index());
+			inner_ele_model->set_referer(it->get_referer());
+			inner_ele_model->set_url(it->get_url());
+			inner_ele_model->set_url_type(it->get_url_type());
+			inner_ele_model->set_user_type(it->get_user_type());
+			mStreamElementModelList.emplace_back(inner_ele_model);
+		}
+		for (auto it : mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_media_model()->get_subtitle_elements()) {
+			DemoMediaSubtitleElementModel* inner_ele_model = new DemoMediaSubtitleElementModel;
+			inner_ele_model->set_name(it->get_name());
+			inner_ele_model->set_is_selected(it->is_selected());
+			inner_ele_model->set_url(it->get_url());
+			mSubtitleElementModelList.emplace_back(inner_ele_model);
+		}
+	}
 	RECT windowRect;
 	GetWindowRect(mHwnd, &windowRect);
 	
@@ -173,14 +285,14 @@ void UrlSetting::create_child_window() {
 	int height = windowRect.bottom - windowRect.top;
 	HWND child_window;
 	CreateWindow(TEXT("STATIC"), TEXT("是否直播"), WS_CHILD | WS_VISIBLE, 10, 10, 60, 20, mHwnd, NULL, NULL, NULL);
-	CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 80, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_TRUE_OPTION, NULL, NULL);
-	child_window = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_FALSE_OPTION, NULL, NULL);
+	HWND is_live_true_option = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 80, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_TRUE_OPTION, NULL, NULL);
+	HWND is_live_false_option = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_FALSE_OPTION, NULL, NULL);
 	if (mUrlClickType == UrlClickType::ADD_URL)
 	{
-		SendMessage(child_window, BM_SETCHECK, BST_CHECKED, 0);
+		SendMessage(is_live_false_option, BM_SETCHECK, BST_CHECKED, 0);
 	}
 	CreateWindow(TEXT("STATIC"), TEXT("地址名称"), WS_CHILD | WS_VISIBLE, 10, 40, 60, 20, mHwnd, NULL, NULL, NULL);
-	mUrlNameInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER, 80, 40, width - 100, 20, mHwnd, (HMENU)ID_URL_NAME_INPUT, NULL, NULL);
+	mUrlNameInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 80, 40, width - 100, 20, mHwnd, (HMENU)ID_URL_NAME_INPUT, NULL, NULL);
 
 
 	CreateWindow(TEXT("STATIC"), TEXT("地址"), WS_CHILD | WS_VISIBLE, 10, 70, 60, 20, mHwnd, NULL, NULL, NULL);
@@ -200,10 +312,7 @@ void UrlSetting::create_child_window() {
 	if (ListView_InsertColumn(mUrlStreamElementsListWindow, 0, &stream_column) == -1) {
 		throw "ListView_InsertColumn error";
 	}
-	if (mUrlClickType == UrlClickType::MOTIFY_URL)
-	{
-		on_streem_elements_list_update("");
-	}
+
 
 	CreateWindow(TEXT("STATIC"), TEXT("字幕地址"), WS_CHILD | WS_VISIBLE, 10, height / 2 + 5, 60, 20, mHwnd, NULL, NULL, NULL);
 
@@ -220,11 +329,28 @@ void UrlSetting::create_child_window() {
 	if (ListView_InsertColumn(mUrlSubtitleElementsListWindow, 0, &subtitle_column) == -1) {
 		throw "ListView_InsertColumn error";
 	}
+	
+
 	if (mUrlClickType == UrlClickType::MOTIFY_URL)
 	{
-		on_subtitle_elements_list_update("");
+		if (mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_media_model()->is_live())
+		{
+			SendMessage(is_live_true_option, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		else
+		{
+			SendMessage(is_live_false_option, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		for (DemoMediaStreamElementModel* inner_model : mStreamElementModelList)
+		{
+			on_streem_elements_list_update(inner_model->get_url());
+		}
+		for (DemoMediaSubtitleElementModel* inner_model : mSubtitleElementModelList)
+		{
+			on_subtitle_elements_list_update(inner_model->get_url());
+		}
+		SetWindowText(mUrlNameInput, _T(mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_name().c_str()));
 	}
-
 
 	CreateWindow(TEXT("BUTTON"), TEXT("确定"), WS_CHILD | WS_VISIBLE, width / 2 - 55, height - 70, 50, 20, mHwnd, (HMENU)ID_SUBMIT_BUTTON, NULL, NULL);
 
@@ -237,7 +363,6 @@ void UrlSetting::submit_button_click() {
 	{
 	case ADD_URL: {
 		mpPlayerUrlModelManager->build(mIsLive, mUrlNameInputText);
-
 		break;
 	}
 	case MOTIFY_URL:
@@ -275,7 +400,7 @@ LRESULT UrlSetting::on_subtitle_elements_list_update(const std::string& name) {
 	return 0;
 }
 void UrlSetting::add_subtitle_elements_window_create() {
-	UrlSubtitleElementSetting* purl_subtitle_element_window = new UrlSubtitleElementSetting(mHwnd, mHinstance);
+	UrlSubtitleElementSetting* purl_subtitle_element_window = new UrlSubtitleElementSetting(mHwnd, mHinstance,UrlClickType::ADD_URL,nullptr);
 	EnableWindow(mHwnd, FALSE);
 	purl_subtitle_element_window->set_close_call_back(
 		[this](WindowCloseType close_type, const std::string& name, const std::string& url, bool is_selected) {
@@ -290,8 +415,28 @@ void UrlSetting::add_subtitle_elements_window_create() {
 	SetWindowLong(purl_subtitle_element_window->get_hwnd(), GWL_ID, ID_URL_ADD_SUBTITLE_WINDOW);
 }
 
+void UrlSetting::motify_subtitle_elements_window_create(int item_id) {
+	auto it = mSubtitleElementModelList.begin();
+	if (mSubtitleElementModelList.size() < item_id) {
+		return;
+	}
+	std::advance(it, item_id);
+	UrlSubtitleElementSetting* purl_stream_element_window = new UrlSubtitleElementSetting(mHwnd, mHinstance, UrlClickType::MOTIFY_URL, *it);
+	EnableWindow(mHwnd, FALSE);
+	purl_stream_element_window->set_close_call_back(
+		[this](WindowCloseType close_type, const std::string& name, const std::string& url, bool is_selected){
+			if (close_type == WindowCloseType::SUBMIT_CLOSE) {
+				mSubtitleElementIndex++;
+				mpPlayerUrlModelManager->add_subtitle_element(name, url, is_selected);
+				on_subtitle_elements_list_update(url);
+			}
+		}
+	);
+	SetWindowLong(purl_stream_element_window->get_hwnd(), GWL_ID, ID_URL_ADD_STREAM_WINDOW);
+}
+
 void UrlSetting::add_stream_elements_window_create() {
-	UrlStreamElementSetting* purl_stream_element_window = new UrlStreamElementSetting(mHwnd, mHinstance);
+	UrlStreamElementSetting* purl_stream_element_window = new UrlStreamElementSetting(mHwnd, mHinstance,UrlClickType::ADD_URL,nullptr);
 	EnableWindow(mHwnd, FALSE);
 	purl_stream_element_window->set_close_call_back(
 		[this](WindowCloseType close_type, const std::string& user_type, const std::string& url, int quality, QMedia::QUrlType type, bool is_selected, const std::string& backup_url, const std::string& referer, const std::string& hls_drm, const std::string& mp4_drm,QMedia::QVideoRenderType video_type) {
@@ -306,3 +451,32 @@ void UrlSetting::add_stream_elements_window_create() {
 	SetWindowLong(purl_stream_element_window->get_hwnd(), GWL_ID, ID_URL_ADD_STREAM_WINDOW);
 }
 
+
+void UrlSetting::motify_stream_elements_window_create(int item_id) {
+	auto it = mStreamElementModelList.begin();
+	if (mStreamElementModelList.size() < item_id || item_id < 0) {
+		return;
+	}
+	std::advance(it, item_id);
+	UrlStreamElementSetting* purl_stream_element_window = new UrlStreamElementSetting(mHwnd, mHinstance, UrlClickType::MOTIFY_URL, *it);
+	EnableWindow(mHwnd, FALSE);
+	purl_stream_element_window->set_close_call_back(
+		[this](WindowCloseType close_type, const std::string& user_type, const std::string& url, int quality, QMedia::QUrlType type, bool is_selected, const std::string& backup_url, const std::string& referer, const std::string& hls_drm, const std::string& mp4_drm, QMedia::QVideoRenderType video_type) {
+			EnableWindow(mHwnd, TRUE);
+			if (close_type == WindowCloseType::SUBMIT_CLOSE) {
+				mStreamElementIndex++;
+				mpPlayerUrlModelManager->add_stream_element(user_type, type, quality, url.c_str(), is_selected, backup_url, referer, video_type, hls_drm, mp4_drm);
+				on_streem_elements_list_update(url);
+			}
+		}
+	);
+	SetWindowLong(purl_stream_element_window->get_hwnd(), GWL_ID, ID_URL_ADD_STREAM_WINDOW);
+}
+
+void UrlSetting::set_item_id(int url_id) {
+	mStreamElementIndex = url_id;
+}
+
+int UrlSetting::get_item_id() {
+	return mStreamElementIndex;
+}

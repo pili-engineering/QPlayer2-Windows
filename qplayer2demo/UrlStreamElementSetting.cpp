@@ -30,8 +30,9 @@
 
 #define ID_SUBMIT_BUTTON 1100
 #define ID_CANCEL_BUTTON 1101
-UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance):
-	mHwnd(hwnd),
+UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance, UrlClickType click_type, DemoMediaStreamElementModel* stream_element_model):
+	mClickType(click_type),
+	mStreamElementModel(stream_element_model),
 	mHinstance(GetModuleHandle(NULL)),
 	mUrlInputText(),
 	mUserTypeInputText(),
@@ -63,7 +64,7 @@ UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance)
 		wcex.hIconSm = NULL;
 
 		if (!RegisterClassExW(&wcex)) {
-			throw "UrlSetting  create failed!";
+			throw "UrlStreamElementSetting  create failed!";
 		}
 	}
 	int screen_width = GetSystemMetrics(SM_CXSCREEN);
@@ -72,7 +73,7 @@ UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance)
 	int window_height = 800;
 	int window_x = (screen_width - window_width) / 2;
 	int window_y = (screen_height - window_height) / 2;
-	mHwnd = CreateWindowW(wcex.lpszClassName, CLASS_NAME, WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
+	mHwnd = CreateWindowW(wcex.lpszClassName, (LPCWSTR)_T("UrlStreamElementSetting"), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
 		window_x, window_y, window_width, window_height, hwnd, NULL, mHinstance, NULL);
 	if (mHwnd == nullptr)
 	{
@@ -201,7 +202,22 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 		}
 		case ID_QUALITY_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mQualityInputText = std::stoi(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mQualityInput));
+				int text_length = GetWindowTextLengthW(pstream_element_setting_window->mQualityInput);
+				if (text_length == 0) {
+					pstream_element_setting_window->mQualityInputText = 0;
+				}
+				else
+				{
+					try
+					{
+						pstream_element_setting_window->mQualityInputText = std::stoi(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mQualityInput));
+					}
+					catch (const std::exception&)
+					{
+						pstream_element_setting_window->mQualityInputText = 0;
+					}
+				}
+				
 			}
 			break;
 		}
@@ -268,6 +284,11 @@ HWND UrlStreamElementSetting::get_hwnd() {
 
 std::string UrlStreamElementSetting::wchar_to_string(HWND hwnd) {
 	int text_length = GetWindowTextLengthW(hwnd);
+	if (text_length == 0)
+	{
+
+		return "";
+	}
 	wchar_t* buffer = new wchar_t[text_length + 1];
 	GetWindowTextW(hwnd, buffer, text_length + 1);
 
@@ -294,7 +315,7 @@ void UrlStreamElementSetting::create_child_window() {
 	int width = windowRect.right - windowRect.left;
 	int height = windowRect.bottom - windowRect.top;
 	CreateWindow(TEXT("STATIC"), TEXT("user_type"), WS_CHILD | WS_VISIBLE, 10, 10, 90, 20, mHwnd, NULL, NULL, NULL);
-	mUserTypeInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER, 110, 10, width - 130, 20, mHwnd, (HMENU)ID_USER_TYPE_INPUT, NULL, NULL);
+	mUserTypeInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 10, width - 130, 20, mHwnd, (HMENU)ID_USER_TYPE_INPUT, NULL, NULL);
 
 
 	CreateWindow(TEXT("STATIC"), TEXT("url_type"), WS_CHILD | WS_VISIBLE, 10, 50, 90, 20, mHwnd, NULL, NULL, NULL);
@@ -302,40 +323,93 @@ void UrlStreamElementSetting::create_child_window() {
 	mAudioOption = CreateWindow(TEXT("BUTTON"), TEXT("audio"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 50, 170, 20, mHwnd, (HMENU)ID_AUDIO_OPTION, NULL, NULL);
 	mVideoOption = CreateWindow(TEXT("BUTTON"), TEXT("video"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 460, 50, 170, 20, mHwnd, (HMENU)ID_VIDEO_OPTION, NULL, NULL);
 	mNoneOption = CreateWindow(TEXT("BUTTON"), TEXT("none"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 640, 50, 170, 20, mHwnd, (HMENU)ID_NONE_OPTION, NULL, NULL);
-	SendMessage(mAudioAndVideoOption, BM_SETCHECK, BST_CHECKED, 0);
-	mUrlType = QMedia::QUrlType::QAUDIO_AND_VIDEO;
+	
+	
 
 	CreateWindow(TEXT("STATIC"), TEXT("url"), WS_CHILD | WS_VISIBLE, 10, 90, 90, 20, mHwnd, NULL, NULL, NULL);
-	mUrlInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER, 110, 90, width - 130, 20, mHwnd, (HMENU)ID_URL_INPUT, NULL, NULL);
+	mUrlInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 90, width - 130, 20, mHwnd, (HMENU)ID_URL_INPUT, NULL, NULL);
 
 	CreateWindow(TEXT("STATIC"), TEXT("quality"), WS_CHILD | WS_VISIBLE, 10, 130, 90, 20, mHwnd, NULL, NULL, NULL);
-	mQualityInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 110, 130, width - 130, 20, mHwnd, (HMENU)ID_QUALITY_INPUT, mHinstance, NULL);
+	mQualityInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER | ES_AUTOHSCROLL, 110, 130, width - 130, 20, mHwnd, (HMENU)ID_QUALITY_INPUT, mHinstance, NULL);
 
 	CreateWindow(TEXT("STATIC"), TEXT("is_selected"), WS_CHILD | WS_VISIBLE, 10, 170, 90, 20, mHwnd, NULL, NULL, NULL);
 	mIsSelectedTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("ture"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 170, 170, 20, mHwnd, (HMENU)ID_IS_SELECTED_OPTION, NULL, NULL);
 	mIsSelectedFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("false"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 170, 170, 20, mHwnd, (HMENU)ID_NOT_IS_SELECTED_OPTION, NULL, NULL);
-	SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
-	mIsSelected = true;
+
 
 	CreateWindow(TEXT("STATIC"), TEXT("backup_url"), WS_CHILD | WS_VISIBLE, 10, 210, 90, 20, mHwnd, NULL, NULL, NULL);
-	mBackUpUrlInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 110, 210, width - 130, 20, mHwnd, (HMENU)ID_BACK_UP_URL_INPUT, mHinstance, NULL);
+	mBackUpUrlInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 210, width - 130, 20, mHwnd, (HMENU)ID_BACK_UP_URL_INPUT, mHinstance, NULL);
 
 
 	CreateWindow(TEXT("STATIC"), TEXT("referer"), WS_CHILD | WS_VISIBLE, 10, 250, 90, 20, mHwnd, NULL, NULL, NULL);
-	mRefererInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 110, 250, width - 130, 20, mHwnd, (HMENU)ID_REFERER_INPUT, mHinstance, NULL);
+	mRefererInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 250, width - 130, 20, mHwnd, (HMENU)ID_REFERER_INPUT, mHinstance, NULL);
 
 
 	CreateWindow(TEXT("STATIC"), TEXT("hls_drm_key"), WS_CHILD | WS_VISIBLE, 10, 290, 90, 20, mHwnd, NULL, NULL, NULL);
-	mHlsDrmInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 110, 290, width - 130, 20, mHwnd, (HMENU)ID_HLS_DRM_INPUT, mHinstance, NULL);
+	mHlsDrmInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 290, width - 130, 20, mHwnd, (HMENU)ID_HLS_DRM_INPUT, mHinstance, NULL);
 
 	CreateWindow(TEXT("STATIC"), TEXT("mp4_drm_key"), WS_CHILD | WS_VISIBLE, 10, 330, 90, 20, mHwnd, NULL, NULL, NULL);
-	mMp4DrmInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, 110, 330, width - 130, 20, mHwnd, (HMENU)ID_MP4_DRM_INPUT, mHinstance, NULL);
+	mMp4DrmInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 330, width - 130, 20, mHwnd, (HMENU)ID_MP4_DRM_INPUT, mHinstance, NULL);
 
 	CreateWindow(TEXT("STATIC"), TEXT("video_type"), WS_CHILD | WS_VISIBLE, 10, 360, 90, 20, mHwnd, NULL, NULL, NULL);
 	mVideoTypePlanOption = CreateWindow(TEXT("BUTTON"), TEXT("普通视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 360, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_PLAN_OPTIONAL, NULL, NULL);
 	mVideoTypeAROption = CreateWindow(TEXT("BUTTON"), TEXT("AR视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 360, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_AR_OPTIONAL, NULL, NULL);
-	SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
-	mVideoType = QMedia::QVideoRenderType::PLANE;
+
+
+	if (mClickType == UrlClickType::MOTIFY_URL)
+	{
+		SetWindowText(mUserTypeInput, _T(mStreamElementModel->get_user_type().c_str()));
+		if (mStreamElementModel->get_url_type() == QMedia::QUrlType::NONE)
+		{
+			SendMessage(mNoneOption, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		else if(mStreamElementModel->get_url_type() == QMedia::QUrlType::QAUDIO_AND_VIDEO)
+		{
+			SendMessage(mAudioAndVideoOption, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		else if (mStreamElementModel->get_url_type() == QMedia::QUrlType::QVIDEO)
+		{
+			SendMessage(mVideoOption, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		else if (mStreamElementModel->get_url_type() == QMedia::QUrlType::QAUDIO)
+		{
+			SendMessage(mAudioOption, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		mUrlType = mStreamElementModel->get_url_type();
+		SetWindowText(mUrlInput, _T(mStreamElementModel->get_url().c_str()));
+		SetWindowText(mQualityInput, _T(std::to_string(mStreamElementModel->get_quality()).c_str()));
+		if (mStreamElementModel->get_is_selected())
+		{
+			SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+			mIsSelected = true;
+		}
+		else
+		{
+			SendMessage(mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
+			mIsSelected = false;
+		}
+		SetWindowText(mBackUpUrlInput, _T(mStreamElementModel->get_backup_url().c_str()));
+		SetWindowText(mRefererInput, _T(mStreamElementModel->get_referer().c_str()));
+		SetWindowText(mHlsDrmInput, _T(mStreamElementModel->get_hls_drm().c_str()));
+		if (mStreamElementModel->get_video_type() == QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR) {
+			SendMessage(mVideoTypeAROption, BM_SETCHECK, BST_CHECKED, 0);
+			mVideoType = QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR;
+		}
+		else
+		{
+			SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
+			mVideoType = QMedia::QVideoRenderType::PLANE;
+		}
+	}
+	else
+	{
+		SendMessage(mAudioAndVideoOption, BM_SETCHECK, BST_CHECKED, 0);
+		mUrlType = QMedia::QUrlType::QAUDIO_AND_VIDEO;
+		SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+		mIsSelected = true;
+		SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
+		mVideoType = QMedia::QVideoRenderType::PLANE;
+	}
 
 	CreateWindow(TEXT("BUTTON"), TEXT("确定"), WS_CHILD | WS_VISIBLE, width / 2 - 55, height - 70, 50, 20, mHwnd, (HMENU)ID_SUBMIT_BUTTON, NULL, NULL);
 
