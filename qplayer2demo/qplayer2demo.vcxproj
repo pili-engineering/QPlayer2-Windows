@@ -117,6 +117,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>qplayer2-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin" 
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -135,21 +139,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="common\QualityImmediatyly.h" />
     <ClInclude Include="common\UrlClickType.h" />
     <ClInclude Include="common\WindowCloseType.h" />
     <ClInclude Include="DemoLog.h" />
+    <ClInclude Include="FileOfWriteAndRead.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="modelManager\CurrentDataModelManager.h" />
     <ClInclude Include="modelManager\PlayerMenuSettingModelManager.h" />
     <ClInclude Include="modelManager\PlayerUrlListModelManager.h" />
     <ClInclude Include="model\CurrentDataModel.h" />
+    <ClInclude Include="model\DemoMediaStreamElementModel.h" />
+    <ClInclude Include="model\DemoMediaSubtitleElementModel.h" />
     <ClInclude Include="model\PlayerChildMenuModel.h" />
     <ClInclude Include="model\PlayerMenuSettingModel.h" />
     <ClInclude Include="model\PlayerUrlListModel.h" />
     <ClInclude Include="PlayerWindow.h" />
     <ClInclude Include="qplayer2demo.h" />
-    <ClInclude Include="toast2.h" />
     <ClInclude Include="ToastWindow.h" />
     <ClInclude Include="UrlListWindow.h" />
     <ClInclude Include="UrlSetting.h" />
@@ -161,17 +168,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DemoLog.cpp" />
+    <ClCompile Include="FileOfWriteAndRead.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="modelManager\CurrentDataModelManager.cpp" />
     <ClCompile Include="modelManager\PlayerMenuSettingModelManager.cpp" />
     <ClCompile Include="modelManager\PlayerUrlListModelManager.cpp" />
     <ClCompile Include="model\CurrentDataModel.cpp" />
+    <ClCompile Include="model\DemoMediaStreamElementModel.cpp" />
+    <ClCompile Include="model\DemoMediaSubtitleElementModel.cpp" />
     <ClCompile Include="model\PlayerChildMenuModel.cpp" />
     <ClCompile Include="model\PlayerMenuSettingModel.cpp" />
     <ClCompile Include="model\PlayerUrlListModel.cpp" />
     <ClCompile Include="PlayerWindow.cpp" />
     <ClCompile Include="qplayer2demo.cpp" />
-    <ClCompile Include="toast2.cpp" />
     <ClCompile Include="ToastWindow.cpp" />
     <ClCompile Include="UrlListWindow.cpp" />
     <ClCompile Include="UrlSetting.cpp" />
@@ -185,6 +194,10 @@
   <ItemGroup>
     <Image Include="qplayer2demo.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="qplayerLocalFile\Setting.txt" />
+    <Text Include="qplayerLocalFile\url.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
