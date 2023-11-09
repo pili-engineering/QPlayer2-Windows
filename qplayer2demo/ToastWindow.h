@@ -22,4 +22,5 @@ private:
 	HWND mHwnd;
 	HINSTANCE mHinstance;
 	HWND mListWindow;
+
 };

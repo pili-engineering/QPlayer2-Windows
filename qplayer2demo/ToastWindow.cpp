@@ -1,7 +1,7 @@
 #include "ToastWindow.h"
 #include <CommCtrl.h>
 
-ToastWindow::ToastWindow(HWND hwnd)
+ToastWindow::ToastWindow(HWND hwnd):mToastNum(0)
 {
 
 	HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
@@ -36,7 +36,6 @@ ToastWindow::ToastWindow(HWND hwnd)
 
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
 
-	mToastNum = 0;
 	on_list_create();
 }
 
@@ -55,6 +54,22 @@ ToastWindow::~ToastWindow()
 		}
 		break;
 	}
+	case WM_NOTIFY:
+	{
+		NMHDR* pnmhdr = (NMHDR*)l_param;
+		if (pnmhdr->hwndFrom == toast_window->mListWindow) {
+			if ((int)(pnmhdr->code) == (int)LVN_INSERTITEM)
+			{
+				for (int i = 0; i < toast_window->mToastNum; i++)
+				{
+					ListView_SetItemState(toast_window->mListWindow, i, 0, LVIS_SELECTED);
+				}
+				ListView_SetItemState(toast_window->mListWindow, toast_window->mToastNum, LVIS_SELECTED, LVIS_SELECTED);
+				ListView_EnsureVisible(toast_window->mListWindow, toast_window->mToastNum, FALSE);
+			}
+		}
+		break;
+	}
 	default:
 		break;
 	}
@@ -62,12 +77,12 @@ ToastWindow::~ToastWindow()
 }
 
 void ToastWindow::toast_list_resize() {
-	RECT windowRect;
-	GetWindowRect(mHwnd, &windowRect);
+	RECT window_rect;
+	GetWindowRect(mHwnd, &window_rect);
 
 	// 计算窗口的宽度和高度
-	int width = windowRect.right - windowRect.left;
-	int height = windowRect.bottom - windowRect.top;
+	int width = window_rect.right - window_rect.left;
+	int height = window_rect.bottom - window_rect.top;
 	SetWindowPos(mListWindow, nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
 
 }
@@ -77,26 +92,28 @@ HWND ToastWindow::get_hwnd() {
 LRESULT ToastWindow::on_list_create() {
 
 	// 创建列表视图控件
-	mListWindow = CreateWindowEx(0, WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_NOCOLUMNHEADER, 0, 0, 500, 400, mHwnd, NULL, mHinstance, NULL);
+	mListWindow = CreateWindowEx(0, WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT, 0, 0, 500, 400, mHwnd, NULL, mHinstance, NULL);
 
 	// 设置列表视图控件的样式
 	ListView_SetExtendedListViewStyle(mListWindow, LVS_EX_FULLROWSELECT);
 
 	// 添加列头
-	LVCOLUMNW  lvColumn;
-	lvColumn.mask =  LVCF_WIDTH;
-	lvColumn.cx = 300;
-	ListView_InsertColumn(mListWindow, 0, &lvColumn);
+	LVCOLUMNW  lv_column;
+	lv_column.mask = LVCF_WIDTH | LVCF_TEXT;
+	lv_column.pszText = (LPWSTR)_T("toast");
+	lv_column.cx = 300;
+	ListView_InsertColumn(mListWindow, 0, &lv_column);
 
 	return LRESULT();
 }
 
 void ToastWindow::add_item(std::string text) {
 	// 添加行数据
-	LVITEMW  lvItem;
-	lvItem.mask = LVIF_TEXT;
-	lvItem.iSubItem = 0;
-	lvItem.pszText = (LPWSTR)_T(text.c_str());
-	lvItem.iItem = 0;
-	ListView_InsertItem(mListWindow, &lvItem);
+	LVITEMW  lv_item;
+	lv_item.mask = LVIF_TEXT;
+	lv_item.iSubItem = 0;
+	lv_item.pszText = (LPWSTR)_T(text.c_str());
+	lv_item.iItem = mToastNum;
+	ListView_InsertItem(mListWindow, &lv_item);
+	mToastNum++;
 }
