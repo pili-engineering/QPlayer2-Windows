@@ -118,7 +118,7 @@
       <AdditionalDependencies>qplayer2-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin" 
+      <Command>
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
