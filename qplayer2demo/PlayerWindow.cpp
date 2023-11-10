@@ -56,7 +56,7 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr)
 
 	mpPlayerContext = QIPlayerContext::create();
 	mpPlayerContext->init(QLogLevel::LOG_VERBOSE,
-		std::filesystem::current_path().string(), "", "1.3.0", "eb4136eb62d064dcacb2afedee467384", mHwnd);
+		std::filesystem::current_path().string(), "com.qiniu.qplayer2", "1.3.2", "eb4136eb62d064dcacb2afedee467384", mHwnd);
 	mpPlayerContext->get_render_hander()->set_window_hwnd(mpVideoRenderWindow->get_hwnd());
 
 	//PlayerMessageLoopQueueAdapter* listeners = new PlayerMessageLoopQueueAdapter(mHwnd);
