@@ -12,6 +12,8 @@ private:
 	void create_url_models();
 
 	void add_model(QMedia::QMediaModel* pmodel, const std::string& name);
+
+	void motify_model(QMedia::QMediaModel* pmodel, const std::string& name, int index);
 public:
 	PlayerUrlListModelManager();
 	~PlayerUrlListModelManager();
@@ -59,7 +61,7 @@ public:
 
 	void add_subtitle_element(const std::string& name, const std::string& url, bool is_selected);
 
-	void build(bool is_live, const std::string& wname);
+	void build(bool is_live, const std::string& name , int index = -1);
 
 	void url_update();
 private:

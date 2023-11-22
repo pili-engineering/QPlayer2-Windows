@@ -3,9 +3,9 @@
 #include "QMediaModelBuilder.h"
 
 #include "../FileOfWriteAndRead.h"
-
+#include "iconv.h"
 #define TAG               "PlayerUrlListModelManager"
-#define URL_LOCAL_FILE_NAME "url.txt"
+#define URL_LOCAL_FILE_NAME "UrlJson.json"
 PlayerUrlListModelManager::PlayerUrlListModelManager():mUrlModels(), mUrlCallBack(),mpBulder(nullptr)
 {
 	create_url_models();
@@ -15,16 +15,36 @@ PlayerUrlListModelManager::~PlayerUrlListModelManager()
 {
 }
 
+void PlayerUrlListModelManager::motify_model(QMedia::QMediaModel* pmodel, const std::string& name, int index) {
+	int flag = 0;
+	std::list<PlayerUrlListModel*> new_model = std::list<PlayerUrlListModel*>();
+	for (auto it : mUrlModels) {
+		if (index == flag) {
+
+			PlayerUrlListModel* inner_model = new PlayerUrlListModel(pmodel, name);
+			new_model.emplace_back(inner_model);
+			delete it;
+		}
+		else
+		{
+			new_model.emplace_back(it);
+		}
+		flag++;
+	}
+	mUrlModels = new_model;
+	//ÖØÐ´ÎÄ¼þ
+	FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME, mUrlModels);
+}
 void PlayerUrlListModelManager::add_model(QMedia::QMediaModel* pmodel, const std::string& name) {
 	PlayerUrlListModel* inner_model = new PlayerUrlListModel(pmodel,name);
-	if (FileOfWriteAndRead::write_to_local_file(URL_LOCAL_FILE_NAME, inner_model))
+	mUrlModels.emplace_back(inner_model);
+	if (FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME,mUrlModels))
 	{
 	}
 	else
 	{
 		DemoLog::log_string(TAG, __LINE__, "write data to local file false");
 	}
-	mUrlModels.emplace_back(inner_model);
 }
 
 std::list<PlayerUrlListModel*>  PlayerUrlListModelManager::get_url_models() {
@@ -58,9 +78,9 @@ void PlayerUrlListModelManager::delete_url_model_index(int index) {
 	{
 		auto it = mUrlModels.begin();
 		std::advance(it, index);
-		bool delete_flag = FileOfWriteAndRead::delete_url_local_file_with_name(URL_LOCAL_FILE_NAME,(*it)->get_name());
-
 		mUrlModels.erase(it);
+		bool delete_flag = FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME,mUrlModels);
+
 	}
 }
 std::string PlayerUrlListModelManager::get_url_with_index(int model_index, int element_index) {
@@ -222,10 +242,12 @@ int PlayerUrlListModelManager::get_subtitle_element_count_index(int model_index)
 void PlayerUrlListModelManager::add_stream_element(const std::string& user_type, QMedia::QUrlType url_type, uint32_t  quality_index,
 	const std::string& url, bool is_default, const std::string& referer, const std::string& backup_url,
 	QMedia::QVideoRenderType video_render_type, const std::string& hls_drm_key, const std::string& mp4_drm_key) {
+
 	if (mpBulder == nullptr)
 	{
 		mpBulder = new QMedia::QMediaModelBuilder();
 	}
+
 	mpBulder->add_stream_element(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, hls_drm_key, mp4_drm_key);
 }
 
@@ -234,20 +256,26 @@ void PlayerUrlListModelManager::add_subtitle_element(const std::string& name, co
 	{
 		mpBulder = new QMedia::QMediaModelBuilder();
 	}
+
 	mpBulder->add_subtitle_element(name, url, is_selected);
 }
-void PlayerUrlListModelManager::build(bool is_live, const std ::string& name) {
+void PlayerUrlListModelManager::build(bool is_live, const std ::string& name, int index) {
 	if (mpBulder != nullptr)
 	{
-		add_model(mpBulder->build(is_live), name);
+		if (index == -1)
+		{
+			add_model(mpBulder->build(is_live), name);
+		}
+		else
+		{
+			motify_model(mpBulder->build(is_live), name, index);
+		}
 		delete mpBulder;
 		mpBulder = nullptr;
 	}
 }
 void PlayerUrlListModelManager::create_url_models() {
-	
-	mUrlModels = FileOfWriteAndRead::read_from_url_local_file(URL_LOCAL_FILE_NAME);
-
+	mUrlModels = FileOfWriteAndRead::read_json_from_local_file("UrlJson.json");
 }
 
 
