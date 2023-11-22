@@ -14,6 +14,7 @@
 #define ID_AUTO_DECODER_BUTTON								 1101
 #define ID_HARD_DECODER_BUTTON								 1102
 #define ID_SOFT_DECODER_BUTTON								 1103
+#define ID_MIX_DECODER_BUTTON								 1104
 
 #define ID_SEEK												 1200
 #define ID_SEEK_NORMAL_BUTTON								 1201

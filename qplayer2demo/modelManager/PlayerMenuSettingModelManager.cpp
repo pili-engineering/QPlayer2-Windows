@@ -125,18 +125,28 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_decoder_list() {
 		decoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, true));
 		decoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
 		decoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
+		decoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, false));
 		break;
 	}
 	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY: {
 		decoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, false));
 		decoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, true));
 		decoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
+		decoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, false));
 		break;
 	}
 	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY: {
 		decoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, false));
 		decoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
 		decoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, true));
+		decoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, false));
+		break;
+	}
+	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY: {
+		decoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, false));
+		decoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
+		decoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
+		decoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, true));
 		break;
 	}
 	default: {
@@ -144,6 +154,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_decoder_list() {
 		decoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, true));
 		decoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
 		decoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
+		decoder_list->emplace_back(create_child_menu("混编", ID_MIX_DECODER_BUTTON, false));
 		break;
 	}
 	}
