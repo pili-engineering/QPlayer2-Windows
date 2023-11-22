@@ -5,7 +5,8 @@
 #include "UrlClickType.h"
 #include "WindowCloseType.h"
 #include "DemoMediaStreamElementModel.h"
-using streamElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type, const std::string& user_type, const std::string & url, int quality, QMedia::QUrlType type, bool is_selected, const std::string& backup_url, const std::string & referer, const std::string & hls_drm ,const std::string & mp4_drm, QMedia::QVideoRenderType video_type) > ;
+//using streamElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type, const std::string& user_type, const std::string & url, int quality, QMedia::QUrlType type, bool is_selected, const std::string& backup_url, const std::string & referer, const std::string & hls_drm ,const std::string & mp4_drm, QMedia::QVideoRenderType video_type) > ;
+using streamElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type,UrlClickType click_type, DemoMediaStreamElementModel* stream_element_model)>;
 class UrlStreamElementSetting
 {
 public:
@@ -32,40 +33,40 @@ private:
 
 
 	HWND mUserTypeInput;
-	std::string mUserTypeInputText;
+	//std::string mUserTypeInputText;
 
 	HWND mUrlInput;
-	std::string mUrlInputText;
+	//std::string mUrlInputText;
 
 	HWND mQualityInput;
-	int mQualityInputText;
+	//int mQualityInputText;
 
 	HWND mBackUpUrlInput;
-	std::string mBackUpUrlInputText;
+	//std::string mBackUpUrlInputText;
 
 	HWND mRefererInput;
-	std::string mRefererInputText;
+	//std::string mRefererInputText;
 
 	HWND mHlsDrmInput;
-	std::string mHlsDrmInputText;
+	//std::string mHlsDrmInputText;
 
 	HWND mMp4DrmInput;
-	std::string mMp4DrmInputText;
+	//std::string mMp4DrmInputText;
 
 	HWND mAudioAndVideoOption;
 	HWND mAudioOption;
 	HWND mVideoOption;
 	HWND mNoneOption;
-	QMedia::QUrlType mUrlType;
+	//QMedia::QUrlType mUrlType;
 
 	HWND mIsSelectedTrueOption;
 
 	HWND mIsSelectedFalseOption;
-	bool mIsSelected;
+	//bool mIsSelected;
 
 	HWND mVideoTypePlanOption;
 	HWND mVideoTypeAROption;
-	QMedia::QVideoRenderType mVideoType;
+	//QMedia::QVideoRenderType mVideoType;
 	streamElementSettingWindowCloseCallBackFunction mCloseCallBack;
 };
 

@@ -33,15 +33,15 @@
 UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance, UrlClickType click_type, DemoMediaStreamElementModel* stream_element_model):
 	mClickType(click_type),
 	mStreamElementModel(stream_element_model),
-	mHinstance(GetModuleHandle(NULL)),
-	mUrlInputText(),
-	mUserTypeInputText(),
-	mUrlType(QMedia::QUrlType::NONE),
-	mQualityInputText(0),
-	mRefererInputText(),
-	mBackUpUrlInputText(),
-	mHlsDrmInputText(),
-	mMp4DrmInputText()
+	mHinstance(GetModuleHandle(NULL))
+	//mUrlInputText(),
+	//mUserTypeInputText(),
+	//mUrlType(QMedia::QUrlType::NONE),
+	//mQualityInputText(0),
+	//mRefererInputText(),
+	//mBackUpUrlInputText(),
+	//mHlsDrmInputText(),
+	//mMp4DrmInputText()
 {
 	WNDCLASSEXW wcex;
 	if (GetClassInfoExW(hinstance, CLASS_NAME, &wcex) != 0) {
@@ -80,7 +80,10 @@ UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance,
 		throw "UrlSetting window create failed!";
 	}
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
-
+	if (mStreamElementModel == nullptr)
+	{
+		mStreamElementModel = new DemoMediaStreamElementModel;
+	}
 	create_child_window();
 
 	ShowWindow(mHwnd, SW_SHOW);
@@ -98,18 +101,19 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 	switch (message) {
 	case WM_DESTROY: {
 		if (hwnd == pstream_element_setting_window->get_hwnd()) {
-			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE,
-					pstream_element_setting_window->mUserTypeInputText,
-					pstream_element_setting_window->mUrlInputText,
-					pstream_element_setting_window->mQualityInputText,
-					pstream_element_setting_window->mUrlType,
-					pstream_element_setting_window->mIsSelected,
-					pstream_element_setting_window->mBackUpUrlInputText,
-					pstream_element_setting_window->mRefererInputText,
-					pstream_element_setting_window->mHlsDrmInputText,
-					pstream_element_setting_window->mMp4DrmInputText,
-					pstream_element_setting_window->mVideoType
-				);
+			//pstream_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE,
+			//		pstream_element_setting_window->mUserTypeInputText,
+			//		pstream_element_setting_window->mUrlInputText,
+			//		pstream_element_setting_window->mQualityInputText,
+			//		pstream_element_setting_window->mUrlType,
+			//		pstream_element_setting_window->mIsSelected,
+			//		pstream_element_setting_window->mBackUpUrlInputText,
+			//		pstream_element_setting_window->mRefererInputText,
+			//		pstream_element_setting_window->mHlsDrmInputText,
+			//		pstream_element_setting_window->mMp4DrmInputText,
+			//		pstream_element_setting_window->mVideoType
+			//	);
+			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mStreamElementModel);
 			pstream_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			return 0;
@@ -125,7 +129,7 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			SendMessage(pstream_element_setting_window->mAudioOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mVideoOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mNoneOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			pstream_element_setting_window->mUrlType = QMedia::QUrlType::QAUDIO_AND_VIDEO;
+			pstream_element_setting_window->mStreamElementModel->set_url_type(QMedia::QUrlType::QAUDIO_AND_VIDEO);
 			break;
 		}
 		case ID_AUDIO_OPTION: {
@@ -133,7 +137,7 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			SendMessage(pstream_element_setting_window->mAudioOption, BM_SETCHECK, BST_CHECKED, 0);
 			SendMessage(pstream_element_setting_window->mVideoOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mNoneOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			pstream_element_setting_window->mUrlType = QMedia::QUrlType::QAUDIO;
+			pstream_element_setting_window->mStreamElementModel->set_url_type(QMedia::QUrlType::QAUDIO);
 			break;
 		}
 		case ID_VIDEO_OPTION: {
@@ -141,7 +145,7 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			SendMessage(pstream_element_setting_window->mAudioOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mVideoOption, BM_SETCHECK, BST_CHECKED, 0);
 			SendMessage(pstream_element_setting_window->mNoneOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			pstream_element_setting_window->mUrlType = QMedia::QUrlType::QVIDEO;
+			pstream_element_setting_window->mStreamElementModel->set_url_type(QMedia::QUrlType::QVIDEO);
 			break;
 		}
 		case ID_NONE_OPTION: {
@@ -149,54 +153,54 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			SendMessage(pstream_element_setting_window->mAudioOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mVideoOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mNoneOption, BM_SETCHECK, BST_CHECKED, 0);
-			pstream_element_setting_window->mUrlType = QMedia::QUrlType::NONE;
+			pstream_element_setting_window->mStreamElementModel->set_url_type(QMedia::QUrlType::NONE);
 			break;
 		}
 		case ID_IS_SELECTED_OPTION: {
 			SendMessage(pstream_element_setting_window->mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
 			SendMessage(pstream_element_setting_window->mIsSelectedFalseOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			pstream_element_setting_window->mIsSelected = true;
+			pstream_element_setting_window->mStreamElementModel->set_is_selected(true);
 			break;
 		}
 		case ID_NOT_IS_SELECTED_OPTION: {
 			SendMessage(pstream_element_setting_window->mIsSelectedTrueOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
-			pstream_element_setting_window->mIsSelected = false;
+			pstream_element_setting_window->mStreamElementModel->set_is_selected(false);
 			break;
 		}
 		case ID_URL_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mUrlInputText = pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mUrlInput);
+				pstream_element_setting_window->mStreamElementModel->set_url(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mUrlInput));
 			}
 			break;
 		}
 		case ID_USER_TYPE_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mUserTypeInputText = pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mUserTypeInput);
+				pstream_element_setting_window->mStreamElementModel->set_user_type(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mUserTypeInput));
 			}
 			break;
 		}
 		case ID_BACK_UP_URL_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mBackUpUrlInputText = pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mBackUpUrlInput);
+				pstream_element_setting_window->mStreamElementModel->set_backup_url(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mBackUpUrlInput));
 			}
 			break;
 		}
 		case ID_MP4_DRM_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mMp4DrmInputText = pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mMp4DrmInput);
+				pstream_element_setting_window->mStreamElementModel->set_mp4_drm(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mMp4DrmInput));
 			}
 			break;
 		}
 		case ID_HLS_DRM_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mHlsDrmInputText = pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mHlsDrmInput);
+				pstream_element_setting_window->mStreamElementModel->set_hls_drm(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mHlsDrmInput));
 			}
 			break;
 		}
 		case ID_REFERER_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				pstream_element_setting_window->mRefererInputText = pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mRefererInput);
+				pstream_element_setting_window->mStreamElementModel->set_referer(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mRefererInput));
 			}
 			break;
 		}
@@ -204,17 +208,17 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			if (HIWORD(w_param) == EN_CHANGE) {
 				int text_length = GetWindowTextLengthW(pstream_element_setting_window->mQualityInput);
 				if (text_length == 0) {
-					pstream_element_setting_window->mQualityInputText = 0;
+					pstream_element_setting_window->mStreamElementModel->set_quality(0);
 				}
 				else
 				{
 					try
 					{
-						pstream_element_setting_window->mQualityInputText = std::stoi(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mQualityInput));
+						pstream_element_setting_window->mStreamElementModel->set_quality(std::stoi(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mQualityInput)));
 					}
 					catch (const std::exception&)
 					{
-						pstream_element_setting_window->mQualityInputText = 0;
+						pstream_element_setting_window->mStreamElementModel->set_quality(0);
 					}
 				}
 				
@@ -224,47 +228,51 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 		case ID_VIDEO_TYPE_PLAN_OPTIONAL: {
 			SendMessage(pstream_element_setting_window->mVideoTypeAROption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(pstream_element_setting_window->mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
-			pstream_element_setting_window->mVideoType = QMedia::QVideoRenderType::PLANE;
+			pstream_element_setting_window->mStreamElementModel->set_video_type(QMedia::QVideoRenderType::PLANE);
 
 			break;
 		}
 		case ID_VIDEO_TYPE_AR_OPTIONAL: {
 			SendMessage(pstream_element_setting_window->mVideoTypeAROption, BM_SETCHECK, BST_CHECKED, 0);
 			SendMessage(pstream_element_setting_window->mVideoTypePlanOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			pstream_element_setting_window->mVideoType = QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR;
+			pstream_element_setting_window->mStreamElementModel->set_video_type(QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR);
 
 			break;
 		}
 		case ID_SUBMIT_BUTTON: {
-			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,
-				pstream_element_setting_window->mUserTypeInputText,
-				pstream_element_setting_window->mUrlInputText,
-				pstream_element_setting_window->mQualityInputText,
-				pstream_element_setting_window->mUrlType,
-				pstream_element_setting_window->mIsSelected,
-				pstream_element_setting_window->mBackUpUrlInputText,
-				pstream_element_setting_window->mRefererInputText,
-				pstream_element_setting_window->mHlsDrmInputText,
-				pstream_element_setting_window->mMp4DrmInputText,
-				pstream_element_setting_window->mVideoType
-			);
+			//pstream_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,
+			//	pstream_element_setting_window->mUserTypeInputText,
+			//	pstream_element_setting_window->mUrlInputText,
+			//	pstream_element_setting_window->mQualityInputText,
+			//	pstream_element_setting_window->mUrlType,
+			//	pstream_element_setting_window->mIsSelected,
+			//	pstream_element_setting_window->mBackUpUrlInputText,
+			//	pstream_element_setting_window->mRefererInputText,
+			//	pstream_element_setting_window->mHlsDrmInputText,
+			//	pstream_element_setting_window->mMp4DrmInputText,
+			//	pstream_element_setting_window->mVideoType
+			//);
+
+			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mStreamElementModel);
 			pstream_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
 		}
 		case ID_CANCEL_BUTTON: {
-			pstream_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,
-				pstream_element_setting_window->mUserTypeInputText,
-				pstream_element_setting_window->mUrlInputText,
-				pstream_element_setting_window->mQualityInputText,
-				pstream_element_setting_window->mUrlType,
-				pstream_element_setting_window->mIsSelected,
-				pstream_element_setting_window->mBackUpUrlInputText,
-				pstream_element_setting_window->mRefererInputText,
-				pstream_element_setting_window->mHlsDrmInputText,
-				pstream_element_setting_window->mMp4DrmInputText,
-				pstream_element_setting_window->mVideoType
-			);
+			//pstream_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,
+			//	pstream_element_setting_window->mUserTypeInputText,
+			//	pstream_element_setting_window->mUrlInputText,
+			//	pstream_element_setting_window->mQualityInputText,
+			//	pstream_element_setting_window->mUrlType,
+			//	pstream_element_setting_window->mIsSelected,
+			//	pstream_element_setting_window->mBackUpUrlInputText,
+			//	pstream_element_setting_window->mRefererInputText,
+			//	pstream_element_setting_window->mHlsDrmInputText,
+			//	pstream_element_setting_window->mMp4DrmInputText,
+			//	pstream_element_setting_window->mVideoType
+			//);
+
+			pstream_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mStreamElementModel);
 			pstream_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
@@ -375,40 +383,40 @@ void UrlStreamElementSetting::create_child_window() {
 		{
 			SendMessage(mAudioOption, BM_SETCHECK, BST_CHECKED, 0);
 		}
-		mUrlType = mStreamElementModel->get_url_type();
+		
 		SetWindowText(mUrlInput, _T(mStreamElementModel->get_url().c_str()));
 		SetWindowText(mQualityInput, _T(std::to_string(mStreamElementModel->get_quality()).c_str()));
 		if (mStreamElementModel->get_is_selected())
 		{
 			SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
-			mIsSelected = true;
+			mStreamElementModel->set_is_selected(true);
 		}
 		else
 		{
 			SendMessage(mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
-			mIsSelected = false;
+			mStreamElementModel->set_is_selected(false);
 		}
 		SetWindowText(mBackUpUrlInput, _T(mStreamElementModel->get_backup_url().c_str()));
 		SetWindowText(mRefererInput, _T(mStreamElementModel->get_referer().c_str()));
 		SetWindowText(mHlsDrmInput, _T(mStreamElementModel->get_hls_drm().c_str()));
 		if (mStreamElementModel->get_video_type() == QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR) {
 			SendMessage(mVideoTypeAROption, BM_SETCHECK, BST_CHECKED, 0);
-			mVideoType = QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR;
+			mStreamElementModel->set_video_type(QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR);
 		}
 		else
 		{
 			SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
-			mVideoType = QMedia::QVideoRenderType::PLANE;
+			mStreamElementModel->set_video_type(QMedia::QVideoRenderType::PLANE);
 		}
 	}
 	else
 	{
 		SendMessage(mAudioAndVideoOption, BM_SETCHECK, BST_CHECKED, 0);
-		mUrlType = QMedia::QUrlType::QAUDIO_AND_VIDEO;
+		mStreamElementModel->set_url_type(QMedia::QUrlType::QAUDIO_AND_VIDEO);
 		SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
-		mIsSelected = true;
+		mStreamElementModel->set_is_selected(true);
 		SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
-		mVideoType = QMedia::QVideoRenderType::PLANE;
+		mStreamElementModel->set_video_type(QMedia::QVideoRenderType::PLANE);
 	}
 
 	CreateWindow(TEXT("BUTTON"), TEXT("È·¶¨"), WS_CHILD | WS_VISIBLE, width / 2 - 55, height - 70, 50, 20, mHwnd, (HMENU)ID_SUBMIT_BUTTON, NULL, NULL);
