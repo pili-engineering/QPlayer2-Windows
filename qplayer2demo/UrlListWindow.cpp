@@ -146,6 +146,7 @@ void UrlListWindow::url_list_resize() {
 	ListView_SetColumnWidth(mListWindow, width, 20);
 
 }
+//创建列表
 LRESULT UrlListWindow::on_list_create() {
 
 	RECT windowRect;
@@ -178,67 +179,67 @@ LRESULT UrlListWindow::on_list_create() {
 	url_list_resize();
 	return 0;
 }
-
+//字符串转 LPWSTR ，用于 UI 显示
 LPWSTR UrlListWindow::string_to_LPWSTR(const std::string& str) {
 	int size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
 	LPWSTR buffer = new WCHAR[size];
 	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer, size);
 	return buffer;
 }
+
 HWND UrlListWindow::get_hwnd() {
 	return mHwnd;
 }
-
+//地址列表左键点击事件
 void  UrlListWindow::url_click(int url_id) {
 
 	DemoLog::log_string(TAG, __LINE__, "url_click");
 	mPlayControlCallback(mHwnd,mpModelManager->get_url_model_for_index(url_id)->get_media_model());
 	
 }
-
+//设置回调函数指针
 void UrlListWindow::set_play_control_callback(playCallbackFunction call_back) {
 	mPlayControlCallback = call_back;
 }
 
-
+// 创建自定义右键菜单
 void UrlListWindow::mouse_right_click_menu(HWND hwnd) {
-	// 创建自定义右键菜单
+	
 	HMENU right_menu = CreatePopupMenu();
 	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_ADD, "添加");
 	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_MODIFY, "修改");
 	AppendMenu(right_menu, MF_STRING, RIGHT_MENU_DELETE, "删除");
-
-	// 显示自定义右键菜单
 	POINT pt;
 	GetCursorPos(&pt);
 	SetForegroundWindow(hwnd);
 	TrackPopupMenu(right_menu, TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, hwnd, NULL);
 	DestroyMenu(right_menu);
 }
-
+//添加 URL 回调
 void UrlListWindow::mouse_right_click_add() {
 	mMouseRightClickCallBack(0, UrlClickType::ADD_URL);
 }
-
+//修改 URL 回调
 void UrlListWindow::mouse_right_click_motify(int item_id) {
 	mMouseRightClickCallBack(item_id, UrlClickType::MOTIFY_URL);
 }
-
+//删除 URL 回调
 void UrlListWindow::mouse_right_click_delete(int item_id) {
-	//mMouseRightClickCallBack(item_id, UrlClickType::DELETE_URL);
-	mpModelManager->delete_url_model_index(item_id);
-	mpModelManager->url_update();
+	mMouseRightClickCallBack(item_id, UrlClickType::DELETE_URL);
 
 }
 
-
+//设置右键回调
 void UrlListWindow::set_mouse_right_click_callback(mouseRightClickCallbackFunction call_back) {
 	mMouseRightClickCallBack = call_back;
 }
+
+//记录右键点击了哪一个 itemid
 void UrlListWindow::set_item_id(int url_id) {
 	mItemId = url_id;
 }
 
+//获取最后一次右键点击了哪一个 itemid
 int UrlListWindow::get_item_id() {
 	return mItemId;
 }

@@ -79,8 +79,6 @@ ToastWindow::~ToastWindow()
 void ToastWindow::toast_list_resize() {
 	RECT window_rect;
 	GetWindowRect(mHwnd, &window_rect);
-
-	// 计算窗口的宽度和高度
 	int width = window_rect.right - window_rect.left;
 	int height = window_rect.bottom - window_rect.top;
 	SetWindowPos(mListWindow, nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
@@ -93,14 +91,12 @@ LRESULT ToastWindow::on_list_create() {
 
 	// 创建列表视图控件
 	mListWindow = CreateWindowEx(0, WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT, 0, 0, 500, 400, mHwnd, NULL, mHinstance, NULL);
-
-	// 设置列表视图控件的样式
 	ListView_SetExtendedListViewStyle(mListWindow, LVS_EX_FULLROWSELECT);
 
 	// 添加列头
 	LVCOLUMNW  lv_column;
 	lv_column.mask = LVCF_WIDTH | LVCF_TEXT;
-	lv_column.pszText = (LPWSTR)_T("toast");
+	lv_column.pszText = (LPWSTR)_T("日志");
 	lv_column.cx = 300;
 	ListView_InsertColumn(mListWindow, 0, &lv_column);
 
