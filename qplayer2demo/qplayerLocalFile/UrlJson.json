@@ -1,0 +1,1179 @@
+[
+    {
+        "is_live": false,
+        "name": "1-点播-qiniu-2023.mp4",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 720,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 480,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-480p.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 360,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-360p.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 240,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-240p.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": [
+            {
+                "is_selelcted": true,
+                "name": "中文",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-chinese.srt"
+            },
+            {
+                "is_selelcted": false,
+                "name": "英文",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-english.srt"
+            }
+        ]
+    },
+    {
+        "is_live": false,
+        "name": "2-点播-音视频分离-only-video-1080p-60fps.m4s",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/only-video-1080p-60fps.m4s",
+                "url_type": "QVIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/only-audio.m4s",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "3-点播-shortvideo-nike.mp4",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/shortvideo/nike.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "4--点播-http-mp3-纯音频",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/song.mp3",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "5--点播-http-m4s-纯视频",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/only-video-1080p-60fps.m4s",
+                "url_type": "QVIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "6--点播-http-mp4-50fps",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/bbk-bt709.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "7-点播-http-mp4-60fps-音画同步测试",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/Sync-Footage-V1-H264.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "8-点播-https-mp4-25fps-端口443",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://img.qunliao.info:443/4oEGX68t_9505974551.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "9-hugo-直播@-多码率-直播-rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 720,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest@hugo720p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 480,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest@hugo480p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 240,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest@hugo240p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "10-hugo-直播@-多码率-直播-rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 720,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@hugo720p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 480,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@hugo480p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 240,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@hugo240p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "11--直播-rtmp://pili-rtmp.qnsdk.com/sdk-live/testf11@480p",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.cdn-stg1.zhi-niao.com/zhiniao-stg1/851131_59199A60361D4C54B944130794B1AEEE_1",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "12--zn-直播@-多码率-直播-rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 720,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@zn720p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 480,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@zn480p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 240,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@zn240p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "13-sdk-live-直播@-多码率-直播-rtmp://pili-rtmp.qnsdk.com/sdk-live/6666",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 720,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666@zn720p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 480,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666@zn480p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            },
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": false,
+                "mp4_drm_key": "",
+                "quality": 240,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666@zn240p",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "14-22-直播-http://pili-hls.qnsdk.com/sdk-live/6666.m3u8",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-hls.qnsdk.com/sdk-live/6666.m3u8",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "15-直播-http://pili-hls.qnsdk.com/sdk-live/6666.m3u8",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://stg1-cdn-vod.zhi-niao.com/replays/2023/02/24/853909/853909_D0F915234FC648C7BDE4D62281E7575F.m3u8",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "16--直播-http://pili-hdl.qnsdk.com/sdk-live/6666.flv",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-hdl.qnsdk.com/sdk-live/6666.flv",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "17--点播-hhtp-m3u8-30fps",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://10008gi.playback1.z1.pili.qiniucdn.com/zhiniao-stg1/852373_E1FEB4E6C5B64D06A4B6C6962940BC6C_1.m3u8?start=1676961021&end=1676961045",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "18-点播-https-flv-30fps-H264",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/H264-flv.flv",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "19-点播-https-mp4-30fps-竖屏",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/10701032_194625-hd%20%281%29.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "20-点播-https-mp3-纯音频",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/1599039859854_9242359.mp3",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "21-点播-https-mp4-30fps-旋转角度(180度)",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/VID_20220207_144828.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "22-点播-https-mp4-30fps-非正常比例",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/10037108_065355-hd%20%281%29.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "23-点播-https-wma-30fps-不支持的封装格式",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/test1.wma",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "24-点播-https-flv-FLV1-不支持的编码格式",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/flv.flv",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "25-点播-https-mp4-不支持的像素格式-yuvj420p",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/video1643265479033.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "26-点播-http-vr-Equirect-Angular-mp4",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PANORAMA_EQUIRECT_ANGULAR",
+                "url": "http://demo-videos.qnsdk.com/VR-Panorama-Equirect-Angular-4500k.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "27-点播-http-m3u8-SEI",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-playback.qnsdk.com/recordings/z1.sdk-live.Hera/1673340696_1673340783.m3u8",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "28-点播-http-电影",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/long_movie.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "29-点播-https-2K-60FPS-6333kb",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/2K_60_6040.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "30-点播-https-2K-25FPS-12053kb",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/2K_25_11700.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "31-点播-https-1080-60FPS-5656kb",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/1080_60_5390.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "32-点播-https-4k-30FPS-8534kb",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/4K_3840%2A1920.m4s",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "33-点播-https-480-30FPS-6秒视频",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://demo-qnrtc-files.qnsdk.com/six_second.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "34-直播-纯音频-rtmp://pili-rtmp.qnsdk.com/sdk-live/audioonly",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/audioonly",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "35-直播-纯音频-http://pili-hls.qnsdk.com/sdk-live/audioonly.m3u8",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-hls.qnsdk.com/sdk-live/audioonly.m3u8",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "36-直播-纯音频-http://pili-hdl.qnsdk.com/sdk-live/audioonly.flv",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-hdl.qnsdk.com/sdk-live/audioonly.flv",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "37-直播-纯视频-rtmp://pili-rtmp.qnsdk.com/sdk-live/videoonly",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/videoonly",
+                "url_type": "QVIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "38-直播-纯视频-http://pili-hls.qnsdk.com/sdk-live/videoonly.m3u8",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-hls.qnsdk.com/sdk-live/videoonly.m3u8",
+                "url_type": "QVIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "39-直播-纯视频-http://pili-hdl.qnsdk.com/sdk-live/videoonly.flv",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://pili-hdl.qnsdk.com/sdk-live/videoonly.flv",
+                "url_type": "QVIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "40-点播-纯音频-wav-http://demo-videos.qnsdk.com/only-audio-wav.wav",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/only-audio-wav.wav",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "41-点播-纯音频-flac-http://demo-videos.qnsdk.com/audio-only-flac.flac",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 0,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/audio-only-flac.flac",
+                "url_type": "QAUDIO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "42-直播-SRT-srt://180.101.136.81:1935?streamid=#!::h=pilidemo/timestamp,m=request,domain=live-pilidem",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "srt://180.101.136.81:1935?streamid=#!::h=pilidemo/timestamp,m=request,domain=live-pilidemo.cloudvdn.com",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "43-直播-5.1声道-声音cici声",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/Hera",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": true,
+        "name": "44-直播-硬解崩溃",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://stream.0554news.com/hnds1/playlist.m3u8?_upt=cc441e8f1669371377",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "45-点播-HLS-DRM",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "testtesttesttest",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://80rjmu.com1.z0.glb.clouddn.com/ncyY3ioGAakS-Lg252IscrXNxyo=/Fgny-rvibYqoFP-lPkI53JfmoIx5",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "46-点播-subtitle",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/EnglishVideo.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": [
+            {
+                "is_selelcted": true,
+                "name": "英文",
+                "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
+            }
+        ]
+    },
+    {
+        "is_live": false,
+        "name": "47-点播-subtitle-mov",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "http://demo-videos.qnsdk.com/EnglishVideo.MOV",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": [
+            {
+                "is_selelcted": true,
+                "name": "英文",
+                "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
+            }
+        ]
+    },
+    {
+        "is_live": false,
+        "name": "48-点播-mp4-drm",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "c7e16c4403654b85847037383f0c2db3",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://sdk-release.qnsdk.com/CENC_AES-CTR.mp4",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "49-点播-https-m3u8-url带%",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://video.sureemed.com/hls-mp4%2F20230717%E7%9F%AD%E8%A7%86%E9%A2%91hls-2023%E5%85%AD%E6%9C%88%E7%9F%AD%E8%A7%86%E9%A2%916.27.mp4-2000k-transcode.m3u8",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    },
+    {
+        "is_live": false,
+        "name": "50-点播-音频卡顿",
+        "stream_element": [
+            {
+                "backup_url": "",
+                "hls_drm_key": "",
+                "is_selected": true,
+                "mp4_drm_key": "",
+                "quality": 1080,
+                "referer": "",
+                "render_type": "PLANE",
+                "url": "https://mdy-picture.tos-cn-beijing.volces.com/2023%2F09%2F04%2F0599764572694a0c929ca79efcc988b0.wav",
+                "url_type": "QAUDIO_AND_VIDEO",
+                "user_type": ""
+            }
+        ],
+        "subtitle_element": []
+    }
+]

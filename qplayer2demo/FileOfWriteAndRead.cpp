@@ -5,482 +5,564 @@
 #include <vector>
 #include <Windows.h>
 #include "QMediaModelBuilder.h"
+#include <nlohmann/json.hpp>
+#include <iconv.h>
+#include <filesystem>
 
-CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string& file_name) {
+//播放器设置写入文件
+bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* model) {
+#ifdef _DEBUG
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+#else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
-
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
 	std::string file_path = directory + file_name;
-	std::ifstream file(file_path, std::ios::in);
-	if (!file) {
-		return nullptr;
-	}
+#endif
 
-	CurrentDataModel* current = new CurrentDataModel();
-	std::string line;
-	while (std::getline(file, line)) {
+	nlohmann::json current_json = nlohmann::json();
 
-		std::size_t colonPos = line.find(": ");
-		std::string key = line.substr(0, colonPos);
-		std::string value = line.substr(colonPos + 2);
-		if (key == "playStartPositon")
-		{
-			current->set_player_start_position(std::stoi(value));
-		}
-		else if (key == "decoder")
-		{
-			current->set_decoder((QMedia::QPlayerSetting::QPlayerDecoder)std::stoi(value));
-		}
-		else if (key == "seekMode")
-		{
-			current->set_seek_mode((QMedia::QPlayerSetting::QPlayerSeek)std::stoi(value));
-		}
-		else if (key == "playerStart")
-		{
-			current->set_player_start((QMedia::QPlayerSetting::QPlayerStart)std::stoi(value));
-		}
-		else if (key == "renderRatio")
-		{
-			current->set_render_ratio((QMedia::QPlayerSetting::QPlayerRenderRatio)std::stoi(value));
-		}
-		else if (key == "blind")
-		{
-			current->set_blind((QMedia::QPlayerSetting::QPlayerBlind)std::stoi(value));
-		}
-		else if (key == "seiEnable")
-		{
-			current->set_sei_enable((bool)std::stoi(value));
-		}
-		else if (key == "backgroundEnable")
-		{
-			current->set_background_enable((bool)std::stoi(value));
-		}
-		else if (key == "qualityImmediatyly")
-		{
-			current->set_quality_immediatyly((QualityImmediatyly)std::stoi(value));
-		}
-		else if (key == "subtitleEnable")
-		{
-			current->set_subtitle_enable((bool)std::stoi(value));
-		}
-		else if (key == "subtitleName")
-		{
-			current->set_subtitle_name(value);
-		}
-		else if (key == "playSpeed")
-		{
-			current->set_play_speed(std::stof(value));
-		}
-		else if (key == "muteEnable")
-		{
-			current->set_mute_enable((bool)std::stoi(value));
+	current_json["play_start_positon"] = model->get_player_start_position();
+	current_json["decoder"] = decoder_to_string(model->get_decoder());
+	current_json["seek_mode"] = seek_mode_to_string(model->get_seek_mode());
+	current_json["player_start"] = play_start_to_string(model->get_player_start());
+	current_json["render_ratio"] = render_radio_to_string(model->get_render_ratio());
+	current_json["blind"] = blind_to_string(model->get_blind());
+	current_json["sei_enable"] = model->get_sei_enable();
+	current_json["background_enable"] = model->get_background_enable();
+	current_json["quality_immediatyly"] = GB2312_To_UTF8(quality_immediatyly_to_string(model->get_quality_immediatyly()));
+	current_json["subtitle_enable"] = model->get_subtitle_enable();
+	current_json["subtitle_name"] = GB2312_To_UTF8(model->get_subtitle_name());
+	current_json["play_speed"] = model->get_play_speed();
+	current_json["mute_enable"] = model->get_mute_enable();
+	current_json["force_authentication_enable"] = model->get_force_authentication_enable();
 
-		}
-		else if (key == "forceAuthenticationEnable")
-		{
-			current->set_force_authentication_enable((bool)std::stoi(value));
-		}
-
-	}
-	return current;
-}
-bool FileOfWriteAndRead::motify_setting_local_file(const std::string& file_name, const std::string& key, const std::string& value) {
-	char path[MAX_PATH];
-	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
-
-	std::string directory = path;
-	size_t pos = directory.find_last_of("\\");
-	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
-	std::ifstream in_file(file_path);
-	if (!in_file) {
-		return false;
-	}
-
-	std::vector<std::string> lines;
-	std::string line;
-
-	while (std::getline(in_file, line)) {
-		std::size_t colon_pos = line.find(": ");
-		std::string inner_key = line.substr(0, colon_pos);
-		if (inner_key == key)
-		{
-			std::string motify_string = key + ": " + value;
-			lines.push_back(motify_string);
-		}
-		else
-		{
-			lines.push_back(line);
-		}
-	}
-
-	in_file.close();
-
-	std::ofstream out_file(file_path);
-	if (!out_file) {
-		return false;
-	}
-
-	// 将 vector 中的内容写回文件
-	for (const std::string& line : lines) {
-		out_file << line << std::endl;
-	}
-
-	out_file.close();
-	return true;
-}
-
-
-bool FileOfWriteAndRead::delete_url_local_file_with_name(const std::string& file_name, const std::string& delete_url_name){
-	char path[MAX_PATH];
-	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
-
-	std::string directory = path;
-	size_t pos = directory.find_last_of("\\");
-	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
-	std::ifstream in_file(file_path); 
-	if (!in_file) {
-		return false;
-	}
-
-	std::vector<std::string> lines;
-	std::string line;
-
-	bool stream_start = false;
-	bool subtitle_start = false;
-	bool delete_start = false;
-	while (std::getline(in_file, line)) {
-		if (line == "{")
-		{
-			std::string inner_line;
-			std::getline(in_file, inner_line);
-			std::size_t colon_pos = inner_line.find(": ");
-			std::string key = inner_line.substr(0, colon_pos);
-			std::string value = inner_line.substr(colon_pos + 2);
-			if (key == "name" && value == delete_url_name)
-			{
-				delete_start = true;
-			}
-			else
-			{
-				lines.push_back(line);
-				lines.push_back(inner_line);
-				delete_start = false;
-			}
-
-		}
-		if (!delete_start)
-		{
-			if (line != "{")
-			{
-				lines.push_back(line);
-			}
-		}
-	}
-
-	in_file.close();
-
-	std::ofstream out_file(file_path);
-	if (!out_file) {
-		return false;
-	}
-
-	// 将 vector 中的内容写回文件
-	for (const std::string& line : lines) {
-		out_file << line << std::endl;
-	}
-
-	out_file.close();
-	return true;
-}
-
-bool FileOfWriteAndRead::write_to_local_file(const std::string& file_name, PlayerUrlListModel* pmodel) {
-	char path[MAX_PATH];
-	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
-
-	std::string directory = path;
-	size_t pos = directory.find_last_of("\\");
-	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
-	std::ofstream file(file_path, std::ios::out | std::ios::app);
+	std::ofstream file(file_path, std::ios::out | std::ios::trunc);
 	if (!file.is_open()) {
 		return false;
 	}
-
-	file << "\n";
-	file << "{\n";
-
-	file << "name: " << pmodel->get_name() << "\n";
-	file << "isLive: " << pmodel->get_media_model()->is_live() << "\n";
-
-	file << "streamElements: {\n";
-	for (const auto& pinner_model : pmodel->get_media_model()->get_stream_elements()) {
-		file << "[\n";
-		file << "userType: " << pinner_model->get_user_type() << "\n";
-		file << "urlType: " << (int)pinner_model->get_url_type() << "\n";
-		file << "url: " << pinner_model->get_url() << "\n";
-		file << "quality: " << pinner_model->get_quality_index() << "\n";
-		file << "isSelected: " << pinner_model->is_selected() << "\n";
-		file << "backupUrl: " << pinner_model->get_back_url() << "\n";
-		file << "referer: " << pinner_model->get_referer() << "\n";
-		file << "hlsDrmKey: " << pinner_model->get_hls_drm_key() << "\n";
-		file << "mp4DrmKey: " << pinner_model->get_mp4_drm_key() << "\n";
-		file << "renderType: " << (int)pinner_model->get_render_type() << "\n";
-		file << "]\n";
-	}
-	file << "}\n";
-	file << "subtitleElements: {\n";
-	for (const auto& pinner_model : pmodel->get_media_model()->get_subtitle_elements()) {
-		file << "[\n";
-		file << "name: " << pinner_model->get_name() << "\n";
-		file << "url: " << pinner_model->get_url() << "\n";
-		file << "isSelected: " << pinner_model->is_selected() << "\n";
-		file << "]\n";
-	}
-
-	file << "}\n";
-
-	file << "}\n";
+	file << std::setw(4) << current_json << std::endl;
 	file.close();
-	return true;
 }
-
-
-std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_from_url_local_file(const std::string& file_name) {
-	std::list<PlayerUrlListModel*> model_list = std::list<PlayerUrlListModel*>();
+//从文件中读取播放器设置
+CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string& file_name) {
+#ifdef _DEBUG
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+#else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
 	std::string file_path = directory + file_name;
-	std::ifstream file(file_path, std::ios::in);
+#endif
+	std::ifstream file(file_path);
+	CurrentDataModel* current = new CurrentDataModel();
+	if (!file.is_open()) {
+		return current;
+	}
+	// 读取文件内容到一个字符串
+	std::string fileContent((std::istreambuf_iterator<char>(file)),
+		std::istreambuf_iterator<char>());
+
+	// 解析json数据
+	nlohmann::json json_data;
+	try {
+		json_data = nlohmann::json::parse(fileContent);
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Failed to parse JSON: " << e.what() << std::endl;
+		return current;
+	}
+	current->set_background_enable(json_data["background_enable"]);
+	current->set_blind(string_to_blind(json_data["blind"]));
+	current->set_decoder(string_to_decoder(json_data["decoder"]));
+	current->set_force_authentication_enable(json_data["force_authentication_enable"]);
+	current->set_mute_enable(json_data["mute_enable"]);
+	current->set_player_start(string_to_play_start(json_data["player_start"]));
+	current->set_player_start_position(json_data["play_start_positon"]);
+	current->set_play_speed(json_data["play_speed"]);
+	current->set_quality_immediatyly(string_to_quality_immediatyly(UTF8_To_GB2312(json_data["quality_immediatyly"])));
+	current->set_render_ratio(string_to_render_radio(json_data["render_ratio"]));
+	current->set_seek_mode(string_to_seek_mode(json_data["seek_mode"]));
+	current->set_sei_enable(json_data["sei_enable"]);
+	current->set_subtitle_enable(json_data["subtitle_enable"]);
+	current->set_subtitle_name(UTF8_To_GB2312(json_data["subtitle_name"]));
+
+	return current;
+}
+//播放地址文件写入
+std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(const std::string& file_name) {
+#ifdef _DEBUG
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+#else
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string file_path = directory + file_name;
+#endif
+	std::list<PlayerUrlListModel*> model_list = std::list<PlayerUrlListModel*>();
+	std::ifstream file(file_path);
 	if (!file.is_open()) {
 		return model_list;
 	}
-	std::string line;
-	std::list<std::string> read_string = std::list<std::string>();
+	// 读取文件内容到一个字符串
+	std::string fileContent((std::istreambuf_iterator<char>(file)),
+		std::istreambuf_iterator<char>());
 
-	
-	bool start = false;
-	bool stream_start = false;
-	bool subtitle_start = false;
-	while (std::getline(file, line)) {
-		if (line == "{")
-		{
-			start = true;
-		}
-		if (line == "streamElements: {")
-		{
-			stream_start = true;
-		}
-		if (line == "subtitleElements: {")
-		{
-			subtitle_start = true;
-		}
-		
-		if (stream_start == true && line == "}")
-		{
-			stream_start = false;
-		}
-		else if (subtitle_start == true && line == "}")
-		{
-			subtitle_start = false;
-		}
-		else if (line == "}")
-		{
-			read_string.emplace_back(line);
-			start = false;
-			model_list.emplace_back(FileOfWriteAndRead::url_data_to_url_model(read_string));
-			read_string = std::list<std::string>();
-			continue;
-			
-		}
-		if (start == true)
-		{
-			read_string.emplace_back(line);
-		}
-
+	// 解析json数据
+	nlohmann::json json_data;
+	try {
+		json_data = nlohmann::json::parse(fileContent);
 	}
+	catch (const std::exception& e) {
+		std::cerr << "Failed to parse JSON: " << e.what() << std::endl;
+		return model_list;
+	}
+	if (json_data.is_array())
+	{
+		for (auto& json : json_data) {
+			std::string name = UTF8_To_GB2312(json["name"]);
+			bool is_live = json["is_live"];
+
+			QMedia::QMediaModelBuilder* model_builder = new QMedia::QMediaModelBuilder;
+			auto stream_ele_array = json["stream_element"];
+			if (stream_ele_array.is_array())
+			{
+				for (auto& stream_ele : stream_ele_array) {
+
+					QMedia::QUrlType url_type = string_to_url_type(stream_ele["url_type"]);
+					std::string user_type = stream_ele["user_type"];
+					std::string url = UTF8_To_GB2312(stream_ele["url"]);
+					int quality = stream_ele["quality"];
+					std::string back_up_url = stream_ele["backup_url"];
+					bool is_selected = stream_ele["is_selected"];
+					std::string referer = stream_ele["referer"];
+					std::string hls_drm_key = stream_ele["hls_drm_key"];
+					std::string mp4_drm_key = stream_ele["mp4_drm_key"];
+					QMedia::QVideoRenderType render_type = string_to_render_type(stream_ele["render_type"]);
+					model_builder->add_stream_element(user_type, url_type, quality, url, is_selected, referer, back_up_url, render_type, hls_drm_key, mp4_drm_key);
+				}
+			}
+
+			auto subtitle_ele_array = json["subtitle_element"];
+			if (subtitle_ele_array.is_array())
+			{
+				for (auto& subtitle_ele : subtitle_ele_array) {
+
+					std::string subtitle_name = UTF8_To_GB2312(subtitle_ele["name"]);
+					std::string subtitle_url = UTF8_To_GB2312(subtitle_ele["url"]);
+					bool subtitle_is_selected = subtitle_ele["is_selelcted"];
+					model_builder->add_subtitle_element(subtitle_name,subtitle_url,subtitle_is_selected);
+				}
+			}
+			PlayerUrlListModel* model = new PlayerUrlListModel(model_builder->build(is_live), name);
+			model_list.emplace_back(model);
+
+			int i = 0;
+		}
+	}
+	file.close();
 	return model_list;
 }
+//读取播放地址文件
+bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, std::list<PlayerUrlListModel*> model_list) {
+	//$(ProjectDir)dependency\qplayer-iconv
+#ifdef _DEBUG
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+#else
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string file_path = directory + file_name;
+#endif
+	auto pjson_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
+	for (PlayerUrlListModel* pmodel : model_list)
+	{
+		nlohmann::json json = nlohmann::json();
+		json["name"] = GB2312_To_UTF8(pmodel->get_name());
+		json["is_live"] = pmodel->get_media_model()->is_live();
 
-PlayerUrlListModel* FileOfWriteAndRead::url_data_to_url_model(std::list<std::string> file_string) {
-	std::string name = "";
-	bool is_live = false;
-	QMedia::QUrlType url_type = QMedia::QUrlType::QAUDIO_AND_VIDEO;
-	std::string user_type = "";
-	std::string url = "";
-	int quality = 0;
-	std::string back_up_url = "";
-	bool is_selected = false;
-	std::string referer = "";
-	std::string hls_drm_key = "";
-	std::string mp4_drm_key = "";
-	QMedia::QVideoRenderType render_type = QMedia::QVideoRenderType::PLANE;
-	bool stream_start = false;
-	bool subtitle_start = false;
+		auto stream_ele_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
+		for (QMedia::QStreamElement* ele : pmodel->get_media_model()->get_stream_elements())
+		{
+			nlohmann::json stream_json = nlohmann::json();
+			stream_json["user_type"] = ele->get_user_type();
+			stream_json["url_type"] = url_type_to_string(ele->get_url_type());
+			stream_json["url"] = GB2312_To_UTF8(ele->get_url());
+			stream_json["quality"] = ele->get_quality_index();
+			stream_json["is_selected"] = ele->is_selected();
+			stream_json["backup_url"] = ele->get_back_url();
+			stream_json["referer"] = ele->get_referer();
+			stream_json["hls_drm_key"] = ele->get_hls_drm_key();
+			stream_json["mp4_drm_key"] = ele->get_mp4_drm_key();
+			stream_json["render_type"] = render_type_to_string(ele->get_render_type());
+			stream_ele_array.push_back(stream_json);
+		}
+		json["stream_element"] = stream_ele_array;
 
-	std::string subtitle_name = "";
-	std::string subtitle_url = "";
-	bool subtitle_is_selected = false;
-	QMedia::QMediaModelBuilder* model_builder = nullptr;
-	PlayerUrlListModel* url_model = nullptr;
-	for (std::string inner : file_string) {
-		if (inner == "{") {
-			model_builder = new QMedia::QMediaModelBuilder();
-		}
-		if (inner == "]" && stream_start)
+		auto subtitle_ele_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
+		for (QMedia::QSubtitleElement * ele : pmodel->get_media_model()->get_subtitle_elements())
 		{
-			/*model_builder->add_stream_element("", QMedia::QUrlType::QAUDIO_AND_VIDEO, 1080,
-				url, true, "", "", QMedia::QVideoRenderType::PLANE, "", "");*/
-			model_builder->add_stream_element(user_type, url_type, quality, url, is_selected, referer, back_up_url, render_type, hls_drm_key, mp4_drm_key);
+			nlohmann::json subtitle_json = nlohmann::json();
+			subtitle_json["name"] = GB2312_To_UTF8(ele->get_name());
+			subtitle_json["url"] = GB2312_To_UTF8(ele->get_url());
+			subtitle_json["is_selelcted"] = ele->is_selected();
+			subtitle_ele_array.push_back(subtitle_json);
 		}
-		if (inner == "]" && subtitle_start)
-		{
-			model_builder->add_subtitle_element(subtitle_name,subtitle_url,subtitle_is_selected);
-			
-		}
-		if (inner == "}" && !stream_start && !subtitle_start)
-		{
-			url_model = new PlayerUrlListModel(model_builder->build(is_live), name);
-			delete model_builder;
-			model_builder = nullptr;
-			return url_model;
-		}
-		else if(inner == "}" && stream_start)
-		{
-			stream_start = false;
-		}
-		else if (inner == "}" && subtitle_start)
-		{
-			subtitle_start = false;
-		}
-		std::size_t colonPos = inner.find(": ");
-		std::string key = inner.substr(0, colonPos);
-		std::string value = inner.substr(colonPos + 2);
-		if (stream_start)
-		{
-			if(key == "userType")
- 			{
-				user_type = value;
-			}
-			else if (key == "urlType") 
-			{
-				if (value == "0") {
-					url_type = QMedia::QUrlType::QAUDIO_AND_VIDEO;
-				}
-				else if(value == "1")
-				{
-					url_type = QMedia::QUrlType::QAUDIO;
-				}
-				else if (value == "2")
-				{
-					url_type = QMedia::QUrlType::QVIDEO;
-				}
-				else if (value == "3")
-				{
-					url_type = QMedia::QUrlType::NONE;
-				}
-			}
-			else if(key == "url")
- 			{
-				url = value;
-			}
-			else if (key == "quality")
-			{
-				quality = std::stoi(value);
-			}
-			else if (key == "backupUrl")
-			{
-				back_up_url = value;
-			}
-			else if (key == "isSelected")
-			{
-				if (value == "0") {
-					is_selected = false;
-				}
-				else if (value == "1")
-				{
-					is_selected = true;
-				}
-			}
-			else if (key == "referer")
-			{
-				referer = value;
-			}
-			else if (key == "hlsDrmKey")
-			{
-				hls_drm_key = value;
-			}
-			else if (key == "mp4DrmKey")
-			{
-				mp4_drm_key = value;
-			}
-			else if (key == "renderType")
-			{
-				if (value == "-1")
-				{
-					render_type = QMedia::QVideoRenderType::NONE;
-				}
-				else if (value == "0")
-				{
-					render_type = QMedia::QVideoRenderType::PLANE;
-				}
-				else if (value == "1")
-				{
-					render_type = QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR;
-				}
-			}
-		}
-		else if (subtitle_start)
-		{
-			if (key == "name") {
-				subtitle_name = value;
-			}
-			else if (key == "url")
-			{
-				subtitle_url = value;
-			}
-			else if (key == "isSelected")
-			{
-				if (value == "1")
-				{
-					subtitle_is_selected = true;
-				}
-				else if(value == "0")
-				{
-					subtitle_is_selected = false;
-
-				}
-			}
-		}
-		else if (key == "name")
-		{
-			name = value;
-		}
-		else if(key == "isLive")
-		{
-			if (value == "0") {
-				is_live = false;
-			}
-			else if (value == "1")
-			{
-				is_live = true;
-			}
-		}
-		else if (key == "streamElements")
-		{
-			stream_start = true;
-		}
-		else if (key == "subtitleElements")
-		{
-			subtitle_start = true;
-		}
+		json["subtitle_element"] = subtitle_ele_array;
+		pjson_array.push_back(json);
 	}
-	return nullptr;
+	std::ofstream file(file_path, std::ios::out | std::ios::trunc);
+	if (!file.is_open()) {
+		return false;
+	}
+	file << std::setw(4) << pjson_array << std::endl;
+	file.close();
+	return true;
 }
+/************************************播放器枚举类型和字符串相互转换*****************************************************/
+std::string FileOfWriteAndRead::decoder_to_string(QMedia::QPlayerSetting::QPlayerDecoder decoder) {
+	switch (decoder)
+	{
+	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO:
+		return "QPLAYER_DECODER_SETTING_AUTO";
+	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY:
+		return "QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY";
+	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY:
+		return "QPLAYER_DECODER_SETTING_SOFT_PRIORITY";
+	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY:
+		return "QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY";
+	default:
+		return "QPLAYER_DECODER_SETTING_AUTO";
+	}
+}
+
+QMedia::QPlayerSetting::QPlayerDecoder FileOfWriteAndRead::string_to_decoder(const std::string& decoder) {
+	if (decoder == "QPLAYER_DECODER_SETTING_AUTO")
+	{
+		return QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO;
+	}
+	else if (decoder == "QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY")
+	{
+		return QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY;
+	}
+	else if (decoder == "QPLAYER_DECODER_SETTING_SOFT_PRIORITY")
+	{
+		return QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY;
+	}
+	else if(decoder == "QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY")
+	{
+		return QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY;
+	}
+	else
+	{
+		return QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO;
+	}
+}
+
+std::string FileOfWriteAndRead::seek_mode_to_string(QMedia::QPlayerSetting::QPlayerSeek seek_mode) {
+	switch (seek_mode)
+	{
+	case QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL:
+		return "QPLAYER_SEEK_SETTING_NORMAL";
+	case QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_ACCURATE:
+		return "QPLAYER_SEEK_SETTING_ACCURATE";
+	default:
+		return "QPLAYER_SEEK_SETTING_NORMAL";
+	}
+}
+
+QMedia::QPlayerSetting::QPlayerSeek FileOfWriteAndRead::string_to_seek_mode(const std::string& seek_mode) {
+	if (seek_mode == "QPLAYER_SEEK_SETTING_NORMAL")
+	{
+		return QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL;
+	}
+	else if (seek_mode == "QPLAYER_SEEK_SETTING_ACCURATE")
+	{
+		return QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_ACCURATE;
+	}
+	else
+	{
+		return QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL;
+	}
+}
+
+std::string FileOfWriteAndRead::play_start_to_string(QMedia::QPlayerSetting::QPlayerStart play_start) {
+	switch (play_start)
+	{
+	case QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING:
+		return "QPLAYER_START_SETTING_PLAYING";
+	case QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PAUSE:
+		return "QPLAYER_START_SETTING_PAUSE";
+	default:
+		return "QPLAYER_START_SETTING_PLAYING";
+	}
+}
+
+QMedia::QPlayerSetting::QPlayerStart FileOfWriteAndRead::string_to_play_start(std::string play_start) {
+	if (play_start == "QPLAYER_START_SETTING_PLAYING")
+	{
+		return QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING;
+	}
+	else if (play_start == "QPLAYER_START_SETTING_PAUSE")
+	{
+		return QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PAUSE;
+	}
+	else
+	{
+		return QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING;
+	}
+}
+
+std::string FileOfWriteAndRead::render_radio_to_string(QMedia::QPlayerSetting::QPlayerRenderRatio render_radio) {
+	switch (render_radio)
+	{
+	case QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO:
+		return "QPLAYER_RATIO_SETTING_AUTO";
+	case QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_STRETCH:
+		return "QPLAYER_RATIO_SETTING_STRETCH";
+	case QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_FULL_SCREEN:
+		return "QPLAYER_RATIO_SETTING_FULL_SCREEN";
+	case QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_16_9:
+		return "QPLAYER_RATIO_SETTING_16_9";
+	case QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_4_3:
+		return "QPLAYER_RATIO_SETTING_4_3";
+	default:
+		return "QPLAYER_RATIO_SETTING_AUTO";
+	}
+}
+
+QMedia::QPlayerSetting::QPlayerRenderRatio FileOfWriteAndRead::string_to_render_radio(const std::string& render_radio) {
+	if (render_radio == "QPLAYER_RATIO_SETTING_AUTO")
+	{
+		return QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO;
+	}
+	else if (render_radio == "QPLAYER_RATIO_SETTING_STRETCH")
+	{
+		return QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_STRETCH;
+	}
+	else if (render_radio == "QPLAYER_RATIO_SETTING_FULL_SCREEN")
+	{
+		return QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_FULL_SCREEN;
+	}
+	else if (render_radio == "QPLAYER_RATIO_SETTING_16_9")
+	{
+		return QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_16_9;
+	}
+	else if (render_radio == "QPLAYER_RATIO_SETTING_4_3")
+	{
+		return QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_4_3;
+	}
+	else
+	{
+		return QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO;
+	}
+}
+
+std::string FileOfWriteAndRead::blind_to_string(QMedia::QPlayerSetting::QPlayerBlind blind) {
+	switch (blind)
+	{
+	case QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_NONE:
+		return "QPLAYER_BLIND_SETTING_NONE";
+	case QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_RED:
+		return "QPLAYER_BLIND_SETTING_RED";
+	case QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_GREEN:
+		return "QPLAYER_BLIND_SETTING_GREEN";
+	case QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_BLUE:
+		return "QPLAYER_BLIND_SETTING_BLUE";
+	default:
+		return "QPLAYER_BLIND_SETTING_NONE";
+	}
+}
+
+QMedia::QPlayerSetting::QPlayerBlind FileOfWriteAndRead::string_to_blind(const std::string& blind) {
+	if (blind == "QPLAYER_BLIND_SETTING_RED")
+	{
+		return QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_RED;
+	}
+	else if (blind == "QPLAYER_BLIND_SETTING_GREEN")
+	{
+		return QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_GREEN;
+	}
+	else if (blind == "QPLAYER_BLIND_SETTING_BLUE")
+	{
+		return QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_BLUE;
+	}
+	else
+	{
+		return QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_NONE;
+	}
+}
+
+std::string FileOfWriteAndRead::quality_immediatyly_to_string(QualityImmediatyly immediatyly) {
+	switch (immediatyly)
+	{
+	case IMMEDIATYLY_TRUE:
+		return "立即切换";
+	case IMMEDIATYLY_FALSE:
+		return "无缝切换";
+	case IMMEDIATYLY_CUSTOM:
+		return "直播立即点播无缝";
+	default:
+		return "直播立即点播无缝";
+	}
+}
+
+QualityImmediatyly FileOfWriteAndRead::string_to_quality_immediatyly(const std::string& immediatyly) {
+	if (immediatyly == "立即切换")
+	{
+		return IMMEDIATYLY_TRUE;
+	}
+	else if (immediatyly == "无缝切换")
+	{
+		return IMMEDIATYLY_FALSE;
+	}
+	else if (immediatyly == "直播立即点播无缝")
+	{
+		return IMMEDIATYLY_CUSTOM;
+	}
+	else
+	{
+		return IMMEDIATYLY_CUSTOM;
+	}
+}
+
+std::string FileOfWriteAndRead::url_type_to_string(QMedia::QUrlType url_type) {
+	switch (url_type)
+	{
+	case QMedia::QUrlType::QAUDIO_AND_VIDEO:
+		return "QAUDIO_AND_VIDEO";
+	case QMedia::QUrlType::QAUDIO:
+		return "QAUDIO";
+	case QMedia::QUrlType::QVIDEO:
+		return "QVIDEO";
+	default:
+		return "NONE";
+	}
+}
+
+QMedia::QUrlType FileOfWriteAndRead::string_to_url_type(const std::string& url_type) {
+	if (url_type == "QAUDIO_AND_VIDEO")
+	{
+		return QMedia::QUrlType::QAUDIO_AND_VIDEO;
+	}
+	else if (url_type == "QAUDIO") {
+		return QMedia::QUrlType::QAUDIO;
+	}
+	else if (url_type == "QVIDEO") {
+		return QMedia::QUrlType::QVIDEO;
+	}
+	else {
+		return QMedia::QUrlType::NONE;
+	}
+}
+
+QMedia::QVideoRenderType FileOfWriteAndRead::string_to_render_type(const std::string& render_type) {
+	if (render_type == "PLANE")
+	{
+		return QMedia::QVideoRenderType::PLANE;
+	}
+
+	else if (render_type == "PANORAMA_EQUIRECT_ANGULAR") {
+		return QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR;
+	}
+	else
+	{
+		return QMedia::QVideoRenderType::NONE;
+	}
+}
+
+std::string FileOfWriteAndRead::render_type_to_string(QMedia::QVideoRenderType render_type) {
+	switch (render_type)
+	{
+	case QMedia::QVideoRenderType::PLANE:
+		return "PLANE";
+	case QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR:
+		return "PANORAMA_EQUIRECT_ANGULAR";
+	default:
+		return "NONE";
+	}
+}
+
+/********************************字符串 GB2312 和 UTF8 编码格式相互转换*************************************************/
+std::string FileOfWriteAndRead::GB2312_To_UTF8(const std::string& input)
+{
+	std::string output;
+
+	// 打开转换句柄
+	iconv_t converter = iconv_open("UTF-8", "GB2312");
+	if (converter == (iconv_t)-1) {
+		std::cerr << "无法打开编码转换句柄" << std::endl;
+		return output;
+	}
+
+	// 输入和输出缓冲区
+	const char* inBuf = const_cast<char*>(input.c_str());
+	size_t inBytesLeft = input.length();
+	size_t outBufSize = input.length() * 4;  // 根据实际情况估计输出缓冲区大小
+	char* outBuf = new char[outBufSize];
+	char* outPtr = outBuf;
+	size_t outBytesLeft = outBufSize;
+
+	// 进行编码转换
+	size_t result = iconv(converter, &inBuf, &inBytesLeft, &outPtr, &outBytesLeft);
+	if (result == (size_t)-1) {
+		std::cerr << "编码转换失败" << std::endl;
+		delete[] outBuf;
+		iconv_close(converter);
+		return output;
+	}
+
+	// 关闭转换句柄
+	iconv_close(converter);
+
+	// 构造输出字符串
+	output.assign(outBuf, outBufSize - outBytesLeft);
+
+	// 释放内存
+	delete[] outBuf;
+
+	return output;
+}
+
+std::string FileOfWriteAndRead::UTF8_To_GB2312(const std::string& utf8_text) {
+	// 创建转换句柄
+	iconv_t iconvHandle = iconv_open("GB2312", "UTF-8");
+	if (iconvHandle == (iconv_t)(-1)) {
+		perror("iconv_open");
+		return "";
+	}
+
+	// 准备输入和输出缓冲区
+	size_t inputLength = strlen(utf8_text.c_str());
+	size_t outputLength = inputLength * 2;  // 假设输出缓冲区足够大
+	char* output = new char[outputLength];
+	memset(output, 0, outputLength);
+
+	const char* inputPtr = const_cast<char*>(utf8_text.c_str());
+	char* outputPtr = output;
+	size_t convertedBytes = iconv(iconvHandle, &inputPtr, &inputLength, &outputPtr, &outputLength);
+	if (convertedBytes == (size_t)(-1)) {
+		perror("iconv");
+		delete[] output;
+		iconv_close(iconvHandle);
+		return "";
+	}
+
+
+	iconv_close(iconvHandle);
+
+	return output;
+}
+
