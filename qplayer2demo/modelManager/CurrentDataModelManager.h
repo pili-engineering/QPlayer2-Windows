@@ -83,6 +83,10 @@ public:
 	QMedia::QMediaModel* get_media_model();
 
 	void set_media_model(QMedia::QMediaModel* pmodel);
+
+	int get_quality();
+
+	void set_quality(int quality);
 private:
 	CurrentDataModelManager();
 	~CurrentDataModelManager();

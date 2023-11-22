@@ -22,7 +22,8 @@ CurrentDataModel::CurrentDataModel() :
 	mFPS(0),
 	mProgressTime(0),
 	mForceAuthenticationEnable(false),
-	mPlayStartPosition(0)
+	mPlayStartPosition(0),
+	mQuality(0)
 {
 }
 
@@ -201,4 +202,12 @@ void CurrentDataModel::set_force_authentication_enable(bool force_authentication
 
 bool CurrentDataModel::get_force_authentication_enable() {
 	return mForceAuthenticationEnable;
+}
+
+int CurrentDataModel::get_quality() {
+	return mQuality;
+}
+
+void CurrentDataModel::set_quality(int quality) {
+	mQuality = quality;
 }

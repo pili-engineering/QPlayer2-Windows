@@ -96,6 +96,10 @@ public:
 	void set_force_authentication_enable(bool force_authentication_enable);
 
 	bool get_force_authentication_enable();
+
+	int get_quality();
+
+	void set_quality(int quality);
 private:
 	long mProgressTime;
 
@@ -140,5 +144,7 @@ private:
 	long mPlayStartPosition;
 
 	bool mForceAuthenticationEnable;
+
+	int mQuality;
 };
 

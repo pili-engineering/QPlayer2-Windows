@@ -152,6 +152,10 @@ private:
 
 
 	void updata_menu_ui(int button_id);
+
+	void update_quality_list_window();
+
+	void quality_change_click(int item_id);
 private:
 
     HWND mHwnd;
@@ -176,6 +180,8 @@ private:
 
 	HWND mPlayButton;
 
+	HWND mPlayQualityButton;
+
 	HWND mSeekBar;
 
 	HWND mFirstFrameText;
@@ -189,6 +195,8 @@ private:
 	HWND mPlayerBiteRateText;
 
 	HWND mPlayerProgressAndDurationText;
+
+	HWND mPlayerQualityChangeListWindow;
 
 	PlayerUrlListModelManager* mpUrlListModelManger;
 

@@ -193,3 +193,10 @@ QMedia::QMediaModel* CurrentDataModelManager::get_media_model() {
 void CurrentDataModelManager::set_media_model(QMedia::QMediaModel* pmodel) {
 	 mpCurrentDataModel->set_model(pmodel);
 }
+int CurrentDataModelManager::get_quality() {
+	return mpCurrentDataModel->get_quality();
+}
+
+void CurrentDataModelManager::set_quality(int quality) {
+	mpCurrentDataModel->set_quality(quality);
+}
