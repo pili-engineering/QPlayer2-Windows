@@ -13,9 +13,6 @@
 UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinstance, UrlClickType click_type, DemoMediaSubtitleElementModel* subtitle_element_model):
 	mHwnd(hwnd),
 	mHinstance(hinstance),
-	mIsSelected(true),
-	mNameInputText(""),
-	mUrlInputText(""),
 	mClickType(click_type),
 	mSubtitleElementModel(subtitle_element_model)
 {
@@ -56,7 +53,10 @@ UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinsta
 		throw "UrlSetting window create failed!";
 	}
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
-
+	if (mSubtitleElementModel == nullptr)
+	{
+		mSubtitleElementModel = new DemoMediaSubtitleElementModel;
+	}
 	create_child_window();
 
 	ShowWindow(mHwnd, SW_SHOW);
@@ -80,11 +80,12 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 	switch (message) {
 	case WM_DESTROY: {
 		if (hwnd == psubtitle_element_setting_window->get_hwnd()) {
-			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE,
+			/*psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE,
 				psubtitle_element_setting_window->mNameInputText,
 				psubtitle_element_setting_window->mUrlInputText,
 				psubtitle_element_setting_window->mIsSelected
-			);
+			);*/
+			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			return 0;
@@ -96,45 +97,49 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 		{
 		case ID_NAME_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				psubtitle_element_setting_window->mNameInputText = psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mNameInput);
+				psubtitle_element_setting_window->mSubtitleElementModel->set_name(psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mNameInput));
 			}
 			break;
 		}
 		case ID_URL_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				psubtitle_element_setting_window->mUrlInputText = psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mUrlInput);
+				psubtitle_element_setting_window->mSubtitleElementModel->set_url(psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mUrlInput));
 			}
 			break;
 		}
 		case ID_IS_SELECTED_OPTION: {
 			SendMessage(psubtitle_element_setting_window->mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
 			SendMessage(psubtitle_element_setting_window->mIsSelectedFalseOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			psubtitle_element_setting_window->mIsSelected = true;
+			psubtitle_element_setting_window->mSubtitleElementModel->set_is_selected(true);
 			break;
 		}
 		case ID_NOT_IS_SELECTED_OPTION: {
 			SendMessage(psubtitle_element_setting_window->mIsSelectedTrueOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(psubtitle_element_setting_window->mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
-			psubtitle_element_setting_window->mIsSelected = false;
+			psubtitle_element_setting_window->mSubtitleElementModel->set_is_selected(false);
 			break;
 		}
 
 		case ID_SUBMIT_BUTTON: {
-			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,
-				psubtitle_element_setting_window->mNameInputText,
-				psubtitle_element_setting_window->mUrlInputText,
-				psubtitle_element_setting_window->mIsSelected
-			);
+			//psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,
+			//	psubtitle_element_setting_window->mNameInputText,
+			//	psubtitle_element_setting_window->mUrlInputText,
+			//	psubtitle_element_setting_window->mIsSelected
+			//);
+
+			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
 		}
 		case ID_CANCEL_BUTTON: {
-			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,
+			/*psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,
 				psubtitle_element_setting_window->mNameInputText,
 				psubtitle_element_setting_window->mUrlInputText,
 				psubtitle_element_setting_window->mIsSelected
-			);
+			);*/
+
+			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
@@ -164,8 +169,29 @@ void UrlSubtitleElementSetting::create_child_window() {
 	CreateWindow(TEXT("STATIC"), TEXT("is_selected"), WS_CHILD | WS_VISIBLE, 10, 70, 90, 20, mHwnd, NULL, NULL, NULL);
 	mIsSelectedTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("ture"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 70, 170, 20, mHwnd, (HMENU)ID_IS_SELECTED_OPTION, NULL, NULL);
 	mIsSelectedFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("false"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 70, 170, 20, mHwnd, (HMENU)ID_NOT_IS_SELECTED_OPTION, NULL, NULL);
-	SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
-	mIsSelected = true;
+
+	if (mClickType == UrlClickType::MOTIFY_URL)
+	{
+		SetWindowText(mNameInput, _T(mSubtitleElementModel->get_name().c_str()));
+		
+		SetWindowText(mUrlInput, _T(mSubtitleElementModel->get_url().c_str()));
+		if (mSubtitleElementModel->get_is_selected())
+		{
+			SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+			mSubtitleElementModel->set_is_selected(true);
+		}
+		else
+		{
+			SendMessage(mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
+			mSubtitleElementModel->set_is_selected(false);
+		}
+	}
+	else
+	{
+		SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+		mSubtitleElementModel->set_is_selected(true);
+	}
+
 
 	CreateWindow(TEXT("BUTTON"), TEXT("È·¶¨"), WS_CHILD | WS_VISIBLE, width / 2 - 55, height - 70, 50, 20, mHwnd, (HMENU)ID_SUBMIT_BUTTON, NULL, NULL);
 

@@ -5,8 +5,8 @@
 #include "UrlClickType.h"
 #include "WindowCloseType.h"
 #include "DemoMediaSubtitleElementModel.h"
-using SubtitleElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type, const std::string& name, const std::string& url, bool is_selected) >;
-
+//using SubtitleElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type, const std::string& name, const std::string& url, bool is_selected) >;
+using SubtitleElementSettingWindowCloseCallBackFunction = std::function<void(WindowCloseType close_type, UrlClickType click_type, DemoMediaSubtitleElementModel* subtitle_element_model)>;
 class UrlSubtitleElementSetting
 {
 public:
@@ -32,16 +32,16 @@ private:
 
 
 	HWND mNameInput;
-	std::string mNameInputText;
+	//std::string mNameInputText;
 
 	HWND mUrlInput;
-	std::string mUrlInputText;
+	//std::string mUrlInputText;
 
 
 	HWND mIsSelectedTrueOption;
 
 	HWND mIsSelectedFalseOption;
-	bool mIsSelected;
+	//bool mIsSelected;
 	UrlClickType mClickType;
 	DemoMediaSubtitleElementModel* mSubtitleElementModel;
 };
