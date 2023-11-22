@@ -79,6 +79,10 @@ public:
 	void set_force_authentication_enable(bool force_authentication_enable);
 
 	bool get_force_authentication_enable();
+
+	QMedia::QMediaModel* get_media_model();
+
+	void set_media_model(QMedia::QMediaModel* pmodel);
 private:
 	CurrentDataModelManager();
 	~CurrentDataModelManager();
