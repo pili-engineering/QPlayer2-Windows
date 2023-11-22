@@ -108,18 +108,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;__OS_WINDOWS__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\common;.\modelManager;.\model;$(SolutionDir)out\$(Platform)\$(Configuration)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(SolutionDir)out\$(Platform)\$(Configuration)\include;$(ProjectDir)dependency\qplayer-json\single_include;$(ProjectDir)dependency\qplayer-iconv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qplayer2-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;$(ProjectDir)dependency\qplayer-iconv;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qplayer2-core.lib;iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-</Command>
+      <Command>copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -196,8 +195,8 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="qplayerLocalFile\Setting.txt" />
-    <Text Include="qplayerLocalFile\url.txt" />
+    <None Include="qplayerLocalFile\Setting.json" />
+    <None Include="qplayerLocalFile\UrlJson.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

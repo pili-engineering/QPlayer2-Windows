@@ -197,11 +197,11 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="qplayerLocalFile\url.txt">
+    <None Include="qplayerLocalFile\UrlJson.json">
       <Filter>源文件\qplayerLocalFile</Filter>
-    </Text>
-    <Text Include="qplayerLocalFile\Setting.txt">
+    </None>
+    <None Include="qplayerLocalFile\Setting.json">
       <Filter>源文件\qplayerLocalFile</Filter>
-    </Text>
+    </None>
   </ItemGroup>
 </Project>
