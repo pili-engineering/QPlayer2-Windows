@@ -55,19 +55,8 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr)
 
 
 	mpPlayerContext = QIPlayerContext::create();
-	mpPlayerContext->init(QLogLevel::LOG_VERBOSE,
-		std::filesystem::current_path().string(), "com.qiniu.qplayer2", "1.3.2", "eb4136eb62d064dcacb2afedee467384", mHwnd);
+	mpPlayerContext->init(QLogLevel::LOG_VERBOSE, std::filesystem::current_path().string(), "com.qiniu.qplayer2", "1.3.2", "eb4136eb62d064dcacb2afedee467384", mHwnd);
 	mpPlayerContext->get_render_hander()->set_window_hwnd(mpVideoRenderWindow->get_hwnd());
-
-	//PlayerMessageLoopQueueAdapter* listeners = new PlayerMessageLoopQueueAdapter(mHwnd);
-
-	//QMediaModelBuilder builder;
-	//builder.add_stream_element("", QUrlType::QAUDIO_AND_VIDEO, 0,
-	//	"http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4", true);
-
-	//mpPlayerContext->get_control_handler()->play_media_model(builder.build(false), 0);
-
-
 }
 
 //Îö¹¹
@@ -96,10 +85,6 @@ LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message,
 		}
 		break;
 
-	//case WM_QPLAYER_STATE:
-	//	DemoLog::log_string(TAG, __LINE__, "WM_QPLAYER_STATE");
-
-		//break;
 	case WM_CREATE:
 		
 	default:
