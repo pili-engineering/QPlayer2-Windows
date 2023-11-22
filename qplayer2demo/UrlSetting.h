@@ -33,13 +33,22 @@ private:
 
 	void motify_subtitle_elements_window_create(int item_id);
 
+
+	void delete_stream_elements_window_create(int item_id);
+
+	void delete_subtitle_elements_window_create(int item_id);
+
 	void add_stream_elements_window_create();
 
 	void submit_button_click();
 
-	void set_item_id(int url_id);
+	void set_stream_item_id(int url_id);
 
-	int get_item_id();
+	int get_stream_item_id();
+
+	void set_subtitle_item_id(int url_id);
+
+	int get_subtitle_item_id();
 private:
 	HWND mHwnd;
 	HINSTANCE mHinstance;
