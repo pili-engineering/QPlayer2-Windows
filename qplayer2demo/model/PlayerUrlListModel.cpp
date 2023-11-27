@@ -6,6 +6,7 @@ PlayerUrlListModel::PlayerUrlListModel(QMedia::QMediaModel* pmodel, const std::s
 
 PlayerUrlListModel::~PlayerUrlListModel()
 {
+	mpModel = nullptr;
 }
 
 QMedia::QMediaModel* PlayerUrlListModel::get_media_model() {

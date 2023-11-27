@@ -3,7 +3,7 @@
 #include "DemoLog.h"
 #include <CommCtrl.h>
 
-#define TAG					    "UrlListWindow"
+#define CLASS_NAME					    "UrlListWindow"
 #define RIGHT_MENU_ADD          100
 #define RIGHT_MENU_MODIFY       101
 #define RIGHT_MENU_DELETE       102
@@ -65,6 +65,11 @@ UrlListWindow::UrlListWindow(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelM
 
 UrlListWindow::~UrlListWindow()
 {
+	if (mpModelManager != nullptr)
+	{
+		delete mpModelManager;
+		mpModelManager = nullptr;
+	} 	
 }
 
 LRESULT CALLBACK UrlListWindow::main_url_list_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param) {
@@ -193,7 +198,7 @@ HWND UrlListWindow::get_hwnd() {
 //地址列表左键点击事件
 void  UrlListWindow::url_click(int url_id) {
 
-	DemoLog::log_string(TAG, __LINE__, "url_click");
+	DemoLog::log_string(CLASS_NAME, __LINE__, "url_click");
 	mPlayControlCallback(mHwnd,mpModelManager->get_url_model_for_index(url_id)->get_media_model());
 	
 }

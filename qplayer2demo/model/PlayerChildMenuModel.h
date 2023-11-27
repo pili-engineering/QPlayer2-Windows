@@ -11,7 +11,7 @@ public:
 	~PlayerChildMenuModel();
 	
 
-	void set_child_menus_list(std::list<ChildMenu*>* menu_list);
+	void set_child_menus_list(std::list<ChildMenu*>* pmenu_list);
 
 	std::list<ChildMenu*>* get_child_menus_list();
 

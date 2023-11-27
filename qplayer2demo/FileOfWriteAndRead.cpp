@@ -10,7 +10,7 @@
 #include <filesystem>
 
 //播放器设置写入文件
-bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* model) {
+bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* pmodel) {
 #ifdef _DEBUG
 	std::filesystem::path currentPath = std::filesystem::current_path();
 	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
@@ -25,20 +25,20 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 
 	nlohmann::json current_json = nlohmann::json();
 
-	current_json["play_start_positon"] = model->get_player_start_position();
-	current_json["decoder"] = decoder_to_string(model->get_decoder());
-	current_json["seek_mode"] = seek_mode_to_string(model->get_seek_mode());
-	current_json["player_start"] = play_start_to_string(model->get_player_start());
-	current_json["render_ratio"] = render_radio_to_string(model->get_render_ratio());
-	current_json["blind"] = blind_to_string(model->get_blind());
-	current_json["sei_enable"] = model->get_sei_enable();
-	current_json["background_enable"] = model->get_background_enable();
-	current_json["quality_immediatyly"] = GB2312_To_UTF8(quality_immediatyly_to_string(model->get_quality_immediatyly()));
-	current_json["subtitle_enable"] = model->get_subtitle_enable();
-	current_json["subtitle_name"] = GB2312_To_UTF8(model->get_subtitle_name());
-	current_json["play_speed"] = model->get_play_speed();
-	current_json["mute_enable"] = model->get_mute_enable();
-	current_json["force_authentication_enable"] = model->get_force_authentication_enable();
+	current_json["play_start_positon"] = pmodel->get_player_start_position();
+	current_json["decoder"] = decoder_to_string(pmodel->get_decoder());
+	current_json["seek_mode"] = seek_mode_to_string(pmodel->get_seek_mode());
+	current_json["player_start"] = play_start_to_string(pmodel->get_player_start());
+	current_json["render_ratio"] = render_radio_to_string(pmodel->get_render_ratio());
+	current_json["blind"] = blind_to_string(pmodel->get_blind());
+	current_json["sei_enable"] = pmodel->get_sei_enable();
+	current_json["background_enable"] = pmodel->get_background_enable();
+	current_json["quality_immediatyly"] = GB2312_To_UTF8(quality_immediatyly_to_string(pmodel->get_quality_immediatyly()));
+	current_json["subtitle_enable"] = pmodel->get_subtitle_enable();
+	current_json["subtitle_name"] = GB2312_To_UTF8(pmodel->get_subtitle_name());
+	current_json["play_speed"] = pmodel->get_play_speed();
+	current_json["mute_enable"] = pmodel->get_mute_enable();
+	current_json["force_authentication_enable"] = pmodel->get_force_authentication_enable();
 
 	std::ofstream file(file_path, std::ios::out | std::ios::trunc);
 	if (!file.is_open()) {
@@ -50,8 +50,8 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 //从文件中读取播放器设置
 CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string& file_name) {
 #ifdef _DEBUG
-	std::filesystem::path currentPath = std::filesystem::current_path();
-	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+	std::filesystem::path current_path = std::filesystem::current_path();
+	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -61,45 +61,45 @@ CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string&
 	std::string file_path = directory + file_name;
 #endif
 	std::ifstream file(file_path);
-	CurrentDataModel* current = new CurrentDataModel();
+	CurrentDataModel* pcurrent = new CurrentDataModel();
 	if (!file.is_open()) {
-		return current;
+		return pcurrent;
 	}
 	// 读取文件内容到一个字符串
-	std::string fileContent((std::istreambuf_iterator<char>(file)),
+	std::string file_content((std::istreambuf_iterator<char>(file)),
 		std::istreambuf_iterator<char>());
 
 	// 解析json数据
 	nlohmann::json json_data;
 	try {
-		json_data = nlohmann::json::parse(fileContent);
+		json_data = nlohmann::json::parse(file_content);
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Failed to parse JSON: " << e.what() << std::endl;
-		return current;
+		return pcurrent;
 	}
-	current->set_background_enable(json_data["background_enable"]);
-	current->set_blind(string_to_blind(json_data["blind"]));
-	current->set_decoder(string_to_decoder(json_data["decoder"]));
-	current->set_force_authentication_enable(json_data["force_authentication_enable"]);
-	current->set_mute_enable(json_data["mute_enable"]);
-	current->set_player_start(string_to_play_start(json_data["player_start"]));
-	current->set_player_start_position(json_data["play_start_positon"]);
-	current->set_play_speed(json_data["play_speed"]);
-	current->set_quality_immediatyly(string_to_quality_immediatyly(UTF8_To_GB2312(json_data["quality_immediatyly"])));
-	current->set_render_ratio(string_to_render_radio(json_data["render_ratio"]));
-	current->set_seek_mode(string_to_seek_mode(json_data["seek_mode"]));
-	current->set_sei_enable(json_data["sei_enable"]);
-	current->set_subtitle_enable(json_data["subtitle_enable"]);
-	current->set_subtitle_name(UTF8_To_GB2312(json_data["subtitle_name"]));
+	pcurrent->set_background_enable(json_data["background_enable"]);
+	pcurrent->set_blind(string_to_blind(json_data["blind"]));
+	pcurrent->set_decoder(string_to_decoder(json_data["decoder"]));
+	pcurrent->set_force_authentication_enable(json_data["force_authentication_enable"]);
+	pcurrent->set_mute_enable(json_data["mute_enable"]);
+	pcurrent->set_player_start(string_to_play_start(json_data["player_start"]));
+	pcurrent->set_player_start_position(json_data["play_start_positon"]);
+	pcurrent->set_play_speed(json_data["play_speed"]);
+	pcurrent->set_quality_immediatyly(string_to_quality_immediatyly(UTF8_To_GB2312(json_data["quality_immediatyly"])));
+	pcurrent->set_render_ratio(string_to_render_radio(json_data["render_ratio"]));
+	pcurrent->set_seek_mode(string_to_seek_mode(json_data["seek_mode"]));
+	pcurrent->set_sei_enable(json_data["sei_enable"]);
+	pcurrent->set_subtitle_enable(json_data["subtitle_enable"]);
+	pcurrent->set_subtitle_name(UTF8_To_GB2312(json_data["subtitle_name"]));
 
-	return current;
+	return pcurrent;
 }
 //播放地址文件写入
 std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(const std::string& file_name) {
 #ifdef _DEBUG
-	std::filesystem::path currentPath = std::filesystem::current_path();
-	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+	std::filesystem::path current_path = std::filesystem::current_path();
+	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -114,13 +114,13 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 		return model_list;
 	}
 	// 读取文件内容到一个字符串
-	std::string fileContent((std::istreambuf_iterator<char>(file)),
+	std::string file_content((std::istreambuf_iterator<char>(file)),
 		std::istreambuf_iterator<char>());
 
 	// 解析json数据
 	nlohmann::json json_data;
 	try {
-		json_data = nlohmann::json::parse(fileContent);
+		json_data = nlohmann::json::parse(file_content);
 	}
 	catch (const std::exception& e) {
 		std::cerr << "Failed to parse JSON: " << e.what() << std::endl;
@@ -132,7 +132,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 			std::string name = UTF8_To_GB2312(json["name"]);
 			bool is_live = json["is_live"];
 
-			QMedia::QMediaModelBuilder* model_builder = new QMedia::QMediaModelBuilder;
+			QMedia::QMediaModelBuilder* pmodel_builder = new QMedia::QMediaModelBuilder;
 			auto stream_ele_array = json["stream_element"];
 			if (stream_ele_array.is_array())
 			{
@@ -148,7 +148,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 					std::string hls_drm_key = stream_ele["hls_drm_key"];
 					std::string mp4_drm_key = stream_ele["mp4_drm_key"];
 					QMedia::QVideoRenderType render_type = string_to_render_type(stream_ele["render_type"]);
-					model_builder->add_stream_element(user_type, url_type, quality, url, is_selected, referer, back_up_url, render_type, hls_drm_key, mp4_drm_key);
+					pmodel_builder->add_stream_element(user_type, url_type, quality, url, is_selected, referer, back_up_url, render_type, hls_drm_key, mp4_drm_key);
 				}
 			}
 
@@ -160,13 +160,12 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 					std::string subtitle_name = UTF8_To_GB2312(subtitle_ele["name"]);
 					std::string subtitle_url = UTF8_To_GB2312(subtitle_ele["url"]);
 					bool subtitle_is_selected = subtitle_ele["is_selelcted"];
-					model_builder->add_subtitle_element(subtitle_name,subtitle_url,subtitle_is_selected);
+					pmodel_builder->add_subtitle_element(subtitle_name,subtitle_url,subtitle_is_selected);
 				}
 			}
-			PlayerUrlListModel* model = new PlayerUrlListModel(model_builder->build(is_live), name);
-			model_list.emplace_back(model);
+			PlayerUrlListModel* pmodel = new PlayerUrlListModel(pmodel_builder->build(is_live), name);
+			model_list.emplace_back(pmodel);
 
-			int i = 0;
 		}
 	}
 	file.close();
@@ -176,8 +175,8 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, std::list<PlayerUrlListModel*> model_list) {
 	//$(ProjectDir)dependency\qplayer-iconv
 #ifdef _DEBUG
-	std::filesystem::path currentPath = std::filesystem::current_path();
-	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+	std::filesystem::path current_path = std::filesystem::current_path();
+	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -194,30 +193,30 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 		json["is_live"] = pmodel->get_media_model()->is_live();
 
 		auto stream_ele_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
-		for (QMedia::QStreamElement* ele : pmodel->get_media_model()->get_stream_elements())
+		for (QMedia::QStreamElement* pele : pmodel->get_media_model()->get_stream_elements())
 		{
 			nlohmann::json stream_json = nlohmann::json();
-			stream_json["user_type"] = ele->get_user_type();
-			stream_json["url_type"] = url_type_to_string(ele->get_url_type());
-			stream_json["url"] = GB2312_To_UTF8(ele->get_url());
-			stream_json["quality"] = ele->get_quality_index();
-			stream_json["is_selected"] = ele->is_selected();
-			stream_json["backup_url"] = ele->get_back_url();
-			stream_json["referer"] = ele->get_referer();
-			stream_json["hls_drm_key"] = ele->get_hls_drm_key();
-			stream_json["mp4_drm_key"] = ele->get_mp4_drm_key();
-			stream_json["render_type"] = render_type_to_string(ele->get_render_type());
+			stream_json["user_type"] = pele->get_user_type();
+			stream_json["url_type"] = url_type_to_string(pele->get_url_type());
+			stream_json["url"] = GB2312_To_UTF8(pele->get_url());
+			stream_json["quality"] = pele->get_quality_index();
+			stream_json["is_selected"] = pele->is_selected();
+			stream_json["backup_url"] = pele->get_back_url();
+			stream_json["referer"] = pele->get_referer();
+			stream_json["hls_drm_key"] = pele->get_hls_drm_key();
+			stream_json["mp4_drm_key"] = pele->get_mp4_drm_key();
+			stream_json["render_type"] = render_type_to_string(pele->get_render_type());
 			stream_ele_array.push_back(stream_json);
 		}
 		json["stream_element"] = stream_ele_array;
 
 		auto subtitle_ele_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
-		for (QMedia::QSubtitleElement * ele : pmodel->get_media_model()->get_subtitle_elements())
+		for (QMedia::QSubtitleElement * pele : pmodel->get_media_model()->get_subtitle_elements())
 		{
 			nlohmann::json subtitle_json = nlohmann::json();
-			subtitle_json["name"] = GB2312_To_UTF8(ele->get_name());
-			subtitle_json["url"] = GB2312_To_UTF8(ele->get_url());
-			subtitle_json["is_selelcted"] = ele->is_selected();
+			subtitle_json["name"] = GB2312_To_UTF8(pele->get_name());
+			subtitle_json["url"] = GB2312_To_UTF8(pele->get_url());
+			subtitle_json["is_selelcted"] = pele->is_selected();
 			subtitle_ele_array.push_back(subtitle_json);
 		}
 		json["subtitle_element"] = subtitle_ele_array;
@@ -508,18 +507,18 @@ std::string FileOfWriteAndRead::GB2312_To_UTF8(const std::string& input)
 	}
 
 	// 输入和输出缓冲区
-	const char* inBuf = const_cast<char*>(input.c_str());
-	size_t inBytesLeft = input.length();
-	size_t outBufSize = input.length() * 4;  // 根据实际情况估计输出缓冲区大小
-	char* outBuf = new char[outBufSize];
-	char* outPtr = outBuf;
-	size_t outBytesLeft = outBufSize;
+	const char* pin_buf = const_cast<char*>(input.c_str());
+	size_t in_bytes_left = input.length();
+	size_t out_buf_size = input.length() * 4;  // 根据实际情况估计输出缓冲区大小
+	char* pout_buf = new char[out_buf_size];
+	char* pout_ptr = pout_buf;
+	size_t out_bytes_left = out_buf_size;
 
 	// 进行编码转换
-	size_t result = iconv(converter, &inBuf, &inBytesLeft, &outPtr, &outBytesLeft);
+	size_t result = iconv(converter, &pin_buf, &in_bytes_left, &pout_ptr, &out_bytes_left);
 	if (result == (size_t)-1) {
 		std::cerr << "编码转换失败" << std::endl;
-		delete[] outBuf;
+		delete[] pout_buf;
 		iconv_close(converter);
 		return output;
 	}
@@ -528,40 +527,40 @@ std::string FileOfWriteAndRead::GB2312_To_UTF8(const std::string& input)
 	iconv_close(converter);
 
 	// 构造输出字符串
-	output.assign(outBuf, outBufSize - outBytesLeft);
+	output.assign(pout_buf, out_buf_size - out_bytes_left);
 
 	// 释放内存
-	delete[] outBuf;
+	delete[] pout_buf;
 
 	return output;
 }
 
 std::string FileOfWriteAndRead::UTF8_To_GB2312(const std::string& utf8_text) {
 	// 创建转换句柄
-	iconv_t iconvHandle = iconv_open("GB2312", "UTF-8");
-	if (iconvHandle == (iconv_t)(-1)) {
+	iconv_t iconv_handle = iconv_open("GB2312", "UTF-8");
+	if (iconv_handle == (iconv_t)(-1)) {
 		perror("iconv_open");
 		return "";
 	}
 
 	// 准备输入和输出缓冲区
-	size_t inputLength = strlen(utf8_text.c_str());
-	size_t outputLength = inputLength * 2;  // 假设输出缓冲区足够大
-	char* output = new char[outputLength];
-	memset(output, 0, outputLength);
+	size_t input_length = strlen(utf8_text.c_str());
+	size_t output_length = input_length * 2;  // 假设输出缓冲区足够大
+	char* output = new char[output_length];
+	memset(output, 0, output_length);
 
-	const char* inputPtr = const_cast<char*>(utf8_text.c_str());
-	char* outputPtr = output;
-	size_t convertedBytes = iconv(iconvHandle, &inputPtr, &inputLength, &outputPtr, &outputLength);
-	if (convertedBytes == (size_t)(-1)) {
+	const char* pinput_ptr = const_cast<char*>(utf8_text.c_str());
+	char* poutput_ptr = output;
+	size_t converted_bytes = iconv(iconv_handle, &pinput_ptr, &input_length, &poutput_ptr, &output_length);
+	if (converted_bytes == (size_t)(-1)) {
 		perror("iconv");
 		delete[] output;
-		iconv_close(iconvHandle);
+		iconv_close(iconv_handle);
 		return "";
 	}
 
 
-	iconv_close(iconvHandle);
+	iconv_close(iconv_handle);
 
 	return output;
 }

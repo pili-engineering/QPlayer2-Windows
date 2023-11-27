@@ -9,6 +9,7 @@ PlayerMenuSettingModel::~PlayerMenuSettingModel()
 	if (mpChildMenu)
 	{
 		delete mpChildMenu;
+		mpChildMenu = nullptr;
 	}
 }
 

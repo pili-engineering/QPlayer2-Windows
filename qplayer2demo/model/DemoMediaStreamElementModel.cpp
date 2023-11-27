@@ -16,6 +16,7 @@ DemoMediaStreamElementModel::DemoMediaStreamElementModel() :
 
 DemoMediaStreamElementModel::~DemoMediaStreamElementModel()
 {
+	
 }
 
 void DemoMediaStreamElementModel::set_user_type(const std::string& user_type) {

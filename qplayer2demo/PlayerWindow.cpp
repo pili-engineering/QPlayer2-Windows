@@ -12,11 +12,11 @@
 #include <filesystem>
 using namespace QMedia;
 
-#define TAG              "PlayerWindow"
+#define CLASS_NAME              "PlayerWindow"
 #define ID_RENDER_WINDOW 200
 
 //ππ‘Ï
-PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE hInstance):mHwnd(nullptr),mpPlayerContext(nullptr)
+PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE instance):mHwnd(nullptr),mpPlayerContext(nullptr)
 {
 
 	HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(parent_hwnd, GWLP_HINSTANCE);
@@ -113,7 +113,7 @@ LRESULT PlayerWindow::on_resize()
 	RECT root_window_rect;
 	GetClientRect(mHwnd, &root_window_rect);
 	EnumChildWindows(mHwnd, resize_child_windows_proc, (LPARAM)(&root_window_rect));
-	notify_resize_to_player(&root_window_rect);
+	notify_resize_to_player();
 	return TRUE;
 }
 BOOL PlayerWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
@@ -133,12 +133,12 @@ BOOL PlayerWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
 	char str[256] = "childe_id =";
 	snprintf(str, sizeof(str), "%s %d", str, child_window_id);
 	
-	DemoLog::log_string(TAG, __LINE__, str);
+	DemoLog::log_string(CLASS_NAME, __LINE__, str);
 
 	return TRUE;
 }
 
-bool PlayerWindow::notify_resize_to_player(LPRECT proot_window_rect)
+bool PlayerWindow::notify_resize_to_player()
 {
 
 	if (mpVideoRenderWindow != nullptr && mpPlayerContext != nullptr)

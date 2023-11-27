@@ -17,7 +17,7 @@ public:
 
 	long get_duration_time();
 
-	void set_model(QMedia::QMediaModel* model);
+	void set_model(QMedia::QMediaModel* pmodel);
 
 	QMedia::QMediaModel* get_model();
 
@@ -105,7 +105,7 @@ private:
 
 	long mDurationTime;
 
-	QMedia::QMediaModel* mModel;
+	QMedia::QMediaModel* mpModel;
 
 	QMedia::QPlayerState mPlayState;
 

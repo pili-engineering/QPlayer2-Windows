@@ -150,6 +150,7 @@ std::string CurrentDataModelManager::get_subtitle_name() {
 
 void CurrentDataModelManager::set_play_speed(float play_speed) {
 	mpCurrentDataModel->set_play_speed(play_speed);
+	//保留两位小数
 	std::stringstream stream;
 	stream << std::fixed << std::setprecision(2) << play_speed;
 	FileOfWriteAndRead::write_setting_local_file(SETTING_LOCAL_FILE_NAME, mpCurrentDataModel);

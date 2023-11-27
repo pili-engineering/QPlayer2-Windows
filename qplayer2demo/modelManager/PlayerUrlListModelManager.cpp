@@ -4,7 +4,7 @@
 
 #include "../FileOfWriteAndRead.h"
 #include "iconv.h"
-#define TAG               "PlayerUrlListModelManager"
+#define CLASS_NAME          "PlayerUrlListModelManager"
 #define URL_LOCAL_FILE_NAME "UrlJson.json"
 PlayerUrlListModelManager::PlayerUrlListModelManager():mUrlModels(), mUrlCallBack(),mpBulder(nullptr)
 {
@@ -13,37 +13,42 @@ PlayerUrlListModelManager::PlayerUrlListModelManager():mUrlModels(), mUrlCallBac
 
 PlayerUrlListModelManager::~PlayerUrlListModelManager()
 {
+	if (mpBulder != nullptr)
+	{
+		delete mpBulder;
+		mpBulder = nullptr;
+	}
 }
 
 void PlayerUrlListModelManager::motify_model(QMedia::QMediaModel* pmodel, const std::string& name, int index) {
 	int flag = 0;
-	std::list<PlayerUrlListModel*> new_model = std::list<PlayerUrlListModel*>();
+	std::list<PlayerUrlListModel*> pnew_model = std::list<PlayerUrlListModel*>();
 	for (auto it : mUrlModels) {
 		if (index == flag) {
 
-			PlayerUrlListModel* inner_model = new PlayerUrlListModel(pmodel, name);
-			new_model.emplace_back(inner_model);
+			PlayerUrlListModel* pinner_model = new PlayerUrlListModel(pmodel, name);
+			pnew_model.emplace_back(pinner_model);
 			delete it;
 		}
 		else
 		{
-			new_model.emplace_back(it);
+			pnew_model.emplace_back(it);
 		}
 		flag++;
 	}
-	mUrlModels = new_model;
+	mUrlModels = pnew_model;
 	//ÖØÐ´ÎÄ¼þ
 	FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME, mUrlModels);
 }
 void PlayerUrlListModelManager::add_model(QMedia::QMediaModel* pmodel, const std::string& name) {
-	PlayerUrlListModel* inner_model = new PlayerUrlListModel(pmodel,name);
-	mUrlModels.emplace_back(inner_model);
+	PlayerUrlListModel* pinner_model = new PlayerUrlListModel(pmodel,name);
+	mUrlModels.emplace_back(pinner_model);
 	if (FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME,mUrlModels))
 	{
 	}
 	else
 	{
-		DemoLog::log_string(TAG, __LINE__, "write data to local file false");
+		DemoLog::log_string(CLASS_NAME, __LINE__, "write data to local file false");
 	}
 }
 
@@ -68,7 +73,7 @@ PlayerUrlListModel* PlayerUrlListModelManager::get_url_model_for_index(int index
 	}
 	else
 	{
-		DemoLog::log_string(TAG, __LINE__, "get_url_model_for_index  index >= get_url_models_count");
+		DemoLog::log_string(CLASS_NAME, __LINE__, "get_url_model_for_index  index >= get_url_models_count");
 		return nullptr;
 	}
 }
@@ -79,7 +84,7 @@ void PlayerUrlListModelManager::delete_url_model_index(int index) {
 		auto it = mUrlModels.begin();
 		std::advance(it, index);
 		mUrlModels.erase(it);
-		bool delete_flag = FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME,mUrlModels);
+		FileOfWriteAndRead::write_json_to_local_file(URL_LOCAL_FILE_NAME,mUrlModels);
 
 	}
 }

@@ -13,8 +13,8 @@ PlayerChildMenuModel::~PlayerChildMenuModel()
 	}
 }
 
-void PlayerChildMenuModel::set_child_menus_list(std::list<ChildMenu*>* menu_list) {
-	mpMenus = menu_list;
+void PlayerChildMenuModel::set_child_menus_list(std::list<ChildMenu*>* pmenu_list) {
+	mpMenus = pmenu_list;
 }
 
 

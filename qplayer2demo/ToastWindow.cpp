@@ -43,29 +43,29 @@ ToastWindow::~ToastWindow()
 {
 }
  LRESULT CALLBACK ToastWindow::main_toast_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param) {
-	ToastWindow* toast_window = (ToastWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	ToastWindow* ptoast_window = (ToastWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (message)
 	{
 
 	case WM_SIZE:
 	{
-		if (toast_window != nullptr) {
-			toast_window->toast_list_resize();
+		if (ptoast_window != nullptr) {
+			ptoast_window->toast_list_resize();
 		}
 		break;
 	}
 	case WM_NOTIFY:
 	{
 		NMHDR* pnmhdr = (NMHDR*)l_param;
-		if (pnmhdr->hwndFrom == toast_window->mListWindow) {
+		if (pnmhdr->hwndFrom == ptoast_window->mListWindow) {
 			if ((int)(pnmhdr->code) == (int)LVN_INSERTITEM)
 			{
-				for (int i = 0; i < toast_window->mToastNum; i++)
+				for (int i = 0; i < ptoast_window->mToastNum; i++)
 				{
-					ListView_SetItemState(toast_window->mListWindow, i, 0, LVIS_SELECTED);
+					ListView_SetItemState(ptoast_window->mListWindow, i, 0, LVIS_SELECTED);
 				}
-				ListView_SetItemState(toast_window->mListWindow, toast_window->mToastNum, LVIS_SELECTED, LVIS_SELECTED);
-				ListView_EnsureVisible(toast_window->mListWindow, toast_window->mToastNum, FALSE);
+				ListView_SetItemState(ptoast_window->mListWindow, ptoast_window->mToastNum, LVIS_SELECTED, LVIS_SELECTED);
+				ListView_EnsureVisible(ptoast_window->mListWindow, ptoast_window->mToastNum, FALSE);
 			}
 		}
 		break;
@@ -103,7 +103,7 @@ LRESULT ToastWindow::on_list_create() {
 	return LRESULT();
 }
 
-void ToastWindow::add_item(std::string text) {
+void ToastWindow::add_item(const std::string& text) {
 	// 添加行数据
 	LVITEMW  lv_item;
 	lv_item.mask = LVIF_TEXT;

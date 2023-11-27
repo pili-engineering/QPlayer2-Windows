@@ -39,10 +39,10 @@ class MainWindow :
 {
 
 private:
-    static LRESULT CALLBACK main_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-    static BOOL CALLBACK resize_child_windows_proc(HWND hwndChild, LPARAM lParam);
+    static LRESULT CALLBACK main_window_proc(HWND hwnd, UINT uMsg, WPARAM w_param, LPARAM l_param);
+    static BOOL CALLBACK resize_child_windows_proc(HWND hwnd_child, LPARAM l_param);
    
-    void url_Click_call_back(HWND hwnd, QMedia::QMediaModel* model);
+    void url_Click_call_back(HWND hwnd, QMedia::QMediaModel* pmodel);
 
 	void on_state_changed(QMedia::QPlayerState state) override;
 
@@ -50,7 +50,7 @@ private:
 
     void on_fps_changed(long fps) override;
 
-	void on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size) override;
+	void on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* paudio_data, uint64_t size) override;
 
 	void on_mute_changed(bool is_mute) override;
 
@@ -92,11 +92,11 @@ private:
 
 	void on_seek_failed() override;
 
-	void on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) override;
+	void on_shoot_video_success(uint8_t* pimage_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) override;
 
 	void on_shoot_video_failed() override;
 
-	void on_sei_data(uint8_t* data, uint64_t size) override;
+	void on_sei_data(uint8_t* pdata, uint64_t size) override;
 
 	void on_speed_changed(float speed) override;
 
@@ -110,7 +110,7 @@ private:
 
 	void on_subtitle_decoded(const std::string &name, bool result) override;
 
-	void on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) override;
+	void on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* pbuffer, uint64_t size) override;
 
 	void on_video_decode_by_type(QMedia::QDecoderType type) override;
 
@@ -120,7 +120,7 @@ private:
 
 	void add_listeners();
 public:
-    MainWindow(HINSTANCE hInstance, int nCmdShow);
+    MainWindow(HINSTANCE instance, int n_cmd_show);
 
     ~MainWindow();
 
@@ -148,7 +148,7 @@ private:
 
 	std::string to_date_string(int64_t time);
 
-    bool notify_resize_to_player(LPRECT proot_window_rect);
+    bool notify_resize_to_player();
 
 
 	void updata_menu_ui(int button_id);

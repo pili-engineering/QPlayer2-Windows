@@ -14,7 +14,7 @@ UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinsta
 	mHwnd(hwnd),
 	mHinstance(hinstance),
 	mClickType(click_type),
-	mSubtitleElementModel(subtitle_element_model)
+	mpSubtitleElementModel(subtitle_element_model)
 {
 	WNDCLASSEXW wcex;
 	if (GetClassInfoExW(hinstance, CLASS_NAME, &wcex) != 0) {
@@ -53,9 +53,9 @@ UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinsta
 		throw "UrlSetting window create failed!";
 	}
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
-	if (mSubtitleElementModel == nullptr)
+	if (mpSubtitleElementModel == nullptr)
 	{
-		mSubtitleElementModel = new DemoMediaSubtitleElementModel;
+		mpSubtitleElementModel = new DemoMediaSubtitleElementModel;
 	}
 	create_child_window();
 
@@ -85,7 +85,7 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 				psubtitle_element_setting_window->mUrlInputText,
 				psubtitle_element_setting_window->mIsSelected
 			);*/
-			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mSubtitleElementModel);
+			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mpSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			return 0;
@@ -97,26 +97,26 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 		{
 		case ID_NAME_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				psubtitle_element_setting_window->mSubtitleElementModel->set_name(psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mNameInput));
+				psubtitle_element_setting_window->mpSubtitleElementModel->set_name(psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mNameInput));
 			}
 			break;
 		}
 		case ID_URL_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
-				psubtitle_element_setting_window->mSubtitleElementModel->set_url(psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mUrlInput));
+				psubtitle_element_setting_window->mpSubtitleElementModel->set_url(psubtitle_element_setting_window->wchar_to_string(psubtitle_element_setting_window->mUrlInput));
 			}
 			break;
 		}
 		case ID_IS_SELECTED_OPTION: {
 			SendMessage(psubtitle_element_setting_window->mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
 			SendMessage(psubtitle_element_setting_window->mIsSelectedFalseOption, BM_SETCHECK, BST_UNCHECKED, 0);
-			psubtitle_element_setting_window->mSubtitleElementModel->set_is_selected(true);
+			psubtitle_element_setting_window->mpSubtitleElementModel->set_is_selected(true);
 			break;
 		}
 		case ID_NOT_IS_SELECTED_OPTION: {
 			SendMessage(psubtitle_element_setting_window->mIsSelectedTrueOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			SendMessage(psubtitle_element_setting_window->mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
-			psubtitle_element_setting_window->mSubtitleElementModel->set_is_selected(false);
+			psubtitle_element_setting_window->mpSubtitleElementModel->set_is_selected(false);
 			break;
 		}
 
@@ -127,7 +127,7 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 			//	psubtitle_element_setting_window->mIsSelected
 			//);
 
-			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mSubtitleElementModel);
+			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mpSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
@@ -139,7 +139,7 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 				psubtitle_element_setting_window->mIsSelected
 			);*/
 
-			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mSubtitleElementModel);
+			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mpSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
@@ -172,24 +172,24 @@ void UrlSubtitleElementSetting::create_child_window() {
 
 	if (mClickType == UrlClickType::MOTIFY_URL)
 	{
-		SetWindowText(mNameInput, _T(mSubtitleElementModel->get_name().c_str()));
+		SetWindowText(mNameInput, _T(mpSubtitleElementModel->get_name().c_str()));
 		
-		SetWindowText(mUrlInput, _T(mSubtitleElementModel->get_url().c_str()));
-		if (mSubtitleElementModel->get_is_selected())
+		SetWindowText(mUrlInput, _T(mpSubtitleElementModel->get_url().c_str()));
+		if (mpSubtitleElementModel->get_is_selected())
 		{
 			SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
-			mSubtitleElementModel->set_is_selected(true);
+			mpSubtitleElementModel->set_is_selected(true);
 		}
 		else
 		{
 			SendMessage(mIsSelectedFalseOption, BM_SETCHECK, BST_CHECKED, 0);
-			mSubtitleElementModel->set_is_selected(false);
+			mpSubtitleElementModel->set_is_selected(false);
 		}
 	}
 	else
 	{
 		SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
-		mSubtitleElementModel->set_is_selected(true);
+		mpSubtitleElementModel->set_is_selected(true);
 	}
 
 

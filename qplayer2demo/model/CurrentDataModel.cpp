@@ -11,7 +11,7 @@ CurrentDataModel::CurrentDataModel() :
 	mDurationTime(0),
 	mFirstFrameTime(0),
 	mIsSeeking(false),
-	mModel(nullptr),
+	mpModel(nullptr),
 	mPlaySpeed(1),
 	mPlayState(QMedia::QPlayerState::NONE),
 	mQualityImmediatyly(QualityImmediatyly::IMMEDIATYLY_TRUE),
@@ -29,6 +29,7 @@ CurrentDataModel::CurrentDataModel() :
 
 CurrentDataModel::~CurrentDataModel()
 {
+	mpModel = nullptr;
 }
 void CurrentDataModel::set_progress_time(long progress) {
 	mProgressTime = progress;
@@ -46,12 +47,12 @@ long CurrentDataModel::get_duration_time() {
 	return mDurationTime;
 }
 
-void CurrentDataModel::set_model(QMedia::QMediaModel* model) {
-	mModel = model;
+void CurrentDataModel::set_model(QMedia::QMediaModel* pmodel) {
+	mpModel = pmodel;
 }
 
 QMedia::QMediaModel* CurrentDataModel::get_model() {
-	return mModel;
+	return mpModel;
 }
 
 void CurrentDataModel::set_player_state(QMedia::QPlayerState state) {

@@ -17,7 +17,7 @@
 #include <sstream>
 #include <Windows.h>
 #include <CommCtrl.h>
-#define TAG                     "MainWindow"
+#define CLASS_NAME                     "MainWindow"
 #define ID_VIDEO_RENDER_WINDOW  200
 #define ID_SEEK_BAR             202
 #define ID_FPS_STATIC_TEXT      203
@@ -36,7 +36,7 @@
 #define ID_QUALITY_CHANGE_BUTTON    304
 
 
-#define CLASS_NAME L"UrlSetting"
+#define CLASS_NAME "UrlSetting"
 using namespace QMedia;
 
 //主消息
@@ -57,7 +57,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 			LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
 			int selected_index = pnmia->iItem;
 			std::string index_str = std::to_string((int)pnmhdr->code) + "  code : " + std::to_string((int)NM_CLICK);
-			DemoLog::log_string(TAG, __LINE__, index_str.c_str());
+			DemoLog::log_string(CLASS_NAME, __LINE__, index_str.c_str());
 			if ((int)(pnmhdr->code) == (int)NM_CLICK)
 			{
 				pmain_window->quality_change_click(selected_index);
@@ -86,8 +86,8 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 		{
 			int notificationCode = LOWORD(w_param);  // 获取通知代码
             if (notificationCode == TB_ENDTRACK) {
-				long currentPosition = SendMessage(pmain_window->mSeekBar, TBM_GETPOS, 0, 0);
-				pmain_window->seek_bar_click(currentPosition);
+				long current_position = SendMessage(pmain_window->mSeekBar, TBM_GETPOS, 0, 0);
+				pmain_window->seek_bar_click(current_position);
 				CurrentDataModelManager::get_instance()->set_is_seeking(true);
             }
             else if(notificationCode == TB_PAGEDOWN || notificationCode == TB_PAGEUP)
@@ -95,9 +95,9 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 				POINT pt;
 				GetCursorPos(&pt);
 				ScreenToClient(pmain_window->mSeekBar, &pt);
-				int minValue, maxValue;
-				SendMessage(pmain_window->mSeekBar, TBM_GETRANGEMIN, TRUE, (LPARAM)&minValue);
-				SendMessage(pmain_window->mSeekBar, TBM_GETRANGEMAX, TRUE, (LPARAM)&maxValue);
+				int min_value, max_value;
+				SendMessage(pmain_window->mSeekBar, TBM_GETRANGEMIN, TRUE, (LPARAM)&min_value);
+				SendMessage(pmain_window->mSeekBar, TBM_GETRANGEMAX, TRUE, (LPARAM)&max_value);
 				RECT rect;
 				GetClientRect(pmain_window->mSeekBar, &rect);
                 int pos = (int)(((double)(pt.x - 10) / (rect.right - rect.left - 10)) * (CurrentDataModelManager::get_instance()->get_duration_time()));
@@ -125,8 +125,8 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 }
 
 //构造函数
-MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
-	:mHinstance(hInstance),
+MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
+	:mHinstance(instance),
     mHwnd(nullptr),
     mpUrlListModelManger(new PlayerUrlListModelManager())
 {
@@ -152,8 +152,6 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
     if (!RegisterClassExW(&wcex)) {
         throw "main window  create failed!";
     }
-	/*mHwnd = CreateWindowExW(0, mWindowClass, mTitle, WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, mHinstance, nullptr);*/
 	mHwnd = CreateWindowW(mWindowClass, (LPCWSTR)_T("QPlayer2 Demo"), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, mHinstance, nullptr);
 
@@ -175,7 +173,7 @@ MainWindow::MainWindow(HINSTANCE hInstance, int nCmdShow)
 	mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), 0);
 	CurrentDataModelManager::get_instance()->set_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model());
 	update_quality_list_window();
-    ShowWindow(mHwnd, nCmdShow);
+    ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
 }
 //析构函数
@@ -236,8 +234,8 @@ LRESULT MainWindow::on_create()
     mpUrlListWindow = new UrlListWindow(mHwnd, mHinstance, mpUrlListModelManger);
 	//地址列表左键点击回调
     mpUrlListWindow->set_play_control_callback(
-        [this](HWND hwnd, QMedia::QMediaModel* model) {
-            url_Click_call_back(hwnd, model);
+        [this](HWND hwnd, QMedia::QMediaModel* pmodel) {
+            url_Click_call_back(hwnd, pmodel);
         }
     );
 	//地址列表右键点击回调
@@ -288,7 +286,6 @@ void MainWindow::update_quality_list_window() {
 		ListView_InsertItem(mPlayerQualityChangeListWindow, &lvItem);
 		if (i == 0)
 		{
-
 			std::string title = "清晰度：" + std::to_string(pele->get_quality_index());
 			SetWindowText(mPlayQualityButton, TEXT(title.c_str()));
 			CurrentDataModelManager::get_instance()->set_quality(pele->get_quality_index());
@@ -330,12 +327,12 @@ void MainWindow::quality_change_click(int item_id) {
 	CurrentDataModelManager::get_instance()->set_quality(pinner_ele->get_quality_index());
 }
 //URL列表左键点击响应事件，播放对应视频
-void MainWindow::url_Click_call_back(HWND hwnd, QMedia::QMediaModel* model) {
+void MainWindow::url_Click_call_back(HWND hwnd, QMedia::QMediaModel* pmodel) {
     if (mpPlayerWindow != nullptr)
     {
-        mpPlayerWindow->get_control_handler()->play_media_model(model, 0);
+        mpPlayerWindow->get_control_handler()->play_media_model(pmodel, 0);
 
-		CurrentDataModelManager::get_instance()->set_media_model(model);
+		CurrentDataModelManager::get_instance()->set_media_model(pmodel);
     }
 }
 //创建菜单栏按钮
@@ -373,7 +370,7 @@ LRESULT MainWindow::on_resize()
     RECT root_window_rect;
     GetClientRect(mHwnd, &root_window_rect);
     EnumChildWindows(mHwnd, resize_child_windows_proc, (LPARAM)(&root_window_rect));
-    notify_resize_to_player(&root_window_rect);
+    notify_resize_to_player();
     return TRUE;
 }
 
@@ -455,7 +452,7 @@ int MainWindow::get_render_window_width(int parent_window_width)
     return parent_window_width - 320;
 }
 
-bool MainWindow::notify_resize_to_player(LPRECT proot_window_rect)
+bool MainWindow::notify_resize_to_player()
 {
     
     if (mpPlayerWindow != nullptr)
@@ -473,17 +470,17 @@ void MainWindow::seek_bar_click(long current_time) {
     if (mpPlayerWindow != nullptr) {
         mpPlayerWindow->get_control_handler()->seek(current_time*100);
     }
-	RECT clientRect;
-	GetClientRect(mSeekBar, &clientRect);
+	RECT client_rect;
+	GetClientRect(mSeekBar, &client_rect);
 
-	int progressBarWidth = clientRect.right - clientRect.left;
-	std::string str = "seek_bar_click : " + std::to_string(current_time) + "width : " + std::to_string(progressBarWidth);
-	DemoLog::log_string(TAG, __LINE__, str.c_str());
+	int progress_bar_width = client_rect.right - client_rect.left;
+	std::string str = "seek_bar_click : " + std::to_string(current_time) + "width : " + std::to_string(progress_bar_width);
+	DemoLog::log_string(CLASS_NAME, __LINE__, str.c_str());
 }
 //菜单按钮点击响应事件
 void  MainWindow::button_click(int button_id) {
     if (mpPlayerWindow == nullptr) {
-        DemoLog::log_string(TAG, __LINE__, "mPlayerWindow is null");
+        DemoLog::log_string(CLASS_NAME, __LINE__, "mPlayerWindow is null");
         return;
     }
     switch (button_id)
@@ -635,17 +632,14 @@ void  MainWindow::button_click(int button_id) {
     //清晰度切换
 	case ID_QUALITY_CHANGE_IMMEDIATYLY_FALSE_BUTTON: {
 		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_FALSE);
-		//mpPlayerWindow->get_control_handler()->set_;
 		break;
 	}
 	case ID_QUALITY_CHANGE_IMMEDIATYLY_TRUE_BUTTON: {
 		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_TRUE);
-		//mpPlayerWindow->get_control_handler()->set_;
 		break;
 	}
 	case ID_QUALITY_CHANGE_IMMEDIATYLY_CUSTOM_BUTTON: {
 		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_CUSTOM);
-		//mpPlayerWindow->get_control_handler()->set_;
 		break;
 	}
 	//字幕设置
@@ -844,8 +838,7 @@ void MainWindow::add_listeners() {
 
 /***********************qplayer listeners***********************/
 void MainWindow::on_state_changed(QMedia::QPlayerState state) {
-	DemoLog::log_string(TAG, __LINE__, "QPlayerState");
-    //mpCurrentDataModelManager->set_player_state(state);
+	DemoLog::log_string(CLASS_NAME, __LINE__, "QPlayerState");
     CurrentDataModelManager::get_instance()->set_player_state(state);
     std::string state_string = "player state: ";
     switch (state)
@@ -906,7 +899,7 @@ void MainWindow::on_state_changed(QMedia::QPlayerState state) {
 }
 
 void MainWindow::on_first_frame_rendered(int64_t elapsed_time) {
-    DemoLog::log_string(TAG, __LINE__, "elapsed_time");
+    DemoLog::log_string(CLASS_NAME, __LINE__, "elapsed_time");
     std::string text = "first frame: " + std::to_string(elapsed_time) + "ms";
     
 	SetWindowText(mFirstFrameText, text.c_str());
@@ -1011,7 +1004,7 @@ void  MainWindow::on_reconnect_start(const std::string& user_type, QMedia::QUrlT
 }
 
 void  MainWindow::on_reconnect_end(const std::string& user_type, QMedia::QUrlType url_type, const std::string& url, int retry_time, QMedia::QOpenError error) {
-	std::string text = "on_reconnect_end" + std::to_string(retry_time);
+	std::string text = "on_reconnect_end : " + std::to_string(retry_time) + " open error : " + std::to_string((int)error);
 	mpToastWindow->add_item(text);
 }
 
@@ -1071,13 +1064,13 @@ void  MainWindow::on_quality_switch_retry_later(const std::string& user_type, QM
 void  MainWindow::on_seek_success() {
 	std::string text = "on_seek_success";
 	mpToastWindow->add_item(text);
-	//CurrentDataModelManager::get_instance()->set_is_seeking(false);
+	CurrentDataModelManager::get_instance()->set_is_seeking(false);
 }
 
 void  MainWindow::on_seek_failed() {
 	std::string text = "on_seek_failed";
 	mpToastWindow->add_item(text);
-    //CurrentDataModelManager::get_instance()->set_is_seeking(false);
+    CurrentDataModelManager::get_instance()->set_is_seeking(false);
 }
 
 void  MainWindow::on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) {

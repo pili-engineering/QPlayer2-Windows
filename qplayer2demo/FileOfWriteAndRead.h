@@ -20,7 +20,7 @@ public:
 public:
 
 
-	static bool write_setting_local_file(const std::string& file_name, CurrentDataModel * model);
+	static bool write_setting_local_file(const std::string& file_name, CurrentDataModel * pmodel);
 
 	static CurrentDataModel* read_setting_local_file(const std::string& file_name);
 

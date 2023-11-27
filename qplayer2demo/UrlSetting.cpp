@@ -251,7 +251,7 @@ LRESULT CALLBACK UrlSetting::main_url_setting_window_proc(HWND hwnd, UINT messag
 	return (DefWindowProc(hwnd, message, w_param, l_param));
 }
 
-void UrlSetting::set_url_setting_close_call_back(urlSettingWindowCloseCallBackFunction call_back) {
+void UrlSetting::set_url_setting_close_call_back(UrlSettingWindowCloseCallBackFunction call_back) {
 	mCloseCallBack = call_back;
 }
 

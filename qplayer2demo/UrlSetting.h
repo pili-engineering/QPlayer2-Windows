@@ -7,7 +7,7 @@
 #include "DemoMediaStreamElementModel.h"
 #include "DemoMediaSubtitleElementModel.h"
 
-using urlSettingWindowCloseCallBackFunction = std::function<void()>;
+using UrlSettingWindowCloseCallBackFunction = std::function<void()>;
 class UrlSetting
 {
 public:
@@ -17,7 +17,7 @@ public:
 
 	HWND get_hwnd();
 
-	void set_url_setting_close_call_back(urlSettingWindowCloseCallBackFunction call_back);
+	void set_url_setting_close_call_back(UrlSettingWindowCloseCallBackFunction call_back);
 private:
 	static LRESULT CALLBACK main_url_setting_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param);
 
@@ -55,7 +55,7 @@ private:
 
 	PlayerUrlListModelManager* mpPlayerUrlModelManager;
 
-	urlSettingWindowCloseCallBackFunction mCloseCallBack;
+	UrlSettingWindowCloseCallBackFunction mCloseCallBack;
 
 	bool mIsLive;
 

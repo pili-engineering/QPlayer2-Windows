@@ -21,7 +21,6 @@ public:
 
 	int get_id();
 private:
-	//HMENU mHmenu;
 
 	std::string mName;
 
