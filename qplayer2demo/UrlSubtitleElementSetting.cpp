@@ -65,6 +65,11 @@ UrlSubtitleElementSetting::UrlSubtitleElementSetting(HWND hwnd, HINSTANCE hinsta
 
 UrlSubtitleElementSetting::~UrlSubtitleElementSetting()
 {
+	if (mpSubtitleElementModel != nullptr)
+	{
+		delete mpSubtitleElementModel;
+		mpSubtitleElementModel = nullptr;
+	}
 }
 
 HWND UrlSubtitleElementSetting::get_hwnd() {
@@ -80,11 +85,6 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 	switch (message) {
 	case WM_DESTROY: {
 		if (hwnd == psubtitle_element_setting_window->get_hwnd()) {
-			/*psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE,
-				psubtitle_element_setting_window->mNameInputText,
-				psubtitle_element_setting_window->mUrlInputText,
-				psubtitle_element_setting_window->mIsSelected
-			);*/
 			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mpSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
@@ -121,30 +121,17 @@ LRESULT CALLBACK UrlSubtitleElementSetting::main_subtitle_element_setting_window
 		}
 
 		case ID_SUBMIT_BUTTON: {
-			//psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,
-			//	psubtitle_element_setting_window->mNameInputText,
-			//	psubtitle_element_setting_window->mUrlInputText,
-			//	psubtitle_element_setting_window->mIsSelected
-			//);
-
 			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mpSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
 		}
 		case ID_CANCEL_BUTTON: {
-			/*psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,
-				psubtitle_element_setting_window->mNameInputText,
-				psubtitle_element_setting_window->mUrlInputText,
-				psubtitle_element_setting_window->mIsSelected
-			);*/
-
 			psubtitle_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, psubtitle_element_setting_window->mClickType, psubtitle_element_setting_window->mpSubtitleElementModel);
 			psubtitle_element_setting_window = NULL;
 			DestroyWindow(hwnd);
 			break;
 		}
-
 		default:
 			break;
 		}
@@ -157,7 +144,6 @@ void UrlSubtitleElementSetting::create_child_window() {
 
 	RECT windowRect;
 	GetWindowRect(mHwnd, &windowRect);
-
 	int width = windowRect.right - windowRect.left;
 	int height = windowRect.bottom - windowRect.top;
 	CreateWindow(TEXT("STATIC"), TEXT("name"), WS_CHILD | WS_VISIBLE, 10, 10, 90, 20, mHwnd, NULL, NULL, NULL);
@@ -173,7 +159,6 @@ void UrlSubtitleElementSetting::create_child_window() {
 	if (mClickType == UrlClickType::MOTIFY_URL)
 	{
 		SetWindowText(mNameInput, _T(mpSubtitleElementModel->get_name().c_str()));
-		
 		SetWindowText(mUrlInput, _T(mpSubtitleElementModel->get_url().c_str()));
 		if (mpSubtitleElementModel->get_is_selected())
 		{
@@ -199,20 +184,20 @@ void UrlSubtitleElementSetting::create_child_window() {
 }
 std::string UrlSubtitleElementSetting::wchar_to_string(HWND hwnd) {
 	int text_length = GetWindowTextLengthW(hwnd);
-	wchar_t* buffer = new wchar_t[text_length + 1];
-	GetWindowTextW(hwnd, buffer, text_length + 1);
+	wchar_t* pbuffer = new wchar_t[text_length + 1];
+	GetWindowTextW(hwnd, pbuffer, text_length + 1);
 
-	std::wstring wstr(buffer);
+	std::wstring wstr(pbuffer);
 	std::string input_text;
-	int strLength = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
-	if (strLength > 0)
+	int str_length = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+	if (str_length > 0)
 	{
-		char* str_buffer = new char[strLength];
-		WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, str_buffer, strLength, NULL, NULL);
+		char* str_buffer = new char[str_length];
+		WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, str_buffer, str_length, NULL, NULL);
 		input_text = str_buffer;
 		delete[] str_buffer;
 	}
 
-	delete[] buffer;
+	delete[] pbuffer;
 	return input_text;
 }

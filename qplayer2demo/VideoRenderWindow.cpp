@@ -9,7 +9,7 @@ LRESULT VideoRenderWindow::render_window_proc(HWND hwnd, UINT u_msg, WPARAM w_pa
         return prender_view->on_receive_message(hwnd, u_msg, w_param, l_param);
 }
 
-LRESULT VideoRenderWindow::on_receive_message(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT VideoRenderWindow::on_receive_message(HWND hwnd, UINT uMsg, WPARAM w_param, LPARAM l_param)
 {
     return LRESULT();
 }
@@ -47,8 +47,6 @@ VideoRenderWindow::VideoRenderWindow(HWND parent_hwnd, HINSTANCE hinstance)
     {
         throw "render view create failed!";
     }
-
-   
 }
 
 HWND VideoRenderWindow::get_hwnd()
