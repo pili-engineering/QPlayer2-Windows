@@ -35,7 +35,6 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 	current_json["background_enable"] = pmodel->get_background_enable();
 	current_json["quality_immediatyly"] = GB2312_To_UTF8(quality_immediatyly_to_string(pmodel->get_quality_immediatyly()));
 	current_json["subtitle_enable"] = pmodel->get_subtitle_enable();
-	current_json["subtitle_name"] = GB2312_To_UTF8(pmodel->get_subtitle_name());
 	current_json["play_speed"] = pmodel->get_play_speed();
 	current_json["mute_enable"] = pmodel->get_mute_enable();
 	current_json["force_authentication_enable"] = pmodel->get_force_authentication_enable();
@@ -91,7 +90,6 @@ CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string&
 	pcurrent->set_seek_mode(string_to_seek_mode(json_data["seek_mode"]));
 	pcurrent->set_sei_enable(json_data["sei_enable"]);
 	pcurrent->set_subtitle_enable(json_data["subtitle_enable"]);
-	pcurrent->set_subtitle_name(UTF8_To_GB2312(json_data["subtitle_name"]));
 
 	return pcurrent;
 }
