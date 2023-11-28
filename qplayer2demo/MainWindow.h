@@ -5,6 +5,7 @@
 #include "PlayerUrlListModelManager.h"
 #include "UrlSetting.h"
 #include "PlayerMenuSettingModelManager.h"
+#include "PlayStartPostitionWindow.h"
 namespace QMedia {
     class QIPlayerContext;
     class QMediaModel;
@@ -203,6 +204,12 @@ private:
 	UrlSetting* mpUrlSettingWindow;
 
 	PlayerMenuSettingModelManager* mpSettingMenuManager;
+
+	float mHeight;
+
+	float mWidth;
+
+	HMENU mSubtitleHwnd;
 };
 
  

@@ -52,6 +52,9 @@ PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd, PlayerWi
 
 	add_setting_model("截图", ID_SHOOT_IMAGE);
 	add_setting_child_model(create_shoot_list(), ID_SHOOT_IMAGE);
+
+	add_setting_model("起播时间", ID_PLAY_START_POSITION);
+	add_setting_child_model(create_player_start_list(), ID_PLAY_START_POSITION);
 }
 
 
@@ -96,7 +99,6 @@ void PlayerMenuSettingModelManager::add_setting_child_model(std::list<ChildMenu*
 	pchild_menu_model->set_menu(child_menu_hmenu);
 	pchild_menu_model->set_child_menus_list(std::move(pchild_menu));
 	pinner_model->set_child_menu_model(pchild_menu_model);
-	
 
 }
 
@@ -428,8 +430,6 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_quality_change_list
 
 	return pquality_change_list;
 }
-//字幕按钮要动态生成
-//待后续完善
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>;
@@ -439,30 +439,28 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 	{
 	case false: {
 		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, true));
-		psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, false));
-		psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
+		//psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, false));
+		//psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
 		break;
 
 	}
 	case  true: {
-		if (CurrentDataModelManager::get_instance()->get_subtitle_name() == "中文") {
+		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
+		//if (CurrentDataModelManager::get_instance()->get_subtitle_name() == "中文") {
 
-			psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
-			psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, true));
-			psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
-		}
-		else if (CurrentDataModelManager::get_instance()->get_subtitle_name() == "英文")
-		{
-			psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
-			psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, true));
-			psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
-		}
+		//	psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
+		//	psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, true));
+		//	psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
+		//}
+		//else if (CurrentDataModelManager::get_instance()->get_subtitle_name() == "英文")
+		//{
+		//	psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
+		//	psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, true));
+		//	psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
+		//}
 		break;
 	}
 	default: {
-		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, true));
-		psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, false));
-		psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
 		break;
 	}
 	}
@@ -573,6 +571,11 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_shoot_list() {
 	return pshoot_list;
 }
 
+std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_player_start_list() {
+	std::list<ChildMenu*>* pplay_start_position_list = new std::list<ChildMenu*>;
+	pplay_start_position_list->emplace_back(create_child_menu(std::to_string(CurrentDataModelManager::get_instance()->get_player_start_position()), ID_PLAY_START_POSITION_BUTTON, false));
+	return pplay_start_position_list;
+}
 ChildMenu* PlayerMenuSettingModelManager::create_child_menu(const std::string& name, int id, bool is_selected) {
 	ChildMenu* pinner_child_menu = new ChildMenu();
 	pinner_child_menu->set_id(id);
@@ -584,4 +587,68 @@ ChildMenu* PlayerMenuSettingModelManager::create_child_menu(const std::string& n
 
 std::list<PlayerMenuSettingModel*>* PlayerMenuSettingModelManager::get_menu_setting_model() {
 	return mpMenuSettingModels;
+}
+
+
+void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hwnd) {
+	int item_count = GetMenuItemCount(subtitle_hwnd);
+	for (int i = item_count - 1; i >= 0; --i) {
+		DeleteMenu(subtitle_hwnd, i, MF_BYPOSITION);
+	}
+	//DestroyMenu(subtitle_hwnd);
+	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>();
+	if (CurrentDataModelManager::get_instance()->get_subtitle_enable())
+	{
+		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
+	}
+	else {
+		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, true));
+	}
+	for (int index = 0; index < pmodel->get_subtitle_elements().size(); index++)
+	{
+		QMedia::QSubtitleElement* psub_ele = pmodel->get_subtitle_elements()[index];
+		if (CurrentDataModelManager::get_instance()->get_subtitle_enable() && psub_ele->is_selected())
+		{
+			psubtitle_list->emplace_back(create_child_menu(psub_ele->get_name(), ID_SUBTITLE_CLOSE_BUTTON + 1 + index, true));
+		}
+		else
+		{
+			psubtitle_list->emplace_back(create_child_menu(psub_ele->get_name(), ID_SUBTITLE_CLOSE_BUTTON + 1 + index, false));
+		}
+	}
+
+	for (int index = 0; index < psubtitle_list->size(); index++)
+	{
+
+		auto child_it = psubtitle_list->begin();
+		std::advance(child_it, index);
+		//创建二级菜单按钮
+		AppendMenu(subtitle_hwnd, MF_STRING, (*child_it)->get_id(), (*child_it)->get_name().c_str());
+		if ((*child_it)->get_is_selected())
+		{
+			CheckMenuItem(subtitle_hwnd, (*child_it)->get_id(), MF_CHECKED);
+		}
+		
+	}
+	PlayerMenuSettingModel* pinner_model = nullptr;
+	for (int index = 0; index < mpMenuSettingModels->size(); index++)
+	{
+		auto it = mpMenuSettingModels->begin();
+		std::advance(it, index);
+		if ((*it)->get_id() == ID_SUBTITLE)
+		{
+			pinner_model = *it;
+			break;
+		}
+	}
+	if (pinner_model == nullptr)
+	{
+		DemoLog::log_string(CLASS_NAME, __LINE__, "update_subtitle_menu_text :inner_model is nil");
+		return;
+	}
+
+	PlayerChildMenuModel* pchild_menu_model = new PlayerChildMenuModel();
+	pchild_menu_model->set_menu(subtitle_hwnd);
+	pchild_menu_model->set_child_menus_list(std::move(psubtitle_list));
+	pinner_model->set_child_menu_model(pchild_menu_model);
 }

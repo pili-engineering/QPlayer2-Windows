@@ -44,11 +44,8 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 {
     MainWindow* pmain_window = (MainWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-    
-    
     switch (message)
     {
-
 	case WM_NOTIFY:
 	{
 		NMHDR* pnmhdr = (NMHDR*)l_param;
@@ -56,12 +53,10 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 		{
 			LPNMITEMACTIVATE pnmia = (LPNMITEMACTIVATE)l_param;
 			int selected_index = pnmia->iItem;
-			std::string index_str = std::to_string((int)pnmhdr->code) + "  code : " + std::to_string((int)NM_CLICK);
-			DemoLog::log_string(CLASS_NAME, __LINE__, index_str.c_str());
 			if ((int)(pnmhdr->code) == (int)NM_CLICK)
 			{
 				pmain_window->quality_change_click(selected_index);
-			}
+							}
 		}
 		break;
 	}
@@ -71,13 +66,22 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
         if (pmain_window != nullptr)
         {
             pmain_window->on_resize();
+			RECT root_window_rect;
+			GetClientRect(hwnd, &root_window_rect);
+			LPRECT proot_window_rect = (LPRECT)(&root_window_rect);
+			pmain_window->mWidth = proot_window_rect->right - proot_window_rect->left;
+			pmain_window->mHeight = proot_window_rect->bottom - proot_window_rect->top;
         }
     }
     break;
     case WM_COMMAND:
     {
-        int wmId = LOWORD(w_param);
-        pmain_window->button_click(wmId);
+        int item_id = LOWORD(w_param);
+		pmain_window->button_click(item_id);
+		if (ID_QUALITY_CHANGE_BUTTON == item_id)
+		{
+			MoveWindow(pmain_window->mPlayerQualityChangeListWindow, pmain_window->mWidth - 220, pmain_window->mHeight - 60 - CurrentDataModelManager::get_instance()->get_media_model()->get_stream_elements().size() * 20, 130, 20 * CurrentDataModelManager::get_instance()->get_media_model()->get_stream_elements().size(), TRUE);
+		}
     }
     break;
 	case WM_HSCROLL: {
@@ -128,7 +132,9 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	:mHinstance(instance),
     mHwnd(nullptr),
-    mpUrlListModelManger(new PlayerUrlListModelManager())
+    mpUrlListModelManger(new PlayerUrlListModelManager()),
+	mHeight(0),
+	mWidth(0)
 {
     LoadStringW(mHinstance, IDS_APP_TITLE, mTitle, MAX_LOADSTRING);
     LoadStringW(mHinstance, IDC_QPLAYER2DEMO, mWindowClass, MAX_LOADSTRING);
@@ -167,11 +173,11 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
     on_create();
 	//添加播放器listener
 	add_listeners();
-	//创建菜单按钮
-	on_create_play_menu();
 	//播放第一个视频
 	mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), 0);
 	CurrentDataModelManager::get_instance()->set_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model());
+	//创建菜单按钮
+	on_create_play_menu();
 	update_quality_list_window();
     ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
@@ -236,6 +242,7 @@ LRESULT MainWindow::on_create()
     mpUrlListWindow->set_play_control_callback(
         [this](HWND hwnd, QMedia::QMediaModel* pmodel) {
             url_Click_call_back(hwnd, pmodel);
+			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHwnd);
         }
     );
 	//地址列表右键点击回调
@@ -347,6 +354,8 @@ LRESULT MainWindow::on_create_play_menu() {
         std::advance(parent_it, parent_index);
         //创建一级菜单按钮
 		AppendMenu(base_menu, MF_STRING | MF_POPUP, (UINT_PTR)((*parent_it)->get_child_menu_model()->get_menus()),(*parent_it)->get_name().c_str());
+		
+
         for (int child_index = 0; child_index < (*parent_it)->get_child_menu_model()->get_child_menus_list()->size(); child_index++) {
 
 			auto child_it = (*parent_it)->get_child_menu_model()->get_child_menus_list()->begin();
@@ -358,7 +367,11 @@ LRESULT MainWindow::on_create_play_menu() {
 				CheckMenuItem((*parent_it)->get_child_menu_model()->get_menus(), (*child_it)->get_id(), MF_CHECKED);
 			}
         }
-
+		if ((*parent_it)->get_name() == "字幕设置")
+		{
+			mSubtitleHwnd = (*parent_it)->get_child_menu_model()->get_menus();
+			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHwnd);
+		}
     }
     SetMenu(mHwnd, base_menu);
 
@@ -483,6 +496,19 @@ void  MainWindow::button_click(int button_id) {
         DemoLog::log_string(CLASS_NAME, __LINE__, "mPlayerWindow is null");
         return;
     }
+	if (button_id - ID_SUBTITLE_CLOSE_BUTTON < 100 && button_id - ID_SUBTITLE_CLOSE_BUTTON > 0)
+	{
+
+		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
+		CurrentDataModelManager::get_instance()->set_subtitle_enable(true);
+
+		QMedia::QSubtitleElement* pinner_ele = CurrentDataModelManager::get_instance()->get_media_model()->get_subtitle_elements()[button_id - ID_SUBTITLE_CLOSE_BUTTON - 1];
+		mpPlayerWindow->get_control_handler()->set_subtitle(pinner_ele->get_name());
+		CurrentDataModelManager::get_instance()->set_subtitle_name(pinner_ele->get_name());
+		updata_menu_ui(button_id);
+		return;
+
+	}
     switch (button_id)
     {
 	case ID_QUALITY_CHANGE_BUTTON: {
@@ -648,20 +674,6 @@ void  MainWindow::button_click(int button_id) {
 		CurrentDataModelManager::get_instance()->set_subtitle_enable(false);
 		break;
 	}
-	case ID_SUBTITLE_CHINESE_BUTTON: {
-		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
-		CurrentDataModelManager::get_instance()->set_subtitle_enable(true);
-		mpPlayerWindow->get_control_handler()->set_subtitle("中文");
-		CurrentDataModelManager::get_instance()->set_subtitle_name("中文");
-		break;
-	}
-	case ID_SUBTITLE_ENGLISH_BUTTON: {
-		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
-		CurrentDataModelManager::get_instance()->set_subtitle_enable(true);
-		mpPlayerWindow->get_control_handler()->set_subtitle("英文");
-		CurrentDataModelManager::get_instance()->set_subtitle_name("英文");
-		break;
-	}
 	case ID_PLAY_SPEED_0_5_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_speed(0.5);
 		CurrentDataModelManager::get_instance()->set_play_speed(0.5);
@@ -705,6 +717,10 @@ void  MainWindow::button_click(int button_id) {
 	case ID_SHOOT_IMAGE_BUTTON: {
 		mpPlayerWindow->get_control_handler()->shoot_video();
 		return;
+	}
+	case ID_PLAY_START_POSITION_BUTTON: {
+		PlayStartPostitionWindow* pplay_start_position_window = new PlayStartPostitionWindow(mHwnd,mHinstance);
+		break;
 	}
     default:
         break;

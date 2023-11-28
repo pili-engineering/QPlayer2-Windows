@@ -72,10 +72,15 @@
 
 #define ID_SHOOT_IMAGE										 2300
 #define ID_SHOOT_IMAGE_BUTTON								 2301
+
+#define ID_PLAY_START_POSITION								 2400
+#define ID_PLAY_START_POSITION_BUTTON						 2401
 class PlayerMenuSettingModelManager
 {
 public:
 	std::list<PlayerMenuSettingModel*>* get_menu_setting_model();
+
+	void update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hwnd);
 private:
 	void add_setting_model(const std::string& menu_name,int id);
 
@@ -110,6 +115,8 @@ private:
 	std::list<ChildMenu*>* create_mute_list();
 
 	std::list<ChildMenu*>* create_shoot_list();
+
+	std::list<ChildMenu*>* create_player_start_list();
 public:
 	PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window);
 	~PlayerMenuSettingModelManager();
@@ -118,5 +125,6 @@ private:
 	HWND mHwnd;
 	PlayerWindow* mpPlayerWindow;
 	std::list<PlayerMenuSettingModel*>* mpMenuSettingModels;
+
 };
 
