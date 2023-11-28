@@ -224,7 +224,7 @@ LRESULT CALLBACK UrlSetting::main_url_setting_window_proc(HWND hwnd, UINT messag
 		}
 		case RIGHT_SUBTITLE_MENU_ADD: {
 			if (purl_setting_window != nullptr) {
-				purl_setting_window->submit_button_click();
+				purl_setting_window->add_subtitle_elements_window_create();
 			}
 			break;
 		}
