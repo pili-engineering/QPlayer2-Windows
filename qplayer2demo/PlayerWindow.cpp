@@ -128,7 +128,7 @@ BOOL PlayerWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
 	int parent_width = proot_window_rect->right - proot_window_rect->left;
 	int parent_height = proot_window_rect->bottom - proot_window_rect->top;
 	if (child_window_id == ID_RENDER_WINDOW) {
-		MoveWindow(hwndChild, 10, 10, parent_width, parent_height, TRUE);
+		MoveWindow(hwndChild, 0, 0, parent_width, parent_height, TRUE);
 	}
 	char str[256] = "childe_id =";
 	snprintf(str, sizeof(str), "%s %d", str, child_window_id);
