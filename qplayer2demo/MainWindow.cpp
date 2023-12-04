@@ -242,7 +242,9 @@ LRESULT MainWindow::on_create()
     mpUrlListWindow->set_play_control_callback(
         [this](HWND hwnd, QMedia::QMediaModel* pmodel) {
             url_Click_call_back(hwnd, pmodel);
-			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHwnd);
+			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHmenu);
+
+			CheckMenuItem(mForceNetworkHmenu, ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
         }
     );
 	//地址列表右键点击回调
@@ -369,8 +371,12 @@ LRESULT MainWindow::on_create_play_menu() {
         }
 		if ((*parent_it)->get_name() == "字幕设置")
 		{
-			mSubtitleHwnd = (*parent_it)->get_child_menu_model()->get_menus();
-			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHwnd);
+			mSubtitleHmenu = (*parent_it)->get_child_menu_model()->get_menus();
+			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHmenu);
+		}
+		if ((*parent_it)->get_name() == "鉴权方式")
+		{
+			mForceNetworkHmenu = (*parent_it)->get_child_menu_model()->get_menus();
 		}
     }
     SetMenu(mHwnd, base_menu);
@@ -561,11 +567,6 @@ void  MainWindow::button_click(int button_id) {
 		CurrentDataModelManager::get_instance()->set_decoder(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY);
 		break;
 	}
-	case ID_MIX_DECODER_BUTTON: {
-		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY);
-		CurrentDataModelManager::get_instance()->set_decoder(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY);
-		break;
-	}
 	case ID_SEEK_NORMAL_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL);
 		CurrentDataModelManager::get_instance()->set_seek_mode(QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL);
@@ -644,17 +645,6 @@ void  MainWindow::button_click(int button_id) {
 		CurrentDataModelManager::get_instance()->set_sei_enable(true);
 		break;
 	}
-	//最小化窗口---后台播放
-	case ID_BACKGROUND_OPEN_BUTTON: {
-		CurrentDataModelManager::get_instance()->set_background_enable(true);
-		//mpPlayerWindow->get_control_handler()->;
-		break;
-	}
-	case ID_BACKGROUND_CLOSE_BUTTON: {
-		CurrentDataModelManager::get_instance()->set_background_enable(false);
-		//mpPlayerWindow->get_control_handler()->;
-		break;
-	}
     //清晰度切换
 	case ID_QUALITY_CHANGE_IMMEDIATYLY_FALSE_BUTTON: {
 		CurrentDataModelManager::get_instance()->set_quality_immediatyly(QualityImmediatyly::IMMEDIATYLY_FALSE);
@@ -719,7 +709,10 @@ void  MainWindow::button_click(int button_id) {
 		return;
 	}
 	case ID_PLAY_START_POSITION_BUTTON: {
-		PlayStartPostitionWindow* pplay_start_position_window = new PlayStartPostitionWindow(mHwnd,mHinstance);
+		PlayStartPostitionWindow* pplay_start_position_window = new PlayStartPostitionWindow(mHwnd,mHinstance,
+			[this](WindowCloseType close_type, long start_position_time) {
+
+			});
 		break;
 	}
     default:

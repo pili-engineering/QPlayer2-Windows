@@ -5,7 +5,7 @@
 
 #define ID_SUBMIT_BUTTON 1100
 #define ID_CANCEL_BUTTON 1101
-PlayStartPostitionWindow::PlayStartPostitionWindow(HWND hwnd,HINSTANCE hinstance)
+PlayStartPostitionWindow::PlayStartPostitionWindow(HWND hwnd,HINSTANCE hinstance, PlayStartPostitionWindowCloseCallBackFunction call_back)
 {
 	mHinstance = GetModuleHandle(NULL);
 	WNDCLASSEXW wcex;
@@ -32,6 +32,7 @@ PlayStartPostitionWindow::PlayStartPostitionWindow(HWND hwnd,HINSTANCE hinstance
 			throw "UrlSetting  create failed!";
 		}
 	}
+	mCloseCallBack = call_back;
 	int screen_width = GetSystemMetrics(SM_CXSCREEN);
 	int screen_height = GetSystemMetrics(SM_CYSCREEN);
 	int window_width = 400;
@@ -59,7 +60,7 @@ PlayStartPostitionWindow::~PlayStartPostitionWindow()
 
 LRESULT CALLBACK PlayStartPostitionWindow::main_play_start_position_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param) {
 
-	PlayStartPostitionWindow* ptoast_window = (PlayStartPostitionWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	PlayStartPostitionWindow* pposition_window = (PlayStartPostitionWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -69,7 +70,7 @@ LRESULT CALLBACK PlayStartPostitionWindow::main_play_start_position_window_proc(
 		{
 		case ID_SUBMIT_BUTTON:
 		{
-
+			pposition_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,100);
 			break;
 		}
 		case ID_CANCEL_BUTTON:

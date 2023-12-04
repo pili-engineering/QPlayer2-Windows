@@ -14,7 +14,6 @@
 #define ID_AUTO_DECODER_BUTTON								 1101
 #define ID_HARD_DECODER_BUTTON								 1102
 #define ID_SOFT_DECODER_BUTTON								 1103
-#define ID_MIX_DECODER_BUTTON								 1104
 
 #define ID_SEEK												 1200
 #define ID_SEEK_NORMAL_BUTTON								 1201
@@ -43,10 +42,6 @@
 #define ID_SEI												 1700
 #define ID_SEI_OPEN_BUTTON									 1701
 #define ID_SEI_CLOSE_BUTTON									 1702
-
-#define ID_BACKGROUND										 1800
-#define ID_BACKGROUND_OPEN_BUTTON							 1801
-#define ID_BACKGROUND_CLOSE_BUTTON							 1802
 	
 #define ID_QUALITY_CHANGE									 1900
 #define ID_QUALITY_CHANGE_IMMEDIATYLY_TRUE_BUTTON			 1901
@@ -103,8 +98,6 @@ private:
 	std::list<ChildMenu*>* create_blind_list();
 
 	std::list<ChildMenu*>* create_sei_list();
-
-	std::list<ChildMenu*>* create_background_play_list();
 
 	std::list<ChildMenu*>* create_quality_change_list();
 

@@ -35,9 +35,6 @@ PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd, PlayerWi
 	add_setting_model("SEI回调", ID_SEI);
 	add_setting_child_model(create_sei_list(), ID_SEI);
 
-	add_setting_model("后台播放", ID_BACKGROUND);
-	add_setting_child_model(create_background_play_list(), ID_BACKGROUND);
-
 	add_setting_model("清晰度切换", ID_QUALITY_CHANGE);
 	add_setting_child_model(create_quality_change_list(), ID_QUALITY_CHANGE);
 
@@ -123,28 +120,18 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_decoder_list() {
 		pdecoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, true));
 		pdecoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
 		pdecoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
-		pdecoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, false));
 		break;
 	}
 	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_SOFT_PRIORITY: {
 		pdecoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, false));
 		pdecoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, true));
 		pdecoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
-		pdecoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, false));
 		break;
 	}
 	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_HARDWARE_PRIORITY: {
 		pdecoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, false));
 		pdecoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
 		pdecoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, true));
-		pdecoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, false));
-		break;
-	}
-	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY: {
-		pdecoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, false));
-		pdecoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
-		pdecoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
-		pdecoder_list->emplace_back(create_child_menu("混解", ID_MIX_DECODER_BUTTON, true));
 		break;
 	}
 	default: {
@@ -152,7 +139,6 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_decoder_list() {
 		pdecoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, true));
 		pdecoder_list->emplace_back(create_child_menu("软解", ID_SOFT_DECODER_BUTTON, false));
 		pdecoder_list->emplace_back(create_child_menu("硬解", ID_HARD_DECODER_BUTTON, false));
-		pdecoder_list->emplace_back(create_child_menu("混编", ID_MIX_DECODER_BUTTON, false));
 		break;
 	}
 	}
@@ -372,30 +358,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_sei_list() {
 	return psei_list;
 }
 
-std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_background_play_list() {
-	std::list<ChildMenu*>* pbackground_play_list = new std::list<ChildMenu*>;
-	switch (CurrentDataModelManager::get_instance()->get_background_enable())
-	{
-	case true: {
-		pbackground_play_list->emplace_back(create_child_menu("开启后台播放", ID_BACKGROUND_OPEN_BUTTON, true));
-		pbackground_play_list->emplace_back(create_child_menu("关闭后台播放", ID_BACKGROUND_CLOSE_BUTTON, false));
-		break;
 
-	}
-	case  false: {
-		pbackground_play_list->emplace_back(create_child_menu("开启后台播放", ID_BACKGROUND_OPEN_BUTTON, false));
-		pbackground_play_list->emplace_back(create_child_menu("关闭后台播放", ID_BACKGROUND_CLOSE_BUTTON, true));
-		break;
-	}
-	default: {
-		pbackground_play_list->emplace_back(create_child_menu("开启后台播放", ID_BACKGROUND_OPEN_BUTTON, true));
-		pbackground_play_list->emplace_back(create_child_menu("关闭后台播放", ID_BACKGROUND_CLOSE_BUTTON, false));
-		break;
-	}
-	}
-
-	return pbackground_play_list;
-}
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_quality_change_list() {
 	std::list<ChildMenu*>* pquality_change_list = new std::list<ChildMenu*>;
