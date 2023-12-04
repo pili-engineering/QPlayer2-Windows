@@ -1,15 +1,15 @@
 {
     "background_enable": false,
     "blind": "QPLAYER_BLIND_SETTING_NONE",
-    "decoder": "QPLAYER_DECODER_SETTING_FIRST_FRAME_ACCEL_PRIORITY",
+    "decoder": "QPLAYER_DECODER_SETTING_AUTO",
     "force_authentication_enable": false,
     "mute_enable": false,
     "play_speed": 1.0,
-    "play_start_positon": 100,
+    "play_start_positon": 0,
     "player_start": "QPLAYER_START_SETTING_PLAYING",
     "quality_immediatyly": "无缝切换",
     "render_ratio": "QPLAYER_RATIO_SETTING_AUTO",
     "seek_mode": "QPLAYER_SEEK_SETTING_NORMAL",
-    "sei_enable": false,
-    "subtitle_enable": true
+    "sei_enable": true,
+    "subtitle_enable": false
 }
