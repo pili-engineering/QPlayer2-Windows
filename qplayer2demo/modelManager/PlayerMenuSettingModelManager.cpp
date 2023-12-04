@@ -595,7 +595,6 @@ void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaMode
 	for (int i = item_count - 1; i >= 0; --i) {
 		DeleteMenu(subtitle_hwnd, i, MF_BYPOSITION);
 	}
-	//DestroyMenu(subtitle_hwnd);
 	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>();
 	if (CurrentDataModelManager::get_instance()->get_subtitle_enable())
 	{
