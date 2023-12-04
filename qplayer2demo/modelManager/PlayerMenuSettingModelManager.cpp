@@ -402,25 +402,11 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 	{
 	case false: {
 		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, true));
-		//psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, false));
-		//psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
 		break;
 
 	}
 	case  true: {
 		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
-		//if (CurrentDataModelManager::get_instance()->get_subtitle_name() == "中文") {
-
-		//	psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
-		//	psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, true));
-		//	psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
-		//}
-		//else if (CurrentDataModelManager::get_instance()->get_subtitle_name() == "英文")
-		//{
-		//	psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
-		//	psubtitle_list->emplace_back(create_child_menu("中文", ID_SUBTITLE_CHINESE_BUTTON, true));
-		//	psubtitle_list->emplace_back(create_child_menu("英文", ID_SUBTITLE_ENGLISH_BUTTON, false));
-		//}
 		break;
 	}
 	default: {
