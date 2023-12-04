@@ -155,6 +155,7 @@
     <ClInclude Include="model\PlayerMenuSettingModel.h" />
     <ClInclude Include="model\PlayerUrlListModel.h" />
     <ClInclude Include="PlayerWindow.h" />
+    <ClInclude Include="PlayStartPostitionWindow.h" />
     <ClInclude Include="qplayer2demo.h" />
     <ClInclude Include="ToastWindow.h" />
     <ClInclude Include="UrlListWindow.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="model\PlayerMenuSettingModel.cpp" />
     <ClCompile Include="model\PlayerUrlListModel.cpp" />
     <ClCompile Include="PlayerWindow.cpp" />
+    <ClCompile Include="PlayStartPostitionWindow.cpp" />
     <ClCompile Include="qplayer2demo.cpp" />
     <ClCompile Include="ToastWindow.cpp" />
     <ClCompile Include="UrlListWindow.cpp" />
