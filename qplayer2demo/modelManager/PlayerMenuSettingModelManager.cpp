@@ -494,19 +494,19 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_mute_list() {
 	{
 	case true: {
 
-		pmute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_SUBTITLE_CLOSE_BUTTON, false));
-		pmute_list->emplace_back(create_child_menu("æ≤“Ù", ID_SUBTITLE_CHINESE_BUTTON, true));
+		pmute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_MUTE_CLOSE_BUTTON, false));
+		pmute_list->emplace_back(create_child_menu("æ≤“Ù", ID_MUTE_OPEN_BUTTON, true));
 		break;
 	}
 	case false: {
 
-		pmute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_SUBTITLE_CLOSE_BUTTON, true));
-		pmute_list->emplace_back(create_child_menu("æ≤“Ù", ID_SUBTITLE_CHINESE_BUTTON, false));
+		pmute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_MUTE_CLOSE_BUTTON, true));
+		pmute_list->emplace_back(create_child_menu("æ≤“Ù", ID_MUTE_OPEN_BUTTON, false));
 		break;
 	}
 	default:
-		pmute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_SUBTITLE_CLOSE_BUTTON, true));
-		pmute_list->emplace_back(create_child_menu("æ≤“Ù", ID_SUBTITLE_CHINESE_BUTTON, false));
+		pmute_list->emplace_back(create_child_menu("∑«æ≤“Ù", ID_MUTE_CLOSE_BUTTON, true));
+		pmute_list->emplace_back(create_child_menu("æ≤“Ù", ID_MUTE_OPEN_BUTTON, false));
 		break;
 	}
 
