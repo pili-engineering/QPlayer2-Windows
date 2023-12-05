@@ -1,5 +1,6 @@
 #include "PlayStartPostitionWindow.h"
 #include <CommCtrl.h>
+#include "CurrentDataModelManager.h"
 #define CLASS_NAME  L"PlayStartPostitionWindow"
 #define ID_PlAY_START_POSITION_INPUT   1000
 
@@ -99,7 +100,7 @@ LRESULT CALLBACK PlayStartPostitionWindow::main_play_start_position_window_proc(
 		}
 		case ID_CANCEL_BUTTON:
 		{
-			pposition_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,0);
+			pposition_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,CurrentDataModelManager::get_instance()->get_player_start_position());
 			DestroyWindow(pposition_window->mHwnd);
 			break;
 		}

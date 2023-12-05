@@ -709,9 +709,12 @@ void  MainWindow::button_click(int button_id) {
 	case ID_PLAY_START_POSITION_BUTTON: {
 		PlayStartPostitionWindow* pplay_start_position_window = new PlayStartPostitionWindow(mHwnd,mHinstance,
 			[this](WindowCloseType close_type, long start_position_time) {
-				CurrentDataModelManager::get_instance()->set_player_start_position(start_position_time);
-				mpSettingMenuManager->update_play_start_position_menu_text(start_position_time, mpSettingMenuManager->get_child_menu_for_name("起播时间"));
-				DrawMenuBar(mHwnd);
+				if (close_type == WindowCloseType::SUBMIT_CLOSE)
+				{
+					CurrentDataModelManager::get_instance()->set_player_start_position(start_position_time);
+					mpSettingMenuManager->update_play_start_position_menu_text(start_position_time, mpSettingMenuManager->get_child_menu_for_name("起播时间"));
+					DrawMenuBar(mHwnd);
+				}
 			});
 		break;
 	}
