@@ -17,6 +17,7 @@
 #include <sstream>
 #include <Windows.h>
 #include <CommCtrl.h>
+#include <iconv.h>
 #define CLASS_NAME                     "MainWindow"
 #define ID_VIDEO_RENDER_WINDOW  200
 #define ID_SEEK_BAR             202
@@ -173,11 +174,14 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
     on_create();
 	//添加播放器listener
 	add_listeners();
+	//创建菜单按钮
+	on_create_play_menu();
 	//播放第一个视频
 	mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), CurrentDataModelManager::get_instance()->get_player_start_position());
 	CurrentDataModelManager::get_instance()->set_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model());
-	//创建菜单按钮
-	on_create_play_menu();
+	//动态更新字幕菜单栏按钮
+	mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mpSettingMenuManager->get_child_menu_for_name("字幕设置"));
+	//根据url更新清晰度列表
 	update_quality_list_window();
     ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
@@ -372,10 +376,6 @@ LRESULT MainWindow::on_create_play_menu() {
 				CheckMenuItem((*parent_it)->get_child_menu_model()->get_menus(), (*child_it)->get_id(), MF_CHECKED);
 			}
         }
-		if ((*parent_it)->get_name() == "字幕设置")
-		{
-			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mpSettingMenuManager->get_child_menu_for_name("字幕设置"));
-		}
     }
     SetMenu(mHwnd, base_menu);
 
@@ -929,7 +929,7 @@ void MainWindow::on_fps_changed(long fps) {
 }
 
 void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size) {
-
+	std::string text = "on_audio_data ";
 }
 
 void  MainWindow::on_mute_changed(bool is_mute) {
@@ -1100,12 +1100,36 @@ void  MainWindow::on_shoot_video_failed() {
 }
 
 void  MainWindow::on_sei_data(uint8_t* data, uint64_t size) {
-	std::vector<char> buffer(data, data + size);  // 将数据复制到缓冲区
 
-	// 转换为 std::string
-	std::string result(buffer.data(), buffer.data() + buffer.size());
-	std::string text = "on_sei_data: " + result;
-	mpToastWindow->add_item(text);
+	if (size > 16)
+	{
+		uint8_t* byte = new uint8_t[size];
+		std::stringstream uuid;
+		for (size_t i = 0; i < size; i++) {
+			uuid << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
+		}
+		std::string uuid_string = uuid.str();
+		for (size_t i = 16; i < size; i++) {
+			byte[i - 16] = data[i];
+			// 使用字节数据进行处理
+		}
+
+		std::vector<char> buffer(byte, byte + size - 16);
+		std::string result(buffer.data(), buffer.data() + buffer.size());
+		std::string text = "on_sei_data: " + result;
+		std::string uuid_text = "uuid : " + uuid_string;
+		mpToastWindow->add_item(uuid_text);
+
+		mpToastWindow->add_item(text);
+	}
+	else
+	{
+		std::vector<char> buffer(data, data + size);  // 将数据复制到缓冲区
+		// 转换为 std::string
+		std::string result(buffer.data(), buffer.data() + buffer.size());
+		std::string text = "on_sei_data: " + result;
+		mpToastWindow->add_item(text);
+	}
 }
 
 void  MainWindow::on_speed_changed(float speed) {
@@ -1163,7 +1187,7 @@ void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
 }
 
 void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {
-
+	std::string text = "on_video_data";
 }
 
 void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {
