@@ -539,10 +539,27 @@ std::list<PlayerMenuSettingModel*>* PlayerMenuSettingModelManager::get_menu_sett
 }
 
 
-void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hwnd) {
-	int item_count = GetMenuItemCount(subtitle_hwnd);
+HMENU PlayerMenuSettingModelManager::get_child_menu_for_name(const std::string& name) {
+	std::list<PlayerMenuSettingModel*>* setting_model = get_menu_setting_model();
+
+	for (int parent_index = 0; parent_index < setting_model->size(); parent_index++) {
+		auto parent_it = setting_model->begin();
+		std::advance(parent_it, parent_index);
+		if ((*parent_it)->get_name() == name)
+		{
+			return (*parent_it)->get_child_menu_model()->get_menus();
+		}
+	}
+}
+void PlayerMenuSettingModelManager::update_play_start_position_menu_text(long start_position, HMENU position_hmenu) {
+	ModifyMenu(position_hmenu, ID_PLAY_START_POSITION_BUTTON, MF_STRING, ID_PLAY_START_POSITION_BUTTON, std::to_string(start_position).c_str());
+	
+}
+
+void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hmenu) {
+	int item_count = GetMenuItemCount(subtitle_hmenu);
 	for (int i = item_count - 1; i >= 0; --i) {
-		DeleteMenu(subtitle_hwnd, i, MF_BYPOSITION);
+		DeleteMenu(subtitle_hmenu, i, MF_BYPOSITION);
 	}
 	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>();
 	if (CurrentDataModelManager::get_instance()->get_subtitle_enable())
@@ -571,10 +588,10 @@ void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaMode
 		auto child_it = psubtitle_list->begin();
 		std::advance(child_it, index);
 		//创建二级菜单按钮
-		AppendMenu(subtitle_hwnd, MF_STRING, (*child_it)->get_id(), (*child_it)->get_name().c_str());
+		AppendMenu(subtitle_hmenu, MF_STRING, (*child_it)->get_id(), (*child_it)->get_name().c_str());
 		if ((*child_it)->get_is_selected())
 		{
-			CheckMenuItem(subtitle_hwnd, (*child_it)->get_id(), MF_CHECKED);
+			CheckMenuItem(subtitle_hmenu, (*child_it)->get_id(), MF_CHECKED);
 		}
 		
 	}
@@ -596,7 +613,7 @@ void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaMode
 	}
 
 	PlayerChildMenuModel* pchild_menu_model = new PlayerChildMenuModel();
-	pchild_menu_model->set_menu(subtitle_hwnd);
+	pchild_menu_model->set_menu(subtitle_hmenu);
 	pchild_menu_model->set_child_menus_list(std::move(psubtitle_list));
 	pinner_model->set_child_menu_model(pchild_menu_model);
 }

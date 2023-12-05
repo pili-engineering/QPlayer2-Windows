@@ -209,9 +209,13 @@ private:
 
 	float mWidth;
 
-	HMENU mSubtitleHmenu;
+	//HMENU mSubtitleHmenu;
 
-	HMENU mForceNetworkHmenu;
+	//HMENU mForceNetworkHmenu;
+
+	//HMENU mPlayControlHmenu;
+
+	//HMENU mPlayStartPositionHmenu;
 };
 
  

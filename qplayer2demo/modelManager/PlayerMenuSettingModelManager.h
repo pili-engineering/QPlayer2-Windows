@@ -75,7 +75,11 @@ class PlayerMenuSettingModelManager
 public:
 	std::list<PlayerMenuSettingModel*>* get_menu_setting_model();
 
-	void update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hwnd);
+	HMENU get_child_menu_for_name(const std::string& name);
+
+	void update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hmenu);
+
+	void update_play_start_position_menu_text(long start_position, HMENU position_hmenu);
 private:
 	void add_setting_model(const std::string& menu_name,int id);
 

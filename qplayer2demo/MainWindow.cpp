@@ -174,7 +174,7 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	//添加播放器listener
 	add_listeners();
 	//播放第一个视频
-	mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), 0);
+	mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), CurrentDataModelManager::get_instance()->get_player_start_position());
 	CurrentDataModelManager::get_instance()->set_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model());
 	//创建菜单按钮
 	on_create_play_menu();
@@ -242,9 +242,12 @@ LRESULT MainWindow::on_create()
     mpUrlListWindow->set_play_control_callback(
         [this](HWND hwnd, QMedia::QMediaModel* pmodel) {
             url_Click_call_back(hwnd, pmodel);
-			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHmenu);
+			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mpSettingMenuManager->get_child_menu_for_name("字幕设置"));
+			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
+			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_RESUME_BUTTON, MF_UNCHECKED);
+			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_PAUSE_BUTTON, MF_UNCHECKED);
+			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_STOP_BUTTON, MF_UNCHECKED);
 
-			CheckMenuItem(mForceNetworkHmenu, ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
         }
     );
 	//地址列表右键点击回调
@@ -339,7 +342,7 @@ void MainWindow::quality_change_click(int item_id) {
 void MainWindow::url_Click_call_back(HWND hwnd, QMedia::QMediaModel* pmodel) {
     if (mpPlayerWindow != nullptr)
     {
-        mpPlayerWindow->get_control_handler()->play_media_model(pmodel, 0);
+        mpPlayerWindow->get_control_handler()->play_media_model(pmodel, CurrentDataModelManager::get_instance()->get_player_start_position());
 
 		CurrentDataModelManager::get_instance()->set_media_model(pmodel);
     }
@@ -371,12 +374,7 @@ LRESULT MainWindow::on_create_play_menu() {
         }
 		if ((*parent_it)->get_name() == "字幕设置")
 		{
-			mSubtitleHmenu = (*parent_it)->get_child_menu_model()->get_menus();
-			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mSubtitleHmenu);
-		}
-		if ((*parent_it)->get_name() == "鉴权方式")
-		{
-			mForceNetworkHmenu = (*parent_it)->get_child_menu_model()->get_menus();
+			mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mpSettingMenuManager->get_child_menu_for_name("字幕设置"));
 		}
     }
     SetMenu(mHwnd, base_menu);
@@ -711,7 +709,9 @@ void  MainWindow::button_click(int button_id) {
 	case ID_PLAY_START_POSITION_BUTTON: {
 		PlayStartPostitionWindow* pplay_start_position_window = new PlayStartPostitionWindow(mHwnd,mHinstance,
 			[this](WindowCloseType close_type, long start_position_time) {
-
+				CurrentDataModelManager::get_instance()->set_player_start_position(start_position_time);
+				mpSettingMenuManager->update_play_start_position_menu_text(start_position_time, mpSettingMenuManager->get_child_menu_for_name("起播时间"));
+				DrawMenuBar(mHwnd);
 			});
 		break;
 	}
@@ -722,6 +722,10 @@ void  MainWindow::button_click(int button_id) {
 }
 //更新菜单按钮选中状态
 void MainWindow::updata_menu_ui(int button_id) {
+	if (button_id == ID_PLAY_START_POSITION_BUTTON)
+	{
+		return;
+	}
 	std::list<PlayerMenuSettingModel*>* setting_model = mpSettingMenuManager->get_menu_setting_model();
 
 	for (int parent_index = 0; parent_index < setting_model->size(); parent_index++) {

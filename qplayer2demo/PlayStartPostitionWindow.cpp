@@ -29,7 +29,7 @@ PlayStartPostitionWindow::PlayStartPostitionWindow(HWND hwnd,HINSTANCE hinstance
 		wcex.hIconSm = NULL;
 
 		if (!RegisterClassExW(&wcex)) {
-			throw "UrlSetting  create failed!";
+			throw "PlayStartPostitionWindow  create failed!";
 		}
 	}
 	mCloseCallBack = call_back;
@@ -39,11 +39,11 @@ PlayStartPostitionWindow::PlayStartPostitionWindow(HWND hwnd,HINSTANCE hinstance
 	int window_height = 150;
 	int window_x = (screen_width - window_width) / 2;
 	int window_y = (screen_height - window_height) / 2;
-	mHwnd = CreateWindowW(wcex.lpszClassName, (LPCWSTR)_T(CLASS_NAME), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
+	mHwnd = CreateWindowW(wcex.lpszClassName, (LPCWSTR)_T("PlayStartPostitionWindow"), WS_OVERLAPPEDWINDOW | WS_SYSMENU | WS_MINIMIZEBOX,
 		window_x, window_y, window_width, window_height, hwnd, NULL, mHinstance, NULL);
 	if (mHwnd == nullptr)
 	{
-		throw "UrlSetting window create failed!";
+		throw "PlayStartPostitionWindow window create failed!";
 	}
 	SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
 
@@ -68,13 +68,39 @@ LRESULT CALLBACK PlayStartPostitionWindow::main_play_start_position_window_proc(
 		int item_id = LOWORD(w_param);
 		switch (item_id)
 		{
+		case WM_DESTROY: {
+			if (hwnd == pposition_window->mHwnd) {
+				pposition_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, 0);
+				DestroyWindow(hwnd);
+				return 0;
+			}
+		}
 		case ID_SUBMIT_BUTTON:
 		{
-			pposition_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE,100);
+			int text_length = GetWindowTextLengthW(pposition_window->mPlayStartPositionInput);
+			long position = 0;
+			if (text_length == 0) {
+				pposition_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, 0);
+			}
+			else
+			{
+				try
+				{
+					pposition_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, std::stol(pposition_window->wchar_to_string(pposition_window->mPlayStartPositionInput)));
+				}
+				catch (const std::exception&)
+				{
+					pposition_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, 0);
+				}
+			}
+
+			DestroyWindow(pposition_window->mHwnd);
 			break;
 		}
 		case ID_CANCEL_BUTTON:
 		{
+			pposition_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,0);
+			DestroyWindow(pposition_window->mHwnd);
 			break;
 		}
 		default:
