@@ -64,18 +64,18 @@ LRESULT CALLBACK PlayStartPostitionWindow::main_play_start_position_window_proc(
 	PlayStartPostitionWindow* pposition_window = (PlayStartPostitionWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (message)
 	{
+	case WM_DESTROY: {
+		if (hwnd == pposition_window->mHwnd) {
+			pposition_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, 0);
+			DestroyWindow(hwnd);
+			return 0;
+		}
+	}
 	case WM_COMMAND:
 	{
 		int item_id = LOWORD(w_param);
 		switch (item_id)
 		{
-		case WM_DESTROY: {
-			if (hwnd == pposition_window->mHwnd) {
-				pposition_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, 0);
-				DestroyWindow(hwnd);
-				return 0;
-			}
-		}
 		case ID_SUBMIT_BUTTON:
 		{
 			int text_length = GetWindowTextLengthW(pposition_window->mPlayStartPositionInput);
