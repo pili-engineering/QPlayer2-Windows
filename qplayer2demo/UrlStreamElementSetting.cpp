@@ -332,6 +332,7 @@ void UrlStreamElementSetting::create_child_window() {
 		
 		SetWindowText(mUrlInput, _T(mpStreamElementModel->get_url().c_str()));
 		SetWindowText(mQualityInput, _T(std::to_string(mpStreamElementModel->get_quality()).c_str()));
+		SetWindowText(mMp4DrmInput, _T(mpStreamElementModel->get_mp4_drm()).c_str());
 		if (mpStreamElementModel->get_is_selected())
 		{
 			SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);
