@@ -4,11 +4,11 @@
 #include "VideoRenderWindow.h"
 #include "PlayerWindow.h"
 #include "DemoLog.h"
-#include "QIPlayerContext.h"
-#include "QIPlayerControlHandler.h"
-#include "QIPlayerRenderHandler.h"
-#include "QMediaModelBuilder.h"
-#include "QMediaModel.h"
+#include <QIPlayerContext.h>
+#include <QIPlayerControlHandler.h>
+#include <QIPlayerRenderHandler.h>
+#include <QMediaModelBuilder.h>
+#include <QMediaModel.h>
 #include <iostream>
 #include <filesystem>
 #include "UrlListWindow.h"
@@ -31,6 +31,7 @@
 #define ID_PLAY_STATE_STATIC_TEXT      210
 #define ID_TOAST_WINDOW         211
 #define ID_QUALITY_LIST_WINDOW      212
+#define ID_BUFFERING_TEXT      213
 #define ID_PAUSE_PLAY_BUTTON    301
 #define ID_RESUME_PLAY_BUTTON   302
 #define ID_URL_SETTING_WINDOW   303
@@ -40,6 +41,19 @@
 #define CLASS_NAME "UrlSetting"
 using namespace QMedia;
 
+const std::string FRAMES[] = {
+	"Loading   ",
+	"Loading.  ",
+	"Loading.. ",
+	"Loading..."
+};
+const int NUM_FRAMES = sizeof(FRAMES) / sizeof(FRAMES[0]);
+// 全局变量
+const int TIMER_ID = 1;
+const int FRAME_DELAY = 200;  // 帧延迟时间（以毫秒为单位）
+int CURRENT_FRAME = 0;
+
+#define RATE_BAR 1000.0
 //主消息
 LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param)
 {
@@ -47,6 +61,18 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 
     switch (message)
     {
+	case WM_TIMER:
+	{
+		if (w_param == TIMER_ID)
+		{
+			// 更新当前帧
+			CURRENT_FRAME = (CURRENT_FRAME + 1) % NUM_FRAMES;
+
+
+			SetWindowText(pmain_window->mPlayerBuffering, _T(FRAMES[CURRENT_FRAME].c_str()));
+		}
+		return 0;
+	}
 	case WM_NOTIFY:
 	{
 		NMHDR* pnmhdr = (NMHDR*)l_param;
@@ -92,7 +118,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 			int notificationCode = LOWORD(w_param);  // 获取通知代码
             if (notificationCode == TB_ENDTRACK) {
 				long current_position = SendMessage(pmain_window->mSeekBar, TBM_GETPOS, 0, 0);
-				pmain_window->seek_bar_click(current_position);
+				pmain_window->seek_bar_click(current_position/ RATE_BAR * CurrentDataModelManager::get_instance()->get_duration_time());
 				CurrentDataModelManager::get_instance()->set_is_seeking(true);
             }
             else if(notificationCode == TB_PAGEDOWN || notificationCode == TB_PAGEUP)
@@ -105,7 +131,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 				SendMessage(pmain_window->mSeekBar, TBM_GETRANGEMAX, TRUE, (LPARAM)&max_value);
 				RECT rect;
 				GetClientRect(pmain_window->mSeekBar, &rect);
-                int pos = (int)(((double)(pt.x - 10) / (rect.right - rect.left - 10)) * (CurrentDataModelManager::get_instance()->get_duration_time()));
+				int pos = (int)(((double)(pt.x - 10) / (rect.right - rect.left - 10)) * RATE_BAR);
 				SendMessage(pmain_window->mSeekBar, TBM_SETPOS, TRUE, pos);
 				CurrentDataModelManager::get_instance()->set_is_seeking(true);
             }
@@ -169,7 +195,7 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
     SetWindowLongPtr(mHwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	CurrentDataModelManager::get_instance()->set_is_seeking(false);
-
+	
 	//创建控件
     on_create();
 	//添加播放器listener
@@ -183,8 +209,16 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	mpSettingMenuManager->update_subtitle_menu_text(CurrentDataModelManager::get_instance()->get_media_model(), mpSettingMenuManager->get_child_menu_for_name("字幕设置"));
 	//根据url更新清晰度列表
 	update_quality_list_window();
+
+	SetTimer(mHwnd, TIMER_ID, FRAME_DELAY, NULL);
+
+
     ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
+
+
+
+
 }
 //析构函数
 MainWindow::~MainWindow()
@@ -205,13 +239,6 @@ HWND MainWindow::get_hwnd()
 LRESULT MainWindow::on_create()
 {
     HWND child_hwnd;
-
-
-    //视频显示窗口
-	mpPlayerWindow = new PlayerWindow(mHwnd, mHinstance);
-	child_hwnd = mpPlayerWindow->get_hwnd();
-	SetWindowLong(child_hwnd, GWL_ID, ID_PLAYER_WINDOW);
-
 
     //进度时间
     mPlayerProgressAndDurationText = CreateWindow(TEXT("STATIC"), TEXT("00:00/00:00"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_TIME_STATIC_TEXT, NULL, NULL);
@@ -240,6 +267,9 @@ LRESULT MainWindow::on_create()
 	//首帧
 	mFirstFrameText = CreateWindow(TEXT("STATIC"), TEXT("first frame:"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_FIRST_FRAME_STATIC_TEXT, NULL, NULL);
 
+	//播放器buffering状态
+	mPlayerBuffering = CreateWindow(TEXT("STATIC"), TEXT("play state:"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_BUFFERING_TEXT, NULL, NULL);
+	ShowWindow(mPlayerBuffering, SW_HIDE);
     //播放地址列表
     mpUrlListWindow = new UrlListWindow(mHwnd, mHinstance, mpUrlListModelManger);
 	//地址列表左键点击回调
@@ -251,6 +281,8 @@ LRESULT MainWindow::on_create()
 			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_RESUME_BUTTON, MF_UNCHECKED);
 			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_PAUSE_BUTTON, MF_UNCHECKED);
 			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_STOP_BUTTON, MF_UNCHECKED);
+			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("鉴权方式"), ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
+			ShowWindow(mPlayerBuffering, SW_HIDE);
 
         }
     );
@@ -278,7 +310,12 @@ LRESULT MainWindow::on_create()
 	mpToastWindow = new ToastWindow(mHwnd);
 	SetWindowLong(mpToastWindow->get_hwnd(), GWL_ID, ID_TOAST_WINDOW);
 
-    
+	//视频显示窗口
+	mpPlayerWindow = new PlayerWindow(mHwnd, mHinstance);
+	child_hwnd = mpPlayerWindow->get_hwnd();
+	SetWindowLong(child_hwnd, GWL_ID, ID_PLAYER_WINDOW);
+
+
     return TRUE;
 }
 void MainWindow::update_quality_list_window() {
@@ -449,6 +486,10 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
 	{
 		MoveWindow(hwndChild, parent_width - 310, parent_height - 270, 300, 190, TRUE);
 	}
+	else if(child_window_id == ID_BUFFERING_TEXT)
+	{
+		MoveWindow(hwndChild,  get_render_window_width(parent_width) / 2 - 40, get_render_window_height(parent_height) / 2 - 10, 80, 20, TRUE);
+	}
     return TRUE;
 }
 
@@ -484,6 +525,10 @@ bool MainWindow::notify_resize_to_player()
 }
 //进度条点击响应事件
 void MainWindow::seek_bar_click(long current_time) {
+	if (CurrentDataModelManager::get_instance()->get_media_model()->is_live())
+	{
+		return;
+	}
     if (mpPlayerWindow != nullptr) {
         mpPlayerWindow->get_control_handler()->seek(current_time*100);
     }
@@ -707,6 +752,7 @@ void  MainWindow::button_click(int button_id) {
 		return;
 	}
 	case ID_PLAY_START_POSITION_BUTTON: {
+		EnableWindow(mHwnd, FALSE);
 		PlayStartPostitionWindow* pplay_start_position_window = new PlayStartPostitionWindow(mHwnd,mHinstance,
 			[this](WindowCloseType close_type, long start_position_time) {
 				if (close_type == WindowCloseType::SUBMIT_CLOSE)
@@ -715,6 +761,7 @@ void  MainWindow::button_click(int button_id) {
 					mpSettingMenuManager->update_play_start_position_menu_text(start_position_time, mpSettingMenuManager->get_child_menu_for_name("起播时间"));
 					DrawMenuBar(mHwnd);
 				}
+				EnableWindow(mHwnd, TRUE);
 			});
 		break;
 	}
@@ -725,7 +772,7 @@ void  MainWindow::button_click(int button_id) {
 }
 //更新菜单按钮选中状态
 void MainWindow::updata_menu_ui(int button_id) {
-	if (button_id == ID_PLAY_START_POSITION_BUTTON)
+	if (button_id == ID_PLAY_START_POSITION_BUTTON || button_id ==  ID_PAUSE_BUTTON || button_id == ID_RESUME_BUTTON || button_id == ID_STOP_BUTTON)
 	{
 		return;
 	}
@@ -809,7 +856,7 @@ std::string  MainWindow::to_date_string(int64_t time) {
 			}
 			else
 			{
-				inner_time_str = std::to_string(min) + ":";
+				inner_time_str += std::to_string(min) + ":";
 			}
 			if (second < 10)
 			{
@@ -915,6 +962,11 @@ void MainWindow::on_state_changed(QMedia::QPlayerState state) {
 }
 
 void MainWindow::on_first_frame_rendered(int64_t elapsed_time) {
+	if (elapsed_time > 100000)
+	{
+
+		mpToastWindow->add_item("时间异常");
+	}
     DemoLog::log_string(CLASS_NAME, __LINE__, "elapsed_time");
     std::string text = "first frame: " + std::to_string(elapsed_time) + "ms";
     
@@ -988,11 +1040,13 @@ void  MainWindow::on_bite_rate_changed(int bit_rate) {
 void  MainWindow::on_buffering_start() {
 	std::string text = "buffering start";
 	mpToastWindow->add_item(text);
+	ShowWindow(mPlayerBuffering, SW_SHOW);
 }
 
 void  MainWindow::on_buffering_end() {
 	std::string text = "buffering end";
 	mpToastWindow->add_item(text);
+	ShowWindow(mPlayerBuffering, SW_HIDE);
 }
 
 void  MainWindow::on_command_not_allow(const std::string& command_name, QMedia::QPlayerState state) {
@@ -1025,7 +1079,31 @@ void  MainWindow::on_reconnect_end(const std::string& user_type, QMedia::QUrlTyp
 }
 
 void  MainWindow::on_open_failed(const std::string& user_type, QMedia::QUrlType url_type, const std::string& url, QMedia::QOpenError error) {
-	std::string text = "on_open_failed : " + std::to_string((int)error);
+	std::string text = "on_open_failed : ";
+	switch (error)
+	{
+	case QMedia::QOpenError::UNKNOW:
+		text += "UNKNOW";
+		break;
+	case QMedia::QOpenError::NONE:
+		text += "NONE";
+		break;
+	case QMedia::QOpenError::IOERROR:
+		text += "IOERROR";
+		break;
+	case QMedia::QOpenError::INTERRUPT:
+		text += "INTERRUPT";
+		break;
+	case QMedia::QOpenError::URL_INVALID:
+		text += "URL_INVALID";
+		break;
+	case QMedia::QOpenError::FORMAT_INVALID:
+		text += "FORMAT_INVALID";
+		break;
+	default:
+		text += std::to_string((int)error);
+		break;
+	}
 	mpToastWindow->add_item(text);
 }
 
@@ -1033,14 +1111,15 @@ void  MainWindow::on_progress_changed(int64_t progress, int64_t duration) {
     if (CurrentDataModelManager::get_instance()->get_duration_time() != duration/100)
 	{
         CurrentDataModelManager::get_instance()->set_duration_time(duration / 100);
-        SendMessage(mSeekBar, TBM_SETRANGE, TRUE, MAKELONG(0, CurrentDataModelManager::get_instance()->get_duration_time()));
+        SendMessage(mSeekBar, TBM_SETRANGE, TRUE, MAKELONG(0, RATE_BAR));
     } 
     std::string progress_time_str = to_date_string(progress);
     std::string duraion_time_str = to_date_string(duration);
 	std::string text = progress_time_str + "/" + duraion_time_str;
     if (!CurrentDataModelManager::get_instance()->get_is_seeking())
 	{
-		SendMessage(mSeekBar, TBM_SETPOS, TRUE, progress / 100);
+		float rate = progress*1.0 / duration;
+		SendMessage(mSeekBar, TBM_SETPOS, TRUE, rate * RATE_BAR);
     }
     if (mProgressTimeStr == progress_time_str) {
         return;
@@ -1191,7 +1270,23 @@ void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_
 }
 
 void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {
-	std::string text = "on_video_decode_by_type: " + std::to_string((int)type);
+	std::string text = "on_video_decode_by_type: ";
+	switch (type)
+	{
+	case QMedia::QDecoderType::NONE:
+		text += "NONE";
+		break;
+	case QMedia::QDecoderType::SOFTWARE:
+		text += "SOFTWARE";
+		break;
+	case QMedia::QDecoderType::HARDWARE:
+		text += "HARDWARE";
+		break;
+	default:
+		text += "NONE";
+		break;
+	}
+	
 	mpToastWindow->add_item(text);
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "framework.h"
-#include "QIPlayerListenersHeader.h"
+#include <QIPlayerListenersHeader.h>
 #include "ToastWindow.h"
 #include "PlayerUrlListModelManager.h"
 #include "UrlSetting.h"
@@ -195,6 +195,8 @@ private:
 
 	HWND mPlayerBiteRateText;
 
+	HWND mPlayerBuffering;
+
 	HWND mPlayerProgressAndDurationText;
 
 	HWND mPlayerQualityChangeListWindow;
@@ -208,14 +210,6 @@ private:
 	float mHeight;
 
 	float mWidth;
-
-	//HMENU mSubtitleHmenu;
-
-	//HMENU mForceNetworkHmenu;
-
-	//HMENU mPlayControlHmenu;
-
-	//HMENU mPlayStartPositionHmenu;
 };
 
  
