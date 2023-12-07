@@ -1,5 +1,5 @@
 #include "UrlSetting.h"
-#include "QMediaModelBuilder.h"
+#include <QMediaModelBuilder.h>
 #include <CommCtrl.h>
 #include "UrlStreamElementSetting.h"
 #include "UrlSubtitleElementSetting.h"

@@ -11,7 +11,7 @@
                 "quality": 1080,
                 "referer": "",
                 "render_type": "PLANE",
-                "url": "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4",
+                "url": "http://demo-videos.qnsdk.com/qiniu-2023-1080p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -22,7 +22,7 @@
                 "mp4_drm_key": "",
                 "quality": 720,
                 "referer": "",
-                "render_type": "PLANE",
+                "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -34,7 +34,7 @@
                 "mp4_drm_key": "",
                 "quality": 480,
                 "referer": "",
-                "render_type": "PLANE",
+                "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-480p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -46,7 +46,7 @@
                 "mp4_drm_key": "",
                 "quality": 360,
                 "referer": "",
-                "render_type": "PLANE",
+                "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-360p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -58,7 +58,7 @@
                 "mp4_drm_key": "",
                 "quality": 240,
                 "referer": "",
-                "render_type": "PLANE",
+                "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-240p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -702,25 +702,6 @@
                 "referer": "",
                 "render_type": "PANORAMA_EQUIRECT_ANGULAR",
                 "url": "http://demo-videos.qnsdk.com/VR-Panorama-Equirect-Angular-4500k.mp4",
-                "url_type": "QAUDIO_AND_VIDEO",
-                "user_type": ""
-            }
-        ],
-        "subtitle_element": []
-    },
-    {
-        "is_live": false,
-        "name": "27-点播-http-m3u8-SEI",
-        "stream_element": [
-            {
-                "backup_url": "",
-                "hls_drm_key": "",
-                "is_selected": true,
-                "mp4_drm_key": "",
-                "quality": 1080,
-                "referer": "",
-                "render_type": "PLANE",
-                "url": "http://pili-playback.qnsdk.com/recordings/z1.sdk-live.Hera/1673340696_1673340783.m3u8",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "QMediaModel.h"
+#include <QMediaModel.h>
 
 class PlayerUrlListModel
 {

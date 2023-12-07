@@ -1,7 +1,7 @@
 #pragma once
 #include "framework.h"
 #include <functional>
-#include "QMediaModel.h"
+#include <QMediaModel.h>
 #include "UrlClickType.h"
 #include "WindowCloseType.h"
 #include "DemoMediaSubtitleElementModel.h"

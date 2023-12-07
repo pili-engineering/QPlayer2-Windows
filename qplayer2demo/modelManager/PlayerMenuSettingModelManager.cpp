@@ -1,9 +1,9 @@
 #include "PlayerMenuSettingModelManager.h"
 #include "../DemoLog.h"
 #include "CurrentDataModelManager.h"
-#include "QIPlayerControlHandler.h"
-#include "QIPlayerRenderHandler.h"
-#include "QIPlayerContext.h"
+#include <QIPlayerControlHandler.h>
+#include <QIPlayerRenderHandler.h>
+#include <QIPlayerContext.h>
 #define CLASS_NAME          "PlayerMenuSettingModelManager"
 
 PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window):

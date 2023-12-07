@@ -1,9 +1,9 @@
 #pragma once
 #include "../framework.h"
-#include "QMediaModel.h"
-#include "QPlayerState.h"
+#include <QMediaModel.h>
+#include <QPlayerState.h>
 #include "QualityImmediatyly.h"
-#include "QPlayerSetting.h"
+#include <QPlayerSetting.h>
 class CurrentDataModel
 {
 public:

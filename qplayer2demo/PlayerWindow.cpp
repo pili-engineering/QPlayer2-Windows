@@ -1,11 +1,11 @@
 #include "PlayerWindow.h"
 #include "resource.h"
-#include "QIPlayerContext.h"
+#include <QIPlayerContext.h>
 
-#include "QIPlayerControlHandler.h"
-#include "QIPlayerRenderHandler.h"
-#include "QMediaModelBuilder.h"
-#include "QMediaModel.h"
+#include <QIPlayerControlHandler.h>
+#include <QIPlayerRenderHandler.h>
+#include <QMediaModelBuilder.h>
+#include <QMediaModel.h>
 #include "VideoRenderWindow.h"
 #include "DemoLog.h"
 #include <iostream>

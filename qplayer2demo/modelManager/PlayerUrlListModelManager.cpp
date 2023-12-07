@@ -1,6 +1,6 @@
 #include "PlayerUrlListModelManager.h"
 #include "../DemoLog.h"
-#include "QMediaModelBuilder.h"
+#include <QMediaModelBuilder.h>
 
 #include "../FileOfWriteAndRead.h"
 #include "iconv.h"
