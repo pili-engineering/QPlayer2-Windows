@@ -118,7 +118,9 @@
       <AdditionalDependencies>qplayer2-core.lib;iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin" </Command>
+      <Command>if not exist "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
+if not exist "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\shootImage"
+copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
