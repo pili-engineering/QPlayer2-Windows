@@ -1,3 +1,4 @@
+
 #include "MainWindow.h"
 #include "resource.h"
 #include <commctrl.h>
@@ -18,6 +19,9 @@
 #include <Windows.h>
 #include <CommCtrl.h>
 #include <iconv.h>
+#include <fstream>
+#include <chrono>
+#include <iomanip>
 #define CLASS_NAME                     "MainWindow"
 #define ID_VIDEO_RENDER_WINDOW  200
 #define ID_SEEK_BAR             202
@@ -32,6 +36,7 @@
 #define ID_TOAST_WINDOW         211
 #define ID_QUALITY_LIST_WINDOW      212
 #define ID_BUFFERING_TEXT      213
+#define ID_SUBTITLE_TEXT      214
 #define ID_PAUSE_PLAY_BUTTON    301
 #define ID_RESUME_PLAY_BUTTON   302
 #define ID_URL_SETTING_WINDOW   303
@@ -202,6 +207,8 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	add_listeners();
 	//创建菜单按钮
 	on_create_play_menu();
+
+	mpPlayerWindow->get_control_handler()->set_video_data_call_back_type(QMedia::QVideoType::YUV_420P);
 	//播放第一个视频
 	mpPlayerWindow->get_control_handler()->play_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model(), CurrentDataModelManager::get_instance()->get_player_start_position());
 	CurrentDataModelManager::get_instance()->set_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model());
@@ -268,8 +275,12 @@ LRESULT MainWindow::on_create()
 	mFirstFrameText = CreateWindow(TEXT("STATIC"), TEXT("first frame:"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_FIRST_FRAME_STATIC_TEXT, NULL, NULL);
 
 	//播放器buffering状态
-	mPlayerBuffering = CreateWindow(TEXT("STATIC"), TEXT("play state:"), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_BUFFERING_TEXT, NULL, NULL);
+	mPlayerBuffering = CreateWindow(TEXT("STATIC"), TEXT(""), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_BUFFERING_TEXT, NULL, NULL);
 	ShowWindow(mPlayerBuffering, SW_HIDE);
+
+	//播放器字幕
+	mPlayerSubtitle = CreateWindow(TEXT("STATIC"), TEXT(""), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_SUBTITLE_TEXT, NULL, NULL);
+	ShowWindow(mPlayerSubtitle, SW_HIDE);
     //播放地址列表
     mpUrlListWindow = new UrlListWindow(mHwnd, mHinstance, mpUrlListModelManger);
 	//地址列表左键点击回调
@@ -437,7 +448,7 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
     int parent_width = proot_window_rect->right - proot_window_rect->left;
     int parent_height = proot_window_rect->bottom- proot_window_rect->top;
     if (child_window_id == ID_PLAYER_WINDOW) {
-        MoveWindow(hwndChild, 10, 10, get_render_window_width(parent_width), get_render_window_height(parent_height), TRUE);
+        MoveWindow(hwndChild, 100, 10, get_render_window_width(parent_width), get_render_window_height(parent_height), TRUE);
 		
     }
     else if (child_window_id == ID_TIME_STATIC_TEXT)
@@ -496,10 +507,10 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
 
 int MainWindow::get_render_window_height(int parent_window_height)
 {
-    if (parent_window_height - 80 < 0) {
+    if (parent_window_height - 120 < 0) {
         return 0;
     }
-    return parent_window_height - 80;
+    return parent_window_height - 120;
 }
 
 int MainWindow::get_render_window_width(int parent_window_width)
@@ -545,7 +556,7 @@ void  MainWindow::button_click(int button_id) {
         DemoLog::log_string(CLASS_NAME, __LINE__, "mPlayerWindow is null");
         return;
     }
-	if (button_id - ID_SUBTITLE_CLOSE_BUTTON < 100 && button_id - ID_SUBTITLE_CLOSE_BUTTON > 0)
+	if (button_id - ID_SUBTITLE_CLOSE_BUTTON < 90 && button_id - ID_SUBTITLE_CLOSE_BUTTON > 0)
 	{
 
 		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
@@ -982,6 +993,7 @@ void MainWindow::on_fps_changed(long fps) {
 
 void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size) {
 	std::string text = "on_audio_data ";
+	//FileOfWriteAndRead::write_audio_data_to_local_file(sample_rate, format, channel_num, channel_layout, audio_data, size);
 }
 
 void  MainWindow::on_mute_changed(bool is_mute) {
@@ -1171,7 +1183,25 @@ void  MainWindow::on_seek_failed() {
 void  MainWindow::on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) {
 	std::string text = "on_shoot_video_success";
 	mpToastWindow->add_item(text);
+	auto currentTime = std::chrono::system_clock::now();
+	// 将时间戳转换为毫秒
+	auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime.time_since_epoch());
+
+	// 将时间戳转换为字符串
+	std::ostringstream oss;
+	oss << timestamp.count();
+	std::string timestamp_string = oss.str();
+	std::string image_name = timestamp_string + ".jpg";
+	if (FileOfWriteAndRead::write_image_to_local_file(image_data, size, image_name))
+	{
+		mpToastWindow->add_item("保存本地成功");
+	}
+	else
+	{
+		mpToastWindow->add_item("保存本地失败");
+	}
 }
+
 
 void  MainWindow::on_shoot_video_failed() {
 	std::string text = "on_shoot_video_failed";
@@ -1219,6 +1249,15 @@ void  MainWindow::on_speed_changed(float speed) {
 void  MainWindow::on_subtitle_text_changed(const std::string& text) {
     std::string toast_text = "on_subtitle_text_changed: " + text;
     mpToastWindow->add_item(toast_text);
+	RECT rect;
+	GetWindowRect(mpPlayerWindow->get_hwnd(), &rect);  // 获取屏幕坐标系下的位置和大小
+	// 转换为客户区坐标系
+	ScreenToClient(mHwnd, (LPPOINT)&rect.left);
+	ScreenToClient(mHwnd, (LPPOINT)&rect.right);
+	float height = rect.bottom - rect.top;
+	float width = rect.right - rect.left;
+	MoveWindow(mPlayerSubtitle, rect.left + width / 2 - text.length() * 4, rect.bottom + 10, text.length() * 8, 30,true);
+	SetWindowText(mPlayerSubtitle, text.c_str());
 }
 
 void  MainWindow::on_subtitle_name_changed(const std::string& name) {
@@ -1267,6 +1306,7 @@ void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
 
 void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {
 	std::string text = "on_video_data";
+	//FileOfWriteAndRead::write_video_data_to_local_file(width, height, video_type, buffer, size);
 }
 
 void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {

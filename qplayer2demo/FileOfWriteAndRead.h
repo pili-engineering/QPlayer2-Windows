@@ -3,6 +3,9 @@
 #include "PlayerUrlListModel.h"
 #include <list>
 #include "CurrentDataModel.h"
+#include <QVideoType.h>
+#include <QSampleFormat.h>
+#include <QChannelLayout.h>
 class FileOfWriteAndRead
 {
 public:
@@ -28,6 +31,12 @@ public:
 
 
 	static bool write_json_to_local_file(const std::string& file_name, std::list<PlayerUrlListModel*> model);
+
+	static bool write_image_to_local_file(const uint8_t* pjpeg_data, uint64_t size, const std::string& file_name);
+
+	static bool write_video_data_to_local_file(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size);
+
+	static bool write_audio_data_to_local_file(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size);
 private:
 	static std::string decoder_to_string(QMedia::QPlayerSetting::QPlayerDecoder decoder);
 

@@ -9,6 +9,7 @@
 #include <iconv.h>
 #include <filesystem>
 
+#include <mmsystem.h>
 //播放器设置写入文件
 bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* pmodel) {
 #ifdef _DEBUG
@@ -46,6 +47,7 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 	file << std::setw(4) << current_json << std::endl;
 	file.close();
 }
+
 //从文件中读取播放器设置
 CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string& file_name) {
 #ifdef _DEBUG
@@ -228,6 +230,108 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 	file.close();
 	return true;
 }
+bool FileOfWriteAndRead::write_image_to_local_file(const uint8_t* pjpeg_data, uint64_t size, const std::string& file_name)
+{
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string file_path = directory + "\\shootImage\\" + file_name;
+	std::ofstream outputFile(file_path, std::ios::binary);
+	if (outputFile)
+	{
+		outputFile.write(reinterpret_cast<const char*>(pjpeg_data), size);
+		outputFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int count = 0;
+bool FileOfWriteAndRead::write_video_data_to_local_file(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string file_path = directory + "\\shootImage\\" +std::to_string(count) + ".yuv";
+	std::ofstream outputFile(file_path, std::ios::binary | std::ios::app);
+	if (!outputFile)
+	{
+		std::cerr << "无法打开文件：" << file_path << std::endl;
+		return false;
+	}
+
+	// 写入 Y 分量
+	outputFile.write(reinterpret_cast<const char*>(buffer), size );
+	outputFile.close();
+
+	std::cout << "YUV420p 数据已写入文件：" << file_path << std::endl;
+	//count++;
+
+	return true;
+}
+
+
+
+bool FileOfWriteAndRead::write_audio_data_to_local_file(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size) {
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string file_path = directory + "\\shootImage\\" + "1.pcm";
+	std::ofstream outputFile(file_path, std::ios::binary | std::ios::app);
+	if (!outputFile)
+	{
+		// 文件打开失败，处理错误
+		return false;
+	}
+	if (count == 0)
+	{
+		// 写入 PCM 文件的头部信息
+		WAVEFORMATEX waveFormat;
+		waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+		waveFormat.nChannels = channel_num;
+		waveFormat.nSamplesPerSec = sample_rate;
+		waveFormat.nAvgBytesPerSec = sample_rate * channel_num * sizeof(short);
+		waveFormat.nBlockAlign = channel_num * sizeof(short);
+		waveFormat.wBitsPerSample = sizeof(short) * 8;
+		waveFormat.cbSize = 0;
+
+		DWORD headerSize = sizeof(waveFormat) + sizeof(DWORD);
+		DWORD dataSize = size * sizeof(short);
+		DWORD fileSize = headerSize + dataSize - 8;
+
+		// 写入文件头
+		outputFile.write("RIFF", 4);
+		outputFile.write(reinterpret_cast<const char*>(&fileSize), sizeof(DWORD));
+		outputFile.write("WAVEfmt ", 8);
+		outputFile.write(reinterpret_cast<const char*>(&headerSize), sizeof(DWORD));
+		outputFile.write(reinterpret_cast<const char*>(&waveFormat), sizeof(waveFormat));
+		outputFile.write("data", 4);
+		outputFile.write(reinterpret_cast<const char*>(&dataSize), sizeof(DWORD));
+	}
+
+
+
+	// 写入音频数据
+	outputFile.write(reinterpret_cast<const char*>(audio_data), size);
+	count = 1;
+	// 关闭文件
+	outputFile.close();
+	return true;
+}
+
+
+
+
+
+
 /************************************播放器枚举类型和字符串相互转换*****************************************************/
 std::string FileOfWriteAndRead::decoder_to_string(QMedia::QPlayerSetting::QPlayerDecoder decoder) {
 	switch (decoder)
