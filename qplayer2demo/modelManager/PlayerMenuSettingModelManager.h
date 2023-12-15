@@ -9,6 +9,8 @@
 #define ID_RESUME_BUTTON									 1001
 #define ID_PAUSE_BUTTON										 1002
 #define ID_STOP_BUTTON										 1003
+#define ID_RELEASE_BUTTON									 1004
+#define ID_CREATE_BUTTON									 1005
 
 #define ID_DECODER   										 1100
 #define ID_AUTO_DECODER_BUTTON								 1101

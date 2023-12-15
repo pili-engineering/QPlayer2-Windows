@@ -15,9 +15,18 @@ PlayerUrlListModelManager::~PlayerUrlListModelManager()
 {
 	if (mpBulder != nullptr)
 	{
-		delete mpBulder;
-		mpBulder = nullptr;
+		//delete mpBulder;
+		//mpBulder = nullptr;
 	}
+	if (!mUrlModels.empty())
+	{
+		for (PlayerUrlListModel* it : mUrlModels) {
+			delete it;
+			it = nullptr;
+		}
+		mUrlModels.clear();
+	}
+
 }
 
 void PlayerUrlListModelManager::motify_model(QMedia::QMediaModel* pmodel, const std::string& name, int index) {

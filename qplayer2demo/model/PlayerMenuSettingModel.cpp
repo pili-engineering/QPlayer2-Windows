@@ -22,6 +22,11 @@ std::string PlayerMenuSettingModel::get_name() {
 }
 
 void PlayerMenuSettingModel::set_child_menu_model(PlayerChildMenuModel* pchild_menu_model) {
+	if (mpChildMenu != nullptr)
+	{
+		delete mpChildMenu;
+		mpChildMenu = nullptr;
+	}
 	mpChildMenu = pchild_menu_model;
 }
 

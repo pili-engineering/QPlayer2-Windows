@@ -40,6 +40,8 @@ public:
 
 	QMedia::QIPlayerRenderHandler* get_render_handler();
 
+	QMedia::QIPlayerContext* get_context();
+
 
 
 

@@ -149,10 +149,13 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 
 		break;
 	}
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-	
+	case WM_DESTROY: {
+		if (hwnd == pmain_window->mHwnd) {
+			DestroyWindow(pmain_window->mHwnd);
+			PostQuitMessage(0);
+			return 0;
+		}
+	}
     default:
         return DefWindowProc(hwnd, message, w_param, l_param);
     }
@@ -168,6 +171,7 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	mHeight(0),
 	mWidth(0)
 {
+
     LoadStringW(mHinstance, IDS_APP_TITLE, mTitle, MAX_LOADSTRING);
     LoadStringW(mHinstance, IDC_QPLAYER2DEMO, mWindowClass, MAX_LOADSTRING);
 
@@ -235,7 +239,27 @@ MainWindow::~MainWindow()
         delete mpPlayerWindow;
         mpPlayerWindow = nullptr;
     }
-   
+	if (mpUrlListModelManger != nullptr)
+	{
+		delete mpUrlListModelManger;
+		mpUrlListModelManger = nullptr;
+	}
+	if (mpSettingMenuManager != nullptr)
+	{
+		delete mpSettingMenuManager;
+		mpSettingMenuManager = nullptr;
+	}
+	if (mpToastWindow != nullptr)
+	{
+		delete mpToastWindow;
+		mpToastWindow = nullptr;
+	}
+
+	//if (mpUrlListWindow != nullptr)
+	//{
+	//	delete mpUrlListWindow;
+	//	mpUrlListWindow = nullptr;
+	//}
 }
 //返回窗口句柄
 HWND MainWindow::get_hwnd()
@@ -448,7 +472,7 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
     int parent_width = proot_window_rect->right - proot_window_rect->left;
     int parent_height = proot_window_rect->bottom- proot_window_rect->top;
     if (child_window_id == ID_PLAYER_WINDOW) {
-        MoveWindow(hwndChild, 100, 10, get_render_window_width(parent_width), get_render_window_height(parent_height), TRUE);
+        MoveWindow(hwndChild, 10, 10, get_render_window_width(parent_width), get_render_window_height(parent_height), TRUE);
 		
     }
     else if (child_window_id == ID_TIME_STATIC_TEXT)
@@ -606,6 +630,15 @@ void  MainWindow::button_click(int button_id) {
     case ID_STOP_BUTTON:
         mpPlayerWindow->get_control_handler()->stop();
         break;
+	case ID_RELEASE_BUTTON:
+		if (CurrentDataModelManager::get_instance()->get_player_state() == QMedia::QPlayerState::PLAYING)
+		{
+
+			mpPlayerWindow->get_control_handler()->stop();
+
+		}
+		mpPlayerWindow->get_context()->release();
+		break;
 	case ID_AUTO_DECODER_BUTTON: {
 		mpPlayerWindow->get_control_handler()->set_decode_type(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO);
 		CurrentDataModelManager::get_instance()->set_decoder(QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO);
@@ -991,7 +1024,7 @@ void MainWindow::on_fps_changed(long fps) {
 	SetWindowText(mFPSText, text.c_str());
 }
 
-void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size) {
+void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout,const std::unique_ptr<uint8_t[]>& audio_data, uint64_t size) {
 	std::string text = "on_audio_data ";
 	//FileOfWriteAndRead::write_audio_data_to_local_file(sample_rate, format, channel_num, channel_layout, audio_data, size);
 }
@@ -1180,7 +1213,7 @@ void  MainWindow::on_seek_failed() {
     CurrentDataModelManager::get_instance()->set_is_seeking(false);
 }
 
-void  MainWindow::on_shoot_video_success(uint8_t* image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) {
+void  MainWindow::on_shoot_video_success(const std::unique_ptr<uint8_t[]>& image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) {
 	std::string text = "on_shoot_video_success";
 	mpToastWindow->add_item(text);
 	auto currentTime = std::chrono::system_clock::now();
@@ -1192,7 +1225,7 @@ void  MainWindow::on_shoot_video_success(uint8_t* image_data, uint64_t size, int
 	oss << timestamp.count();
 	std::string timestamp_string = oss.str();
 	std::string image_name = timestamp_string + ".jpg";
-	if (FileOfWriteAndRead::write_image_to_local_file(image_data, size, image_name))
+	if (FileOfWriteAndRead::write_image_to_local_file(image_data.get(), size, image_name))
 	{
 		mpToastWindow->add_item("保存本地成功");
 	}
@@ -1208,32 +1241,33 @@ void  MainWindow::on_shoot_video_failed() {
 	mpToastWindow->add_item(text);
 }
 
-void  MainWindow::on_sei_data(uint8_t* data, uint64_t size) {
-
+void  MainWindow::on_sei_data(const std::unique_ptr<uint8_t[]>&  data, uint64_t size) {
 	if (size > 16)
 	{
-		uint8_t* byte = new uint8_t[size];
+		uint8_t* pbyte = new uint8_t[size];
 		std::stringstream uuid;
 		for (size_t i = 0; i < size; i++) {
 			uuid << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
 		}
 		std::string uuid_string = uuid.str();
 		for (size_t i = 16; i < size; i++) {
-			byte[i - 16] = data[i];
+			pbyte[i - 16] = data[i];
 			// 使用字节数据进行处理
 		}
 
-		std::vector<char> buffer(byte, byte + size - 16);
+		std::vector<char> buffer(pbyte, pbyte + size - 16);
 		std::string result(buffer.data(), buffer.data() + buffer.size());
 		std::string text = "on_sei_data: " + result;
 		std::string uuid_text = "uuid : " + uuid_string;
 		mpToastWindow->add_item(uuid_text);
 
 		mpToastWindow->add_item(text);
+		delete pbyte;
+		pbyte = nullptr;
 	}
 	else
 	{
-		std::vector<char> buffer(data, data + size);  // 将数据复制到缓冲区
+		std::vector<char> buffer(data.get(), data.get() + size);  // 将数据复制到缓冲区
 		// 转换为 std::string
 		std::string result(buffer.data(), buffer.data() + buffer.size());
 		std::string text = "on_sei_data: " + result;
@@ -1247,7 +1281,17 @@ void  MainWindow::on_speed_changed(float speed) {
 }
 
 void  MainWindow::on_subtitle_text_changed(const std::string& text) {
-    std::string toast_text = "on_subtitle_text_changed: " + text;
+	std::string gb2312_text = "";
+	std::string toast_text = "";
+	if (text.length()!=0)
+	{
+		gb2312_text = FileOfWriteAndRead::UTF8_To_GB2312(text);
+		toast_text = "on_subtitle_text_changed: " + gb2312_text;
+	}
+	else
+	{
+		toast_text = "on_subtitle_text_changed: ";
+	}
     mpToastWindow->add_item(toast_text);
 	RECT rect;
 	GetWindowRect(mpPlayerWindow->get_hwnd(), &rect);  // 获取屏幕坐标系下的位置和大小
@@ -1256,8 +1300,9 @@ void  MainWindow::on_subtitle_text_changed(const std::string& text) {
 	ScreenToClient(mHwnd, (LPPOINT)&rect.right);
 	float height = rect.bottom - rect.top;
 	float width = rect.right - rect.left;
-	MoveWindow(mPlayerSubtitle, rect.left + width / 2 - text.length() * 4, rect.bottom + 10, text.length() * 8, 30,true);
-	SetWindowText(mPlayerSubtitle, text.c_str());
+    MoveWindow(mPlayerSubtitle, rect.left + width / 2 - gb2312_text.length() * 4, rect.bottom + 10, gb2312_text.length() * 8, 30,true);
+	SetWindowText(mPlayerSubtitle, gb2312_text.c_str());
+	int i = 0;
 }
 
 void  MainWindow::on_subtitle_name_changed(const std::string& name) {
@@ -1270,10 +1315,19 @@ void  MainWindow::on_subtitle_enable(bool enable) {
     if (enable)
     {
         text += "开启";
+		if (!IsWindowVisible(mPlayerSubtitle))
+		{
+			ShowWindow(mPlayerSubtitle, SW_SHOW);
+		}
     }
     else
     {
         text += "关闭";
+		if (IsWindowVisible(mPlayerSubtitle))
+		{
+			ShowWindow(mPlayerSubtitle, SW_HIDE);
+		}
+
     }
 	mpToastWindow->add_item(text);
 }
@@ -1304,7 +1358,7 @@ void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
 	mpToastWindow->add_item(text);
 }
 
-void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {
+void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type,const std::unique_ptr<uint8_t[]>& buffer, uint64_t size) {
 	std::string text = "on_video_data";
 	//FileOfWriteAndRead::write_video_data_to_local_file(width, height, video_type, buffer, size);
 }

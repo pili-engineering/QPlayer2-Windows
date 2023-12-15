@@ -8,12 +8,24 @@ PlayerChildMenuModel::~PlayerChildMenuModel()
 {
 	if (mpMenus != nullptr)
 	{
+		for (auto it = mpMenus->begin(); it != mpMenus->end(); ++it) {
+			delete* it;
+		}
 		delete mpMenus;
 		mpMenus = nullptr;
 	}
+	
 }
 
 void PlayerChildMenuModel::set_child_menus_list(std::list<ChildMenu*>* pmenu_list) {
+	if (mpMenus != nullptr)
+	{
+		for (auto it = mpMenus->begin(); it != mpMenus->end(); ++it) {
+			delete* it;
+		}
+		delete mpMenus;
+		mpMenus = nullptr;
+	}
 	mpMenus = pmenu_list;
 }
 

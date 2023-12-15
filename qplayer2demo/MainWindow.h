@@ -51,7 +51,7 @@ private:
 
     void on_fps_changed(long fps) override;
 
-	void on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* paudio_data, uint64_t size) override;
+	void on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, const std::unique_ptr<uint8_t[]>& audio_data, uint64_t size) override;
 
 	void on_mute_changed(bool is_mute) override;
 
@@ -93,11 +93,11 @@ private:
 
 	void on_seek_failed() override;
 
-	void on_shoot_video_success(uint8_t* pimage_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) override;
+	void on_shoot_video_success(const std::unique_ptr<uint8_t[]>& image_data, uint64_t size, int width, int height, QMedia::QShootVideoType type) override;
 
 	void on_shoot_video_failed() override;
 
-	void on_sei_data(uint8_t* pdata, uint64_t size) override;
+	void on_sei_data(const std::unique_ptr<uint8_t[]>& pdata, uint64_t size) override;
 
 	void on_speed_changed(float speed) override;
 
@@ -111,7 +111,7 @@ private:
 
 	void on_subtitle_decoded(const std::string &name, bool result) override;
 
-	void on_video_data(int width, int height, QMedia::QVideoType video_type, uint8_t* pbuffer, uint64_t size) override;
+	void on_video_data(int width, int height, QMedia::QVideoType video_type, const std::unique_ptr<uint8_t[]>& pbuffer, uint64_t size) override;
 
 	void on_video_decode_by_type(QMedia::QDecoderType type) override;
 
@@ -134,6 +134,7 @@ public:
     MainWindow& operator=(MainWindow&&) = delete;
 
     HWND get_hwnd();
+
 private:
     LRESULT on_create();
     LRESULT on_resize();
@@ -142,7 +143,6 @@ private:
     static int get_render_window_height(int parent_window_height);
     static int get_render_window_width(int parent_window_width);
     void button_click(int button_id);
-
 
 	void seek_bar_click(long current_time);
 
@@ -166,7 +166,6 @@ private:
 	std::string mProgressTimeStr;
 
 
-    CurrentDataModelManager* mpCurrentDataModelManger;
 
     static const int MAX_LOADSTRING = 100;
     WCHAR mTitle[MAX_LOADSTRING];                  // 标题栏文本

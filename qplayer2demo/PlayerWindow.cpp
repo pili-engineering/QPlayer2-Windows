@@ -67,6 +67,11 @@ PlayerWindow::~PlayerWindow()
 		delete mpPlayerContext;
 		mpPlayerContext = nullptr;
 	}
+	if (mpVideoRenderWindow != nullptr)
+	{
+		delete mpVideoRenderWindow;
+		mpVideoRenderWindow = nullptr;
+	}
 }
 
 //处理事件循环
@@ -172,3 +177,9 @@ QMedia::QIPlayerRenderHandler* PlayerWindow::get_render_handler() {
 }
 
 
+QMedia::QIPlayerContext* PlayerWindow::get_context() {
+	if (mpPlayerContext != nullptr) {
+		return mpPlayerContext;
+	}
+	return nullptr;
+}

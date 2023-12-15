@@ -87,6 +87,7 @@ public:
 	int get_quality();
 
 	void set_quality(int quality);
+
 private:
 	CurrentDataModelManager();
 	~CurrentDataModelManager();
