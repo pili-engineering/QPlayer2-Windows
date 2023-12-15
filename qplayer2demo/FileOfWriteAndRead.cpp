@@ -21,7 +21,7 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #endif
 
 	nlohmann::json current_json = nlohmann::json();
@@ -59,7 +59,7 @@ CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string&
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #endif
 	std::ifstream file(file_path);
 	CurrentDataModel* pcurrent = new CurrentDataModel();
@@ -106,7 +106,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #endif
 	std::list<PlayerUrlListModel*> model_list = std::list<PlayerUrlListModel*>();
 	std::ifstream file(file_path);
@@ -183,7 +183,7 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + file_name;
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #endif
 	auto pjson_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
 	for (PlayerUrlListModel* pmodel : model_list)
@@ -258,7 +258,7 @@ bool FileOfWriteAndRead::write_video_data_to_local_file(int width, int height, Q
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + "\\shootImage\\" +std::to_string(count) + ".yuv";
+	std::string file_path = directory + "\\shootImage\\" +std::to_string(1) + ".yuv";
 	std::ofstream outputFile(file_path, std::ios::binary | std::ios::app);
 	if (!outputFile)
 	{
@@ -661,9 +661,9 @@ std::string FileOfWriteAndRead::UTF8_To_GB2312(const std::string& utf8_text) {
 		return "";
 	}
 
-
+	std::string output_string = std::string(output);
 	iconv_close(iconv_handle);
-
-	return output;
+	delete[] output;
+	return output_string;
 }
 
