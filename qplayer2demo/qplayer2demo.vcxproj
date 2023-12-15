@@ -112,20 +112,23 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;__OS_WINDOWS__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(SolutionDir)out\$(Platform)\$(Configuration)\include;$(ProjectDir)dependency\qplayer-json\single_include;$(ProjectDir)dependency\qplayer-iconv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(SolutionDir)out\$(Platform)\$(Configuration)\include;$(ProjectDir)dependency\qplayer-json\single_include;C:\Program Files (x86)\Visual Leak Detector\include;$(ProjectDir)dependency\qplayer-iconv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;$(ProjectDir)dependency\qplayer-iconv;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qplayer2-core.lib;iconv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qplayer2-core.lib;iconv.lib;vld.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
 if not exist "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\shootImage"
 copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" </Command>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>copy "$(ProjectDir)dependency\qplayer-vld\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\lib\" </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

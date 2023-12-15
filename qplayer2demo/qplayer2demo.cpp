@@ -1,9 +1,13 @@
 ﻿// qplayer2demo.cpp : 定义应用程序的入口点。
 //
 
+#ifdef _DEBUG
+#include "vld.h"
+#endif
 #include "framework.h"
 #include "MainWindow.h"
 #include "qplayer2demo.h"
+#include "FileOfWriteAndRead.h"
 
 
 //using namespace QMedia;
@@ -24,6 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
+    SetUnhandledExceptionFilter(FileOfWriteAndRead::write_mini_dump_to_local);
     MainWindow main_window(hInstance, nCmdShow);
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_QPLAYER2DEMO));

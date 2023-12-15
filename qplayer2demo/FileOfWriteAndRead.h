@@ -37,6 +37,8 @@ public:
 	static bool write_video_data_to_local_file(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size);
 
 	static bool write_audio_data_to_local_file(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size);
+
+	static LONG WINAPI write_mini_dump_to_local(EXCEPTION_POINTERS* exceptionInfo);
 private:
 	static std::string decoder_to_string(QMedia::QPlayerSetting::QPlayerDecoder decoder);
 
@@ -71,6 +73,6 @@ private:
 	static QMedia::QVideoRenderType string_to_render_type(const std::string& render_type);
 
 	static std::string GB2312_To_UTF8(const std::string& str);
-
+public:
 	static std::string UTF8_To_GB2312(const std::string& utf8_text);
 };

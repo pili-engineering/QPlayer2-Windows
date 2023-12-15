@@ -8,7 +8,9 @@
 #include <nlohmann/json.hpp>
 #include <iconv.h>
 #include <filesystem>
-
+#include <chrono>
+#include <sstream>
+#include <dbghelp.h>
 #include <mmsystem.h>
 //播放器设置写入文件
 bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* pmodel) {
@@ -165,6 +167,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 			}
 			PlayerUrlListModel* pmodel = new PlayerUrlListModel(pmodel_builder->build(is_live), name);
 			model_list.emplace_back(pmodel);
+			delete pmodel_builder;
 
 		}
 	}
@@ -667,3 +670,51 @@ std::string FileOfWriteAndRead::UTF8_To_GB2312(const std::string& utf8_text) {
 	return output_string;
 }
 
+
+LONG WINAPI FileOfWriteAndRead::write_mini_dump_to_local(EXCEPTION_POINTERS* exceptionInfo)
+{
+	auto currentTime = std::chrono::system_clock::now();
+	auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime.time_since_epoch());
+	std::ostringstream oss;
+	oss << timestamp.count();
+	std::string timestamp_string = oss.str();
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string file_path = directory + timestamp_string + ".dmp";
+	HANDLE hDumpFile = CreateFile(
+		file_path.c_str(),
+		GENERIC_WRITE,
+		0,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL
+	);
+
+	if (hDumpFile != INVALID_HANDLE_VALUE)
+	{
+		MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
+		dumpInfo.ThreadId = GetCurrentThreadId();
+		dumpInfo.ExceptionPointers = exceptionInfo;
+		dumpInfo.ClientPointers = TRUE;
+
+		MiniDumpWriteDump(
+			GetCurrentProcess(),
+			GetCurrentProcessId(),
+			hDumpFile,
+			MiniDumpNormal,
+			&dumpInfo,
+			NULL,
+			NULL
+		);
+
+		// 关闭文件句柄
+		CloseHandle(hDumpFile);
+	}
+
+	// 执行默认的异常处理
+	return EXCEPTION_EXECUTE_HANDLER;
+}
