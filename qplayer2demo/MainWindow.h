@@ -115,6 +115,8 @@ private:
 
 	void on_video_decode_by_type(QMedia::QDecoderType type) override;
 
+	void on_decode_failed(bool retry) override;
+
 	void on_not_support_codec_format(int codec_id) override;
 
 	void on_video_frame_size_changed(int width, int height) override;

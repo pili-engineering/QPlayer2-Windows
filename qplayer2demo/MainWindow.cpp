@@ -1393,6 +1393,18 @@ void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {
 	mpToastWindow->add_item(text);
 }
 
+void MainWindow::on_decode_failed(bool retry) {
+	std::string text = "on_decode_failed ";
+	if (retry)
+	{
+		text += "retry: True";
+	}
+	else
+	{
+		text += "retry: False";
+	}
+	mpToastWindow->add_item(text);
+}
 void  MainWindow::on_not_support_codec_format(int codec_id) {
 	std::string text = "on_not_support_codec_format: " + std::to_string(codec_id);
 	mpToastWindow->add_item(text);
