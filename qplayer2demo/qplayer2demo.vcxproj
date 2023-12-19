@@ -150,7 +150,8 @@ copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configur
       </Command>
     </PreLinkEvent>
     <PreBuildEvent>
-      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86_64\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86_64\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
+copy "$(ProjectDir)dependency\qplayer-vld\x86_64\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
