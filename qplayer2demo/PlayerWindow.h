@@ -18,7 +18,7 @@ private:
 
 	bool notify_resize_to_player();
 
-	static BOOL resize_child_windows_proc(HWND hwnd_child, LPARAM l_param);
+	static BOOL CALLBACK resize_child_windows_proc(HWND hwnd_child, LPARAM l_param);
 
 
 public:

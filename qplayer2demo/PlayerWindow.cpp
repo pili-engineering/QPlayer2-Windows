@@ -121,7 +121,8 @@ LRESULT PlayerWindow::on_resize()
 	notify_resize_to_player();
 	return TRUE;
 }
-BOOL PlayerWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
+
+BOOL CALLBACK PlayerWindow::resize_child_windows_proc(HWND hwndChild, LPARAM lParam)
 {
 	LPRECT proot_window_rect;
 	int child_window_id;
