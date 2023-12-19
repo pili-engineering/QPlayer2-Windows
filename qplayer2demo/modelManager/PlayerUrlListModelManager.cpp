@@ -15,12 +15,16 @@ PlayerUrlListModelManager::~PlayerUrlListModelManager()
 {
 	if (mpBulder != nullptr)
 	{
-		//delete mpBulder;
-		//mpBulder = nullptr;
+		delete mpBulder;
+		mpBulder = nullptr;
 	}
 	if (!mUrlModels.empty())
 	{
 		for (PlayerUrlListModel* it : mUrlModels) {
+			if (it == nullptr)
+			{
+				continue;
+			}
 			delete it;
 			it = nullptr;
 		}

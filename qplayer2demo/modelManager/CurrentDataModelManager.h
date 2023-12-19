@@ -23,6 +23,7 @@ public:
 
 	bool get_is_seeking();
 
+	void release();
 
 	void set_decoder(QMedia::QPlayerSetting::QPlayerDecoder decoder);
 

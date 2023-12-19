@@ -67,7 +67,6 @@ UrlListWindow::~UrlListWindow()
 {
 	if (mpModelManager != nullptr)
 	{
-		delete mpModelManager;
 		mpModelManager = nullptr;
 	} 	
 }

@@ -112,7 +112,6 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_control_list()
 	pplay_control->emplace_back(create_child_menu("暂停播放", ID_PAUSE_BUTTON, false));
 	pplay_control->emplace_back(create_child_menu("停止播放", ID_STOP_BUTTON, false));
 	pplay_control->emplace_back(create_child_menu("释放播放", ID_RELEASE_BUTTON, false));
-	pplay_control->emplace_back(create_child_menu("创建播放", ID_CREATE_BUTTON, false));
 
 	return pplay_control;
 }

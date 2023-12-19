@@ -26,12 +26,15 @@ CurrentDataModelManager::~CurrentDataModelManager()
 		delete mpCurrentDataModel;
 		mpCurrentDataModel = nullptr;
 	}
-	if (instance != nullptr) {
-		delete instance;
+}
+void CurrentDataModelManager::release() {
+	if (instance != nullptr)
+	{
+
+  		delete instance;
 		instance = nullptr;
 	}
 }
-
 void CurrentDataModelManager::set_duration_time(long time) {
 	mpCurrentDataModel->set_duration_time(time);
 }
