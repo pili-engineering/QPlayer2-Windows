@@ -209,6 +209,13 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
     on_create();
 	//添加播放器listener
 	add_listeners();
+	CurrentDataModelManager::get_instance()->set_media_model(mpUrlListModelManger->get_url_model_for_index(0)->get_media_model());
+	for (QSubtitleElement* ele : CurrentDataModelManager::get_instance()->get_media_model()->get_subtitle_elements()) {
+		if (ele->is_selected())
+		{
+			CurrentDataModelManager::get_instance()->set_subtitle_name(ele->get_name());
+		}
+	}
 	//创建菜单按钮
 	on_create_play_menu();
 
@@ -255,11 +262,13 @@ MainWindow::~MainWindow()
 		mpToastWindow = nullptr;
 	}
 
-	//if (mpUrlListWindow != nullptr)
-	//{
-	//	delete mpUrlListWindow;
-	//	mpUrlListWindow = nullptr;
-	//}
+	if (mpUrlListWindow != nullptr)
+	{
+		delete mpUrlListWindow;
+		mpUrlListWindow = nullptr;
+	}
+
+	CurrentDataModelManager::get_instance()->release();
 }
 //返回窗口句柄
 HWND MainWindow::get_hwnd()
