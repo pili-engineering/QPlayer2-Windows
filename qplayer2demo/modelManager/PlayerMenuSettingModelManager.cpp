@@ -402,7 +402,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_quality_change_list
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>;
 	mpPlayerWindow->get_control_handler()->set_subtitle_enable(CurrentDataModelManager::get_instance()->get_subtitle_enable());
-	mpPlayerWindow->get_control_handler()->set_subtitle(CurrentDataModelManager::get_instance()->get_subtitle_name());
+	//mpPlayerWindow->get_control_handler()->set_subtitle(CurrentDataModelManager::get_instance()->get_subtitle_name());
 	switch (CurrentDataModelManager::get_instance()->get_subtitle_enable())
 	{
 	case false: {
