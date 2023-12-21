@@ -140,16 +140,16 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 				for (auto& stream_ele : stream_ele_array) {
 
 					QMedia::QUrlType url_type = string_to_url_type(stream_ele["url_type"]);
-					std::string user_type = stream_ele["user_type"];
+					std::string user_type = UTF8_To_GB2312(stream_ele["user_type"]);
 					std::string url = UTF8_To_GB2312(stream_ele["url"]);
 					int quality = stream_ele["quality"];
-					std::string back_up_url = stream_ele["backup_url"];
+					std::string back_up_url = UTF8_To_GB2312(stream_ele["backup_url"]);
 					bool is_selected = stream_ele["is_selected"];
-					std::string referer = stream_ele["referer"];
-					std::string hls_drm_key = stream_ele["hls_drm_key"];
-					std::string mp4_drm_key = stream_ele["mp4_drm_key"];
+					std::string referer = UTF8_To_GB2312(stream_ele["referer"]);
+					std::string hls_drm_key = UTF8_To_GB2312(stream_ele["hls_drm_key"]);
+					std::string mp4_drm_key = UTF8_To_GB2312(stream_ele["mp4_drm_key"]);
 					QMedia::QVideoRenderType render_type = string_to_render_type(stream_ele["render_type"]);
-					pmodel_builder->add_stream_element(user_type, url_type, quality, url, is_selected, referer, back_up_url, render_type, hls_drm_key, mp4_drm_key);
+					pmodel_builder->add_stream_element(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, GB2312_To_UTF8(hls_drm_key), GB2312_To_UTF8(mp4_drm_key));
 				}
 			}
 
@@ -161,7 +161,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 					std::string subtitle_name = UTF8_To_GB2312(subtitle_ele["name"]);
 					std::string subtitle_url = UTF8_To_GB2312(subtitle_ele["url"]);
 					bool subtitle_is_selected = subtitle_ele["is_selelcted"];
-					pmodel_builder->add_subtitle_element(subtitle_name,subtitle_url,subtitle_is_selected);
+					pmodel_builder->add_subtitle_element(GB2312_To_UTF8(subtitle_name), GB2312_To_UTF8(subtitle_url),subtitle_is_selected);
 				}
 			}
 			PlayerUrlListModel* pmodel = new PlayerUrlListModel(pmodel_builder->build(is_live), name);
@@ -175,7 +175,6 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 }
 //读取播放地址文件
 bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, std::list<PlayerUrlListModel*> model_list) {
-	//$(ProjectDir)dependency\qplayer-iconv
 #ifdef _DEBUG
 	std::filesystem::path current_path = std::filesystem::current_path();
 	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
@@ -198,16 +197,16 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 		for (QMedia::QStreamElement* pele : pmodel->get_media_model()->get_stream_elements())
 		{
 			nlohmann::json stream_json = nlohmann::json();
-			stream_json["user_type"] = pele->get_user_type();
-			stream_json["url_type"] = url_type_to_string(pele->get_url_type());
+			stream_json["user_type"] = GB2312_To_UTF8(pele->get_user_type());
+			stream_json["url_type"] = GB2312_To_UTF8(url_type_to_string(pele->get_url_type()));
 			stream_json["url"] = GB2312_To_UTF8(pele->get_url());
 			stream_json["quality"] = pele->get_quality_index();
 			stream_json["is_selected"] = pele->is_selected();
-			stream_json["backup_url"] = pele->get_back_url();
-			stream_json["referer"] = pele->get_referer();
-			stream_json["hls_drm_key"] = pele->get_hls_drm_key();
-			stream_json["mp4_drm_key"] = pele->get_mp4_drm_key();
-			stream_json["render_type"] = render_type_to_string(pele->get_render_type());
+			stream_json["backup_url"] = GB2312_To_UTF8(pele->get_back_url());
+			stream_json["referer"] = GB2312_To_UTF8(pele->get_referer());
+			stream_json["hls_drm_key"] = GB2312_To_UTF8(pele->get_hls_drm_key());
+			stream_json["mp4_drm_key"] = GB2312_To_UTF8(pele->get_mp4_drm_key());
+			stream_json["render_type"] = GB2312_To_UTF8(render_type_to_string(pele->get_render_type()));
 			stream_ele_array.push_back(stream_json);
 		}
 		json["stream_element"] = stream_ele_array;

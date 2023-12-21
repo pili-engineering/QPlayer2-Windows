@@ -71,8 +71,8 @@ private:
 	static std::string render_type_to_string(QMedia::QVideoRenderType render_type);
 
 	static QMedia::QVideoRenderType string_to_render_type(const std::string& render_type);
-
-	static std::string GB2312_To_UTF8(const std::string& str);
 public:
+	static std::string GB2312_To_UTF8(const std::string& str);
+
 	static std::string UTF8_To_GB2312(const std::string& utf8_text);
 };

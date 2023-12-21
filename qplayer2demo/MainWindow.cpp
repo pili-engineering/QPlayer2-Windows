@@ -233,9 +233,6 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
     ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
 
-
-
-
 }
 //析构函数
 MainWindow::~MainWindow()
@@ -311,7 +308,7 @@ LRESULT MainWindow::on_create()
 	ShowWindow(mPlayerBuffering, SW_HIDE);
 
 	//播放器字幕
-	mPlayerSubtitle = CreateWindow(TEXT("STATIC"), TEXT(""), WS_CHILD | WS_VISIBLE, 10, 10, 80, 20, mHwnd, (HMENU)ID_SUBTITLE_TEXT, NULL, NULL);
+	mPlayerSubtitle = CreateWindow(TEXT("STATIC"), TEXT(""), WS_CHILD | WS_VISIBLE, 10, 10, 0, 0, mHwnd, (HMENU)ID_SUBTITLE_TEXT, NULL, NULL);
 	ShowWindow(mPlayerSubtitle, SW_HIDE);
     //播放地址列表
     mpUrlListWindow = new UrlListWindow(mHwnd, mHinstance, mpUrlListModelManger);
@@ -326,7 +323,9 @@ LRESULT MainWindow::on_create()
 			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_STOP_BUTTON, MF_UNCHECKED);
 			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("鉴权方式"), ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
 			ShowWindow(mPlayerBuffering, SW_HIDE);
+			SetWindowText(mPlayerSubtitle, TEXT(""));
 
+			MoveWindow(mPlayerSubtitle,0,0, 0, 0, true);
         }
     );
 	//地址列表右键点击回调
@@ -396,19 +395,19 @@ void MainWindow::quality_change_click(int item_id) {
 	switch (immediaty)
 	{
 	case IMMEDIATYLY_TRUE:
-		mpPlayerWindow->get_control_handler()->switch_quality("", pinner_ele->get_url_type(), pinner_ele->get_quality_index(), true);
+		mpPlayerWindow->get_control_handler()->switch_quality(pinner_ele->get_user_type(), pinner_ele->get_url_type(), pinner_ele->get_quality_index(), true);
 		break;
 	case IMMEDIATYLY_FALSE:
-		mpPlayerWindow->get_control_handler()->switch_quality("", pinner_ele->get_url_type(), pinner_ele->get_quality_index(), false);
+		mpPlayerWindow->get_control_handler()->switch_quality(pinner_ele->get_user_type(), pinner_ele->get_url_type(), pinner_ele->get_quality_index(), false);
 		break;
 	case IMMEDIATYLY_CUSTOM: {
 		if (pinner_model->is_live() == true)
 		{
-			mpPlayerWindow->get_control_handler()->switch_quality("", pinner_ele->get_url_type(), pinner_ele->get_quality_index(), true);
+			mpPlayerWindow->get_control_handler()->switch_quality(pinner_ele->get_user_type(), pinner_ele->get_url_type(), pinner_ele->get_quality_index(), true);
 		}
 		else {
 
-			mpPlayerWindow->get_control_handler()->switch_quality("", pinner_ele->get_url_type(), pinner_ele->get_quality_index(), false);
+			mpPlayerWindow->get_control_handler()->switch_quality(pinner_ele->get_user_type(), pinner_ele->get_url_type(), pinner_ele->get_quality_index(), false);
 		}
 		break;
 	}
@@ -1314,7 +1313,7 @@ void  MainWindow::on_subtitle_text_changed(const std::string& text) {
 }
 
 void  MainWindow::on_subtitle_name_changed(const std::string& name) {
-	std::string text = "on_subtitle_name_changed: " + name;
+	std::string text = "on_subtitle_name_changed: " + FileOfWriteAndRead::UTF8_To_GB2312(name);
 	mpToastWindow->add_item(text);
 }
 
@@ -1341,7 +1340,7 @@ void  MainWindow::on_subtitle_enable(bool enable) {
 }
 
 void  MainWindow::on_subtitle_loaded(const std::string& name, bool result) {
-	std::string text = "on_subtitle_loaded: " + name + "result : ";
+	std::string text = "on_subtitle_loaded: " + FileOfWriteAndRead::UTF8_To_GB2312(name) + "result : ";
 	if (result)
 	{
 		text += "成功";
@@ -1354,7 +1353,7 @@ void  MainWindow::on_subtitle_loaded(const std::string& name, bool result) {
 }
 
 void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
-	std::string text = "on_subtitle_decoded: " + name + "result : ";
+	std::string text = "on_subtitle_decoded: " + FileOfWriteAndRead::UTF8_To_GB2312(name) + "result : ";
 	if (result)
 	{
 		text += "成功";
