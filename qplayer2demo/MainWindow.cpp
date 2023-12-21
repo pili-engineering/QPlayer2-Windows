@@ -18,7 +18,6 @@
 #include <sstream>
 #include <Windows.h>
 #include <CommCtrl.h>
-#include <iconv.h>
 #include <fstream>
 #include <chrono>
 #include <iomanip>

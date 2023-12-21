@@ -6,7 +6,6 @@
 #include <Windows.h>
 #include <QMediaModelBuilder.h>
 #include <nlohmann/json.hpp>
-#include <iconv.h>
 #include <filesystem>
 #include <chrono>
 #include <sstream>
@@ -602,72 +601,52 @@ std::string FileOfWriteAndRead::render_type_to_string(QMedia::QVideoRenderType r
 /********************************字符串 GB2312 和 UTF8 编码格式相互转换*************************************************/
 std::string FileOfWriteAndRead::GB2312_To_UTF8(const std::string& input)
 {
-	std::string output;
-
-	// 打开转换句柄
-	iconv_t converter = iconv_open("UTF-8", "GB2312");
-	if (converter == (iconv_t)-1) {
-		std::cerr << "无法打开编码转换句柄" << std::endl;
-		return output;
+	int len = MultiByteToWideChar(CP_ACP, 0, input.c_str(), -1, NULL, 0);
+	wchar_t* wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+	MultiByteToWideChar(CP_ACP, 0, input.c_str(), -1, wstr, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
+	char* str = new char[len + 1];
+	memset(str, 0, len + 1);
+	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
+	if (wstr) {
+		delete[] wstr;
+		wstr = NULL;
 	}
-
-	// 输入和输出缓冲区
-	const char* pin_buf = const_cast<char*>(input.c_str());
-	size_t in_bytes_left = input.length();
-	size_t out_buf_size = input.length() * 4;  // 根据实际情况估计输出缓冲区大小
-	char* pout_buf = new char[out_buf_size];
-	char* pout_ptr = pout_buf;
-	size_t out_bytes_left = out_buf_size;
-
-	// 进行编码转换
-	size_t result = iconv(converter, &pin_buf, &in_bytes_left, &pout_ptr, &out_bytes_left);
-	if (result == (size_t)-1) {
-		std::cerr << "编码转换失败" << std::endl;
-		delete[] pout_buf;
-		iconv_close(converter);
-		return output;
+	std::string str_utf8(str);
+	if (str) {
+		delete[] str;
+		str = NULL;
 	}
+	return str_utf8;
 
-	// 关闭转换句柄
-	iconv_close(converter);
-
-	// 构造输出字符串
-	output.assign(pout_buf, out_buf_size - out_bytes_left);
-
-	// 释放内存
-	delete[] pout_buf;
-
-	return output;
 }
 
 std::string FileOfWriteAndRead::UTF8_To_GB2312(const std::string& utf8_text) {
-	// 创建转换句柄
-	iconv_t iconv_handle = iconv_open("GB2312", "UTF-8");
-	if (iconv_handle == (iconv_t)(-1)) {
-		perror("iconv_open");
-		return "";
+	int len = MultiByteToWideChar(CP_UTF8, 0, utf8_text.c_str(), -1, NULL, 0);
+
+	wchar_t* wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+
+	MultiByteToWideChar(CP_UTF8, 0, utf8_text.c_str(), -1, wstr, len);
+	len = WideCharToMultiByte(CP_ACP, 0, wstr, -1, NULL, 0, NULL, NULL);
+
+	char* str = new char[len + 1];
+	memset(str, 0, len + 1);
+
+	WideCharToMultiByte(CP_ACP, 0, wstr, -1, str, len, NULL, NULL);
+
+	if (wstr) {
+		delete[] wstr;
+		wstr = NULL;
 	}
-
-	// 准备输入和输出缓冲区
-	size_t input_length = strlen(utf8_text.c_str());
-	size_t output_length = input_length * 2;  // 假设输出缓冲区足够大
-	char* output = new char[output_length];
-	memset(output, 0, output_length);
-
-	const char* pinput_ptr = const_cast<char*>(utf8_text.c_str());
-	char* poutput_ptr = output;
-	size_t converted_bytes = iconv(iconv_handle, &pinput_ptr, &input_length, &poutput_ptr, &output_length);
-	if (converted_bytes == (size_t)(-1)) {
-		perror("iconv");
-		delete[] output;
-		iconv_close(iconv_handle);
-		return "";
+	std::string str_gb2312(str);
+	if (str) {
+		delete[] str;
+		str = NULL;
 	}
-
-	std::string output_string = std::string(output);
-	iconv_close(iconv_handle);
-	delete[] output;
-	return output_string;
+	return str_gb2312;
+	
 }
 
 

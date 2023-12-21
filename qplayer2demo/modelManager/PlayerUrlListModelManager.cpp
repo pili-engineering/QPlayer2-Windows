@@ -3,7 +3,6 @@
 #include <QMediaModelBuilder.h>
 
 #include "../FileOfWriteAndRead.h"
-#include "iconv.h"
 #define CLASS_NAME          "PlayerUrlListModelManager"
 #define URL_LOCAL_FILE_NAME "UrlJson.json"
 PlayerUrlListModelManager::PlayerUrlListModelManager():mUrlModels(), mUrlCallBack(),mpBulder(nullptr)
