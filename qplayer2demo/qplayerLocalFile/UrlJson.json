@@ -67,12 +67,12 @@
         "subtitle_element": [
             {
                 "is_selelcted": true,
-                "name": "中文",
+                "name": "Chinese",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-chinese.srt"
             },
             {
                 "is_selelcted": false,
-                "name": "英文",
+                "name": "English",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-english.srt"
             }
         ]
@@ -1068,11 +1068,11 @@
             }
         ],
         "subtitle_element": [
-            {
-                "is_selelcted": true,
-                "name": "英文",
-                "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
-            }
+          {
+            "is_selelcted": true,
+            "name": "English",
+            "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
+          }
         ]
     },
     {
@@ -1093,11 +1093,11 @@
             }
         ],
         "subtitle_element": [
-            {
-                "is_selelcted": true,
-                "name": "英文",
-                "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
-            }
+          {
+            "is_selelcted": true,
+            "name": "English",
+            "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
+          }
         ]
     },
     {
