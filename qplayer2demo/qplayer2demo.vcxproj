@@ -94,7 +94,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;$(ProjectDir)dependency\qplayer-vld\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;$(ProjectDir)dependency\qplayer-vld\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>qplayer2-core.lib;vld.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -103,8 +103,8 @@ if not exist "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkd
 copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
+copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>
@@ -139,7 +139,7 @@ copy "$(ProjectDir)dependency\qplayer-vld\x86\*.manifest" "$(SolutionDir)out\$(P
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;$(ProjectDir)dependency\qplayer-vld\x86_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)out\$(Platform)\$(Configuration)\lib;$(ProjectDir)dependency\qplayer-vld\x86_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>qplayer2-core.lib;vld.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -152,8 +152,8 @@ copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configur
       </Command>
     </PreLinkEvent>
     <PreBuildEvent>
-      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86_64\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86_64\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
+copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
