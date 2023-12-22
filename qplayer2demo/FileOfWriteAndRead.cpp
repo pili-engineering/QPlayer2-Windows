@@ -600,6 +600,10 @@ std::string FileOfWriteAndRead::render_type_to_string(QMedia::QVideoRenderType r
 /********************************字符串 GB2312 和 UTF8 编码格式相互转换*************************************************/
 std::string FileOfWriteAndRead::GB2312_To_UTF8(const std::string& input)
 {
+	if (input == "")
+	{
+		return "";
+	}
 	int len = MultiByteToWideChar(CP_ACP, 0, input.c_str(), -1, NULL, 0);
 	wchar_t* wstr = new wchar_t[len + 1];
 	memset(wstr, 0, len + 1);
@@ -622,6 +626,10 @@ std::string FileOfWriteAndRead::GB2312_To_UTF8(const std::string& input)
 }
 
 std::string FileOfWriteAndRead::UTF8_To_GB2312(const std::string& utf8_text) {
+	if (utf8_text == "")
+	{
+		return "";
+	}
 	int len = MultiByteToWideChar(CP_UTF8, 0, utf8_text.c_str(), -1, NULL, 0);
 
 	wchar_t* wstr = new wchar_t[len + 1];
