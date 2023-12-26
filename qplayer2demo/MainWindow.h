@@ -6,6 +6,7 @@
 #include "UrlSetting.h"
 #include "PlayerMenuSettingModelManager.h"
 #include "PlayStartPostitionWindow.h"
+#include "CurrentDataModelManager.h"
 namespace QMedia {
     class QIPlayerContext;
     class QMediaModel;
@@ -144,7 +145,7 @@ private:
 	void SaveJpgToFile(const uint8_t* jpegData, uint64_t size, const std::string& filePath);
     static int get_render_window_height(int parent_window_height);
     static int get_render_window_width(int parent_window_width);
-    void button_click(int button_id);
+    void menu_button_click(int button_id);
 
 	void seek_bar_click(long current_time);
 
@@ -212,6 +213,10 @@ private:
 	float mHeight;
 
 	float mWidth;
+
+	bool mIsClose;
+
+	CurrentDataModelManager* mpCurrentDataModelManager;
 };
 
  

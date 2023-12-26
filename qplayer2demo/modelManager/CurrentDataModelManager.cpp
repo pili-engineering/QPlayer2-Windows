@@ -5,14 +5,14 @@
 #include <iomanip>
 
 #define SETTING_LOCAL_FILE_NAME "Setting.json"
-CurrentDataModelManager* CurrentDataModelManager::instance = NULL;
-CurrentDataModelManager* CurrentDataModelManager::get_instance() {
-	if (instance == nullptr)
-	{
-		instance = new CurrentDataModelManager;
-	}
-	return instance;
-}
+//CurrentDataModelManager* CurrentDataModelManager::instance = NULL;
+//CurrentDataModelManager* CurrentDataModelManager::get_instance() {
+//	if (instance == nullptr)
+//	{
+//		instance = new CurrentDataModelManager;
+//	}
+//	return instance;
+//}
 
 CurrentDataModelManager::CurrentDataModelManager()
 {
@@ -27,14 +27,14 @@ CurrentDataModelManager::~CurrentDataModelManager()
 		mpCurrentDataModel = nullptr;
 	}
 }
-void CurrentDataModelManager::release() {
-	if (instance != nullptr)
-	{
-
-  		delete instance;
-		instance = nullptr;
-	}
-}
+//void CurrentDataModelManager::release() {
+//	if (instance != nullptr)
+//	{
+//
+//  		delete instance;
+//		instance = nullptr;
+//	}
+//}
 void CurrentDataModelManager::set_duration_time(long time) {
 	mpCurrentDataModel->set_duration_time(time);
 }

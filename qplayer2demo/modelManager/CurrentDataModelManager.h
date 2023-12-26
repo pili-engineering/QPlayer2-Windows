@@ -4,7 +4,9 @@
 class CurrentDataModelManager
 {
 public:
-	static CurrentDataModelManager* get_instance();
+	//static CurrentDataModelManager* get_instance();
+	CurrentDataModelManager();
+	~CurrentDataModelManager();
 
 	void set_duration_time(long time);
 
@@ -23,7 +25,7 @@ public:
 
 	bool get_is_seeking();
 
-	void release();
+	//void release();
 
 	void set_decoder(QMedia::QPlayerSetting::QPlayerDecoder decoder);
 
@@ -90,12 +92,8 @@ public:
 	void set_quality(int quality);
 
 private:
-	CurrentDataModelManager();
-	~CurrentDataModelManager();
 
-private:
-
-	static CurrentDataModelManager* instance;
+	//static CurrentDataModelManager* instance;
 
 	CurrentDataModel* mpCurrentDataModel;
 

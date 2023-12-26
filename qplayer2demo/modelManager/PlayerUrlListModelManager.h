@@ -18,16 +18,13 @@ public:
 	PlayerUrlListModelManager();
 	~PlayerUrlListModelManager();
 
-
 	std::list<PlayerUrlListModel*> get_url_models();
 
 	int get_url_models_count();
 
-
 	void delete_url_model_index(int index);
 
 	std::string get_url_with_index(int model_index, int element_index);
-
 
 	std::string get_subtitle_url_with_index(int model_index, int element_index);
 

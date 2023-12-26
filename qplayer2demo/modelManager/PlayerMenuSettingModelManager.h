@@ -4,6 +4,7 @@
 #include <list>
 #include "PlayerMenuSettingModel.h"
 #include "../PlayerWindow.h"
+#include "CurrentDataModelManager.h"
 
 #define ID_PLAY_CHONTROL									 1000
 #define ID_RESUME_BUTTON									 1001
@@ -74,6 +75,9 @@
 class PlayerMenuSettingModelManager
 {
 public:
+	PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window, CurrentDataModelManager* pcurrent_data_model_manager);
+	~PlayerMenuSettingModelManager();
+
 	std::list<PlayerMenuSettingModel*>* get_menu_setting_model();
 
 	HMENU get_child_menu_for_name(const std::string& name);
@@ -81,6 +85,7 @@ public:
 	void update_subtitle_menu_text(QMedia::QMediaModel* pmodel, HMENU subtitle_hmenu);
 
 	void update_play_start_position_menu_text(long start_position, HMENU position_hmenu);
+
 private:
 	void add_setting_model(const std::string& menu_name,int id);
 
@@ -115,14 +120,12 @@ private:
 	std::list<ChildMenu*>* create_shoot_list();
 
 	std::list<ChildMenu*>* create_player_start_list();
-public:
-	PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window);
-	~PlayerMenuSettingModelManager();
+
 
 private:
 	HWND mHwnd;
 	PlayerWindow* mpPlayerWindow;
 	std::list<PlayerMenuSettingModel*>* mpMenuSettingModels;
-
+	CurrentDataModelManager* mpCurrentDataModelManager;
 };
 

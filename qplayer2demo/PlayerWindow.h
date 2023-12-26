@@ -22,7 +22,7 @@ private:
 
 
 public:
-	PlayerWindow(HWND parent_hwnd, HINSTANCE instance);
+	PlayerWindow(HWND parent_hwnd, HINSTANCE instance, CurrentDataModelManager* pcurrent_data_model_manager);
 
 	~PlayerWindow();
 
@@ -42,9 +42,6 @@ public:
 
 	QMedia::QIPlayerContext* get_context();
 
-
-
-
 private:
 
 	HWND mHwnd;
@@ -53,5 +50,6 @@ private:
 
 	VideoRenderWindow* mpVideoRenderWindow;
 
+	CurrentDataModelManager* mpCurrentDataModelManager;
 };
 

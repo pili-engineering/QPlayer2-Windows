@@ -16,7 +16,10 @@ using namespace QMedia;
 #define ID_RENDER_WINDOW 200
 
 //构造
-PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE instance):mHwnd(nullptr),mpPlayerContext(nullptr)
+PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE instance, CurrentDataModelManager* pcurrent_data_model_manager)
+	:mHwnd(nullptr),
+	mpPlayerContext(nullptr),
+	mpCurrentDataModelManager(pcurrent_data_model_manager)
 {
 
 	HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(parent_hwnd, GWLP_HINSTANCE);
@@ -77,7 +80,7 @@ PlayerWindow::~PlayerWindow()
 //处理事件循环
 LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param) {
 	PlayerWindow* pplayer_window = (PlayerWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (pplayer_window != nullptr) {
+	if (pplayer_window != nullptr && pplayer_window->mpCurrentDataModelManager->get_player_state() != QMedia::QPlayerState::END) {
 
 		 pplayer_window->on_receive_message(hwnd, message, w_param, l_param);
 	}
@@ -90,7 +93,6 @@ LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message,
 		}
 		break;
 
-	case WM_CREATE:
 		
 	default:
 		break;

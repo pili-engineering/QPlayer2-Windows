@@ -167,7 +167,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 			PlayerUrlListModel* pmodel = new PlayerUrlListModel(pmodel_builder->build(is_live), name);
 			model_list.emplace_back(pmodel);
 			delete pmodel_builder;
-
+			pmodel_builder = nullptr;
 		}
 	}
 	file.close();

@@ -29,11 +29,6 @@ CurrentDataModel::CurrentDataModel() :
 
 CurrentDataModel::~CurrentDataModel()
 {
-	if (mpModel != nullptr)
-	{
-		delete mpModel;
-		mpModel = nullptr;
-	}
 }
 void CurrentDataModel::set_progress_time(long progress) {
 	mProgressTime = progress;

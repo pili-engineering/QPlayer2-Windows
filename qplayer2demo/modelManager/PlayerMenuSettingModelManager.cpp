@@ -1,15 +1,15 @@
 #include "PlayerMenuSettingModelManager.h"
 #include "../DemoLog.h"
-#include "CurrentDataModelManager.h"
 #include <QIPlayerControlHandler.h>
 #include <QIPlayerRenderHandler.h>
 #include <QIPlayerContext.h>
 #define CLASS_NAME          "PlayerMenuSettingModelManager"
 
-PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window):
+PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd, PlayerWindow* pplayer_window, CurrentDataModelManager* pcurrent_data_model_manager):
 	mHwnd(hwnd),
 	mpMenuSettingModels(new std::list<PlayerMenuSettingModel*>()),
-	mpPlayerWindow(pplayer_window)
+	mpPlayerWindow(pplayer_window),
+	mpCurrentDataModelManager(pcurrent_data_model_manager)
 {
 	add_setting_model("播放控制", ID_PLAY_CHONTROL);
 	add_setting_child_model(create_play_control_list(), ID_PLAY_CHONTROL);
@@ -118,8 +118,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_control_list()
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_decoder_list() {
 	std::list<ChildMenu*>* pdecoder_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_decode_type(CurrentDataModelManager::get_instance()->get_decoder());
-	switch (CurrentDataModelManager::get_instance()->get_decoder())
+	mpPlayerWindow->get_control_handler()->set_decode_type(mpCurrentDataModelManager->get_decoder());
+	switch (mpCurrentDataModelManager->get_decoder())
 	{
 	case QMedia::QPlayerSetting::QPlayerDecoder::QPLAYER_DECODER_SETTING_AUTO: {
 		pdecoder_list->emplace_back(create_child_menu("自动", ID_AUTO_DECODER_BUTTON, true));
@@ -153,8 +153,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_decoder_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_seek_list() {
 	std::list<ChildMenu*>* pseek_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_seek_mode(CurrentDataModelManager::get_instance()->get_seek_mode());
-	switch (CurrentDataModelManager::get_instance()->get_seek_mode())
+	mpPlayerWindow->get_control_handler()->set_seek_mode(mpCurrentDataModelManager->get_seek_mode());
+	switch (mpCurrentDataModelManager->get_seek_mode())
 	{
 	case QMedia::QPlayerSetting::QPlayerSeek::QPLAYER_SEEK_SETTING_NORMAL: {
 		pseek_list->emplace_back(create_child_menu("关键帧seek", ID_SEEK_NORMAL_BUTTON, true));
@@ -181,8 +181,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_seek_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_start_seek_list() {
 	std::list<ChildMenu*>* pstart_seek_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_start_action(CurrentDataModelManager::get_instance()->get_player_start());
-	switch (CurrentDataModelManager::get_instance()->get_player_start())
+	mpPlayerWindow->get_control_handler()->set_start_action(mpCurrentDataModelManager->get_player_start());
+	switch (mpCurrentDataModelManager->get_player_start())
 	{
 	case QMedia::QPlayerSetting::QPlayerStart::QPLAYER_START_SETTING_PLAYING: {
 		pstart_seek_list->emplace_back(create_child_menu("起播播放", ID_SEEK_START_PLAYING_BUTTON, true));
@@ -209,7 +209,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_start_seek_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_authentication_list() {
 	std::list<ChildMenu*>* pauthentication_list = new std::list<ChildMenu*>;
-	switch (CurrentDataModelManager::get_instance()->get_force_authentication_enable())
+	switch (mpCurrentDataModelManager->get_force_authentication_enable())
 	{
 	case true: {
 		mpPlayerWindow->get_control_handler()->force_authentication_from_network();
@@ -234,8 +234,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_authentication_list
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_render_radio_list() {
 	std::list<ChildMenu*>* prender_radio_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_render_handler()->set_render_ratio(CurrentDataModelManager::get_instance()->get_render_ratio());
-	switch (CurrentDataModelManager::get_instance()->get_render_ratio())
+	mpPlayerWindow->get_render_handler()->set_render_ratio(mpCurrentDataModelManager->get_render_ratio());
+	switch (mpCurrentDataModelManager->get_render_ratio())
 	{
 	case QMedia::QPlayerSetting::QPlayerRenderRatio::QPLAYER_RATIO_SETTING_AUTO: {
 		prender_radio_list->emplace_back(create_child_menu("自动", ID_RENDER_RADIO_AUTO_BUTTON, true));
@@ -293,8 +293,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_render_radio_list()
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_blind_list() {
 	std::list<ChildMenu*>* pblind_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_render_handler()->set_blind_type(CurrentDataModelManager::get_instance()->get_blind());
-	switch (CurrentDataModelManager::get_instance()->get_blind())
+	mpPlayerWindow->get_render_handler()->set_blind_type(mpCurrentDataModelManager->get_blind());
+	switch (mpCurrentDataModelManager->get_blind())
 	{
 	case QMedia::QPlayerSetting::QPlayerBlind::QPLAYER_BLIND_SETTING_NONE: {
 		pblind_list->emplace_back(create_child_menu("无滤镜", ID_BLIND_NONE_BUTTON, true));
@@ -339,8 +339,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_blind_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_sei_list() {
 	std::list<ChildMenu*>* psei_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_sei_enable(CurrentDataModelManager::get_instance()->get_sei_enable());
-	switch (CurrentDataModelManager::get_instance()->get_sei_enable())
+	mpPlayerWindow->get_control_handler()->set_sei_enable(mpCurrentDataModelManager->get_sei_enable());
+	switch (mpCurrentDataModelManager->get_sei_enable())
 	{
 	case true: {
 		psei_list->emplace_back(create_child_menu("开启SEI回调", ID_SEI_OPEN_BUTTON, true));
@@ -367,7 +367,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_sei_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_quality_change_list() {
 	std::list<ChildMenu*>* pquality_change_list = new std::list<ChildMenu*>;
-	switch (CurrentDataModelManager::get_instance()->get_quality_immediatyly())
+	switch (mpCurrentDataModelManager->get_quality_immediatyly())
 	{
 	case QualityImmediatyly::IMMEDIATYLY_TRUE: {
 		pquality_change_list->emplace_back(create_child_menu("立即切换", ID_QUALITY_CHANGE_IMMEDIATYLY_TRUE_BUTTON, true));
@@ -401,9 +401,9 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_quality_change_list
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_subtitle_enable(CurrentDataModelManager::get_instance()->get_subtitle_enable());
-	//mpPlayerWindow->get_control_handler()->set_subtitle(CurrentDataModelManager::get_instance()->get_subtitle_name());
-	switch (CurrentDataModelManager::get_instance()->get_subtitle_enable())
+	mpPlayerWindow->get_control_handler()->set_subtitle_enable(mpCurrentDataModelManager->get_subtitle_enable());
+	//mpPlayerWindow->get_control_handler()->set_subtitle(mpCurrentDataModelManager->get_subtitle_name());
+	switch (mpCurrentDataModelManager->get_subtitle_enable())
 	{
 	case false: {
 		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, true));
@@ -424,8 +424,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_subtitle_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 	std::list<ChildMenu*>* pplay_speed_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_speed(CurrentDataModelManager::get_instance()->get_play_speed());
-	if (CurrentDataModelManager::get_instance()->get_play_speed() == 0.5)
+	mpPlayerWindow->get_control_handler()->set_speed(mpCurrentDataModelManager->get_play_speed());
+	if (mpCurrentDataModelManager->get_play_speed() == 0.5)
 	{
 		pplay_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, false));
@@ -434,7 +434,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 		pplay_speed_list->emplace_back(create_child_menu("0.75x", ID_PLAY_SPEED_0_7_5_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("0.5x", ID_PLAY_SPEED_0_5_BUTTON, true));
 	}
-	else if (CurrentDataModelManager::get_instance()->get_play_speed() == 0.75)
+	else if (mpCurrentDataModelManager->get_play_speed() == 0.75)
 	{
 		pplay_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, false));
@@ -443,7 +443,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 		pplay_speed_list->emplace_back(create_child_menu("0.75x", ID_PLAY_SPEED_0_7_5_BUTTON, true));
 		pplay_speed_list->emplace_back(create_child_menu("0.5x", ID_PLAY_SPEED_0_5_BUTTON, false));
 	}
-	else if (CurrentDataModelManager::get_instance()->get_play_speed() == 1.0)
+	else if (mpCurrentDataModelManager->get_play_speed() == 1.0)
 	{
 		pplay_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, false));
@@ -452,7 +452,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 		pplay_speed_list->emplace_back(create_child_menu("0.75x", ID_PLAY_SPEED_0_7_5_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("0.5x", ID_PLAY_SPEED_0_5_BUTTON, false));
 	}
-	else if (CurrentDataModelManager::get_instance()->get_play_speed() == 1.25)
+	else if (mpCurrentDataModelManager->get_play_speed() == 1.25)
 	{
 		pplay_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, false));
@@ -461,7 +461,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 		pplay_speed_list->emplace_back(create_child_menu("0.75x", ID_PLAY_SPEED_0_7_5_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("0.5x", ID_PLAY_SPEED_0_5_BUTTON, false));
 	}
-	else if (CurrentDataModelManager::get_instance()->get_play_speed() == 1.5)
+	else if (mpCurrentDataModelManager->get_play_speed() == 1.5)
 	{
 		pplay_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, true));
@@ -470,7 +470,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 		pplay_speed_list->emplace_back(create_child_menu("0.75x", ID_PLAY_SPEED_0_7_5_BUTTON, false));
 		pplay_speed_list->emplace_back(create_child_menu("0.5x", ID_PLAY_SPEED_0_5_BUTTON, false));
 	}
-	else if (CurrentDataModelManager::get_instance()->get_play_speed() == 2.0)
+	else if (mpCurrentDataModelManager->get_play_speed() == 2.0)
 	{
 		pplay_speed_list->emplace_back(create_child_menu("2.0x", ID_PLAY_SPEED_2_0_BUTTON, true));
 		pplay_speed_list->emplace_back(create_child_menu("1.5x", ID_PLAY_SPEED_1_5_BUTTON, false));
@@ -494,8 +494,8 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_speed_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_mute_list() {
 	std::list<ChildMenu*>* pmute_list = new std::list<ChildMenu*>;
-	mpPlayerWindow->get_control_handler()->set_mute(CurrentDataModelManager::get_instance()->get_mute_enable());
-	switch (CurrentDataModelManager::get_instance()->get_mute_enable())
+	mpPlayerWindow->get_control_handler()->set_mute(mpCurrentDataModelManager->get_mute_enable());
+	switch (mpCurrentDataModelManager->get_mute_enable())
 	{
 	case true: {
 
@@ -527,7 +527,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_shoot_list() {
 
 std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_player_start_list() {
 	std::list<ChildMenu*>* pplay_start_position_list = new std::list<ChildMenu*>;
-	pplay_start_position_list->emplace_back(create_child_menu(std::to_string(CurrentDataModelManager::get_instance()->get_player_start_position()), ID_PLAY_START_POSITION_BUTTON, false));
+	pplay_start_position_list->emplace_back(create_child_menu(std::to_string(mpCurrentDataModelManager->get_player_start_position()), ID_PLAY_START_POSITION_BUTTON, false));
 	return pplay_start_position_list;
 }
 ChildMenu* PlayerMenuSettingModelManager::create_child_menu(const std::string& name, int id, bool is_selected) {
@@ -567,7 +567,7 @@ void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaMode
 		DeleteMenu(subtitle_hmenu, i, MF_BYPOSITION);
 	}
 	std::list<ChildMenu*>* psubtitle_list = new std::list<ChildMenu*>();
-	if (CurrentDataModelManager::get_instance()->get_subtitle_enable())
+	if (mpCurrentDataModelManager->get_subtitle_enable())
 	{
 		psubtitle_list->emplace_back(create_child_menu("关闭", ID_SUBTITLE_CLOSE_BUTTON, false));
 	}
@@ -577,7 +577,7 @@ void PlayerMenuSettingModelManager::update_subtitle_menu_text(QMedia::QMediaMode
 	for (int index = 0; index < pmodel->get_subtitle_elements().size(); index++)
 	{
 		QMedia::QSubtitleElement* psub_ele = pmodel->get_subtitle_elements()[index];
-		if (CurrentDataModelManager::get_instance()->get_subtitle_enable() && psub_ele->is_selected())
+		if (mpCurrentDataModelManager->get_subtitle_enable() && psub_ele->is_selected())
 		{
 			psubtitle_list->emplace_back(create_child_menu(psub_ele->get_name(), ID_SUBTITLE_CLOSE_BUTTON + 1 + index, true));
 		}

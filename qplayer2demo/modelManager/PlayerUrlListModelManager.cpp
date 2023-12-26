@@ -29,7 +29,6 @@ PlayerUrlListModelManager::~PlayerUrlListModelManager()
 		}
 		mUrlModels.clear();
 	}
-
 }
 
 void PlayerUrlListModelManager::motify_model(QMedia::QMediaModel* pmodel, const std::string& name, int index) {

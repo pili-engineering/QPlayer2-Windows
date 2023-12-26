@@ -100,7 +100,7 @@ LRESULT CALLBACK PlayStartPostitionWindow::main_play_start_position_window_proc(
 		}
 		case ID_CANCEL_BUTTON:
 		{
-			pposition_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE,CurrentDataModelManager::get_instance()->get_player_start_position());
+			pposition_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, -1);
 			DestroyWindow(pposition_window->mHwnd);
 			break;
 		}
