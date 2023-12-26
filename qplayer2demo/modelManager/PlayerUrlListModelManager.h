@@ -58,7 +58,7 @@ public:
 
 	void add_subtitle_element(const std::string& name, const std::string& url, bool is_selected);
 
-	void build(bool is_live, const std::string& name , int index = -1);
+	void build(bool is_live, bool mReconstructTimeLine, const std::string& name , int index = -1);
 
 	void url_update();
 private:

@@ -2,6 +2,7 @@
     {
         "is_live": false,
         "name": "1-点播-qiniu-2023.mp4",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -22,7 +23,7 @@
                 "mp4_drm_key": "",
                 "quality": 720,
                 "referer": "",
-                "render_type": "NONE",
+                "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -34,7 +35,7 @@
                 "mp4_drm_key": "",
                 "quality": 480,
                 "referer": "",
-                "render_type": "NONE",
+                "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-480p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -46,7 +47,7 @@
                 "mp4_drm_key": "",
                 "quality": 360,
                 "referer": "",
-                "render_type": "NONE",
+                "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-360p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -58,7 +59,7 @@
                 "mp4_drm_key": "",
                 "quality": 240,
                 "referer": "",
-                "render_type": "NONE",
+                "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-240p.mp4",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
@@ -80,6 +81,7 @@
     {
         "is_live": false,
         "name": "2-点播-音视频分离-only-video-1080p-60fps.m4s",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -88,7 +90,7 @@
                 "mp4_drm_key": "",
                 "quality": 1080,
                 "referer": "",
-                "render_type": "PLANE",
+                "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/only-video-1080p-60fps.m4s",
                 "url_type": "QVIDEO",
                 "user_type": ""
@@ -100,7 +102,7 @@
                 "mp4_drm_key": "",
                 "quality": 0,
                 "referer": "",
-                "render_type": "PLANE",
+                "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/only-audio.m4s",
                 "url_type": "QAUDIO",
                 "user_type": ""
@@ -111,6 +113,7 @@
     {
         "is_live": false,
         "name": "3-点播-shortvideo-nike.mp4",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -130,6 +133,7 @@
     {
         "is_live": false,
         "name": "4--点播-http-mp3-纯音频",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -149,6 +153,7 @@
     {
         "is_live": false,
         "name": "5--点播-http-m4s-纯视频",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -168,6 +173,7 @@
     {
         "is_live": false,
         "name": "6--点播-http-mp4-50fps",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -187,6 +193,7 @@
     {
         "is_live": false,
         "name": "7-点播-http-mp4-60fps-音画同步测试",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -206,6 +213,7 @@
     {
         "is_live": false,
         "name": "8-点播-https-mp4-25fps-端口443",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -225,6 +233,7 @@
     {
         "is_live": true,
         "name": "9-hugo-直播@-多码率-直播-rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -280,6 +289,7 @@
     {
         "is_live": true,
         "name": "10-hugo-直播@-多码率-直播-rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -335,6 +345,7 @@
     {
         "is_live": true,
         "name": "11--直播-rtmp://pili-rtmp.qnsdk.com/sdk-live/testf11@480p",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -354,6 +365,7 @@
     {
         "is_live": true,
         "name": "12--zn-直播@-多码率-直播-rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -409,6 +421,7 @@
     {
         "is_live": true,
         "name": "13-sdk-live-直播@-多码率-直播-rtmp://pili-rtmp.qnsdk.com/sdk-live/6666",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -464,6 +477,7 @@
     {
         "is_live": true,
         "name": "14-22-直播-http://pili-hls.qnsdk.com/sdk-live/6666.m3u8",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -483,6 +497,7 @@
     {
         "is_live": true,
         "name": "15-直播-http://pili-hls.qnsdk.com/sdk-live/6666.m3u8",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -502,6 +517,7 @@
     {
         "is_live": true,
         "name": "16--直播-http://pili-hdl.qnsdk.com/sdk-live/6666.flv",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -521,6 +537,7 @@
     {
         "is_live": false,
         "name": "17--点播-hhtp-m3u8-30fps",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -540,6 +557,7 @@
     {
         "is_live": false,
         "name": "18-点播-https-flv-30fps-H264",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -559,6 +577,7 @@
     {
         "is_live": false,
         "name": "19-点播-https-mp4-30fps-竖屏",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -578,6 +597,7 @@
     {
         "is_live": false,
         "name": "20-点播-https-mp3-纯音频",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -597,6 +617,7 @@
     {
         "is_live": false,
         "name": "21-点播-https-mp4-30fps-旋转角度(180度)",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -616,6 +637,7 @@
     {
         "is_live": false,
         "name": "22-点播-https-mp4-30fps-非正常比例",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -635,6 +657,7 @@
     {
         "is_live": false,
         "name": "23-点播-https-wma-30fps-不支持的封装格式",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -654,6 +677,7 @@
     {
         "is_live": false,
         "name": "24-点播-https-flv-FLV1-不支持的编码格式",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -673,6 +697,7 @@
     {
         "is_live": false,
         "name": "25-点播-https-mp4-不支持的像素格式-yuvj420p",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -692,6 +717,7 @@
     {
         "is_live": false,
         "name": "26-点播-http-vr-Equirect-Angular-mp4",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -711,6 +737,7 @@
     {
         "is_live": false,
         "name": "28-点播-http-电影",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -730,6 +757,7 @@
     {
         "is_live": false,
         "name": "29-点播-https-2K-60FPS-6333kb",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -749,6 +777,7 @@
     {
         "is_live": false,
         "name": "30-点播-https-2K-25FPS-12053kb",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -768,6 +797,7 @@
     {
         "is_live": false,
         "name": "31-点播-https-1080-60FPS-5656kb",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -787,6 +817,7 @@
     {
         "is_live": false,
         "name": "32-点播-https-4k-30FPS-8534kb",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -806,6 +837,7 @@
     {
         "is_live": false,
         "name": "33-点播-https-480-30FPS-6秒视频",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -825,6 +857,7 @@
     {
         "is_live": true,
         "name": "34-直播-纯音频-rtmp://pili-rtmp.qnsdk.com/sdk-live/audioonly",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -844,6 +877,7 @@
     {
         "is_live": true,
         "name": "35-直播-纯音频-http://pili-hls.qnsdk.com/sdk-live/audioonly.m3u8",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -863,6 +897,7 @@
     {
         "is_live": true,
         "name": "36-直播-纯音频-http://pili-hdl.qnsdk.com/sdk-live/audioonly.flv",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -882,6 +917,7 @@
     {
         "is_live": true,
         "name": "37-直播-纯视频-rtmp://pili-rtmp.qnsdk.com/sdk-live/videoonly",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -901,6 +937,7 @@
     {
         "is_live": true,
         "name": "38-直播-纯视频-http://pili-hls.qnsdk.com/sdk-live/videoonly.m3u8",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -920,6 +957,7 @@
     {
         "is_live": true,
         "name": "39-直播-纯视频-http://pili-hdl.qnsdk.com/sdk-live/videoonly.flv",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -939,6 +977,7 @@
     {
         "is_live": false,
         "name": "40-点播-纯音频-wav-http://demo-videos.qnsdk.com/only-audio-wav.wav",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -958,6 +997,7 @@
     {
         "is_live": false,
         "name": "41-点播-纯音频-flac-http://demo-videos.qnsdk.com/audio-only-flac.flac",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -977,6 +1017,7 @@
     {
         "is_live": true,
         "name": "42-直播-SRT-srt://180.101.136.81:1935?streamid=#!::h=pilidemo/timestamp,m=request,domain=live-pilidem",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -996,6 +1037,7 @@
     {
         "is_live": true,
         "name": "43-直播-5.1声道-声音cici声",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1015,6 +1057,7 @@
     {
         "is_live": true,
         "name": "44-直播-硬解崩溃",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1034,6 +1077,7 @@
     {
         "is_live": false,
         "name": "45-点播-HLS-DRM",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1053,6 +1097,7 @@
     {
         "is_live": false,
         "name": "46-点播-subtitle",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1068,16 +1113,17 @@
             }
         ],
         "subtitle_element": [
-          {
-            "is_selelcted": true,
-            "name": "English",
-            "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
-          }
+            {
+                "is_selelcted": true,
+                "name": "English",
+                "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
+            }
         ]
     },
     {
         "is_live": false,
         "name": "47-点播-subtitle-mov",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1093,16 +1139,17 @@
             }
         ],
         "subtitle_element": [
-          {
-            "is_selelcted": true,
-            "name": "English",
-            "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
-          }
+            {
+                "is_selelcted": true,
+                "name": "English",
+                "url": "http://demo-videos.qnsdk.com/EnglishVideo.srt"
+            }
         ]
     },
     {
         "is_live": false,
         "name": "48-点播-mp4-drm",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1122,6 +1169,7 @@
     {
         "is_live": false,
         "name": "49-点播-https-m3u8-url带%",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",
@@ -1141,6 +1189,7 @@
     {
         "is_live": false,
         "name": "50-点播-音频卡顿",
+        "reconstruct_time_line": false,
         "stream_element": [
             {
                 "backup_url": "",

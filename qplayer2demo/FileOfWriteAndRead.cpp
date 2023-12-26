@@ -132,7 +132,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 		for (auto& json : json_data) {
 			std::string name = UTF8_To_GB2312(json["name"]);
 			bool is_live = json["is_live"];
-
+			bool reconstruct_time_line = json["reconstruct_time_line"];
 			QMedia::QMediaModelBuilder* pmodel_builder = new QMedia::QMediaModelBuilder;
 			auto stream_ele_array = json["stream_element"];
 			if (stream_ele_array.is_array())
@@ -164,7 +164,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 					pmodel_builder->add_subtitle_element(GB2312_To_UTF8(subtitle_name), GB2312_To_UTF8(subtitle_url),subtitle_is_selected);
 				}
 			}
-			PlayerUrlListModel* pmodel = new PlayerUrlListModel(pmodel_builder->build(is_live), name);
+			PlayerUrlListModel* pmodel = new PlayerUrlListModel(pmodel_builder->build(is_live, reconstruct_time_line), name);
 			model_list.emplace_back(pmodel);
 			delete pmodel_builder;
 			pmodel_builder = nullptr;
@@ -192,6 +192,7 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 		nlohmann::json json = nlohmann::json();
 		json["name"] = GB2312_To_UTF8(pmodel->get_name());
 		json["is_live"] = pmodel->get_media_model()->is_live();
+		json["reconstruct_time_line"] = pmodel->get_media_model()->is_reconstruct_time_line();
 
 		auto stream_ele_array = nlohmann::basic_json<>({}, false, nlohmann::json::value_t::array);
 		for (QMedia::QStreamElement* pele : pmodel->get_media_model()->get_stream_elements())

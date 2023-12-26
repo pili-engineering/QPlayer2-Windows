@@ -58,12 +58,19 @@ private:
 	UrlSettingWindowCloseCallBackFunction mCloseCallBack;
 
 	bool mIsLive;
+	HWND mIsLiveTrueOption;
+
+	HWND mIsLiveFalseOption;
 
 	HWND mUrlNameInput;
 
+	bool mReconstructTimeLine;
+
+	HWND mReconstructTimeLineTrueOption;
+
+	HWND mReconstructTimeLineFalseOption;
 
 	HWND mUrlStreamElementsListWindow;
-	
 
 	HWND mUrlSubtitleElementsListWindow;
 

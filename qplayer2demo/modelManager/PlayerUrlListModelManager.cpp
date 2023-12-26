@@ -275,16 +275,16 @@ void PlayerUrlListModelManager::add_subtitle_element(const std::string& name, co
 
 	mpBulder->add_subtitle_element(name, url, is_selected);
 }
-void PlayerUrlListModelManager::build(bool is_live, const std ::string& name, int index) {
+void PlayerUrlListModelManager::build(bool is_live, bool mReconstructTimeLine, const std ::string& name, int index) {
 	if (mpBulder != nullptr)
 	{
 		if (index == -1)
 		{
-			add_model(mpBulder->build(is_live), name);
+			add_model(mpBulder->build(is_live, mReconstructTimeLine), name);
 		}
 		else
 		{
-			motify_model(mpBulder->build(is_live), name, index);
+			motify_model(mpBulder->build(is_live, mReconstructTimeLine), name, index);
 		}
 		delete mpBulder;
 		mpBulder = nullptr;

@@ -20,6 +20,9 @@
 #define ID_URL_ADD_STREAM_WINDOW 500
 #define ID_URL_ADD_SUBTITLE_WINDOW 501
 
+#define ID_RECONSTRUCT_TIME_LINE_TRUE_OPTION 600
+#define ID_RECONSTRUCT_TIME_LINE_FALSE_OPTION 601
+
 #define RIGHT_STREAM_MENU_ADD          1000
 #define RIGHT_STREAM_MENU_MODIFY       1001
 #define RIGHT_STREAM_MENU_DELETE       1002
@@ -36,7 +39,8 @@ UrlSetting::UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager
 	mSubtitleElementIndex(0),
 	mStreamElementModelList(),
 	mSubtitleElementModelList(),
-	mUrlModelIndex(url_id)
+	mUrlModelIndex(url_id),
+	mReconstructTimeLine(false)
 {
 
 	mHinstance = GetModuleHandle(NULL);
@@ -155,11 +159,27 @@ LRESULT CALLBACK UrlSetting::main_url_setting_window_proc(HWND hwnd, UINT messag
 		switch (wm_id)
 		{
 		case ID_IS_LIVE_TRUE_OPTION: {
+			SendMessage(purl_setting_window->mIsLiveTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(purl_setting_window->mIsLiveFalseOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			purl_setting_window->mIsLive = TRUE;
 			break;
 		}
 		case ID_IS_LIVE_FALSE_OPTION: {
+			SendMessage(purl_setting_window->mIsLiveFalseOption, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(purl_setting_window->mIsLiveTrueOption, BM_SETCHECK, BST_UNCHECKED, 0);
 			purl_setting_window->mIsLive = FALSE;
+			break;
+		}
+		case ID_RECONSTRUCT_TIME_LINE_TRUE_OPTION: {
+			SendMessage(purl_setting_window->mReconstructTimeLineTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(purl_setting_window->mReconstructTimeLineFalseOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			purl_setting_window->mReconstructTimeLine = TRUE;
+			break;
+		}
+		case ID_RECONSTRUCT_TIME_LINE_FALSE_OPTION: {
+			SendMessage(purl_setting_window->mReconstructTimeLineFalseOption, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(purl_setting_window->mReconstructTimeLineTrueOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			purl_setting_window->mReconstructTimeLine = FALSE;
 			break;
 		}
 		case ID_SUBMIT_BUTTON: {
@@ -284,17 +304,25 @@ void UrlSetting::create_child_window() {
 	int height = windowRect.bottom - windowRect.top;
 	HWND child_window;
 	CreateWindow(TEXT("STATIC"), TEXT("是否直播"), WS_CHILD | WS_VISIBLE, 10, 10, 60, 20, mHwnd, NULL, NULL, NULL);
-	HWND is_live_true_option = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 80, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_TRUE_OPTION, NULL, NULL);
-	HWND is_live_false_option = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_FALSE_OPTION, NULL, NULL);
+	mIsLiveTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 80, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_TRUE_OPTION, NULL, NULL);
+	mIsLiveFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_FALSE_OPTION, NULL, NULL);
 	if (mUrlClickType == UrlClickType::ADD_URL)
 	{
-		SendMessage(is_live_false_option, BM_SETCHECK, BST_CHECKED, 0);
+		SendMessage(mIsLiveFalseOption, BM_SETCHECK, BST_CHECKED, 0);
 	}
-	CreateWindow(TEXT("STATIC"), TEXT("地址名称"), WS_CHILD | WS_VISIBLE, 10, 40, 60, 20, mHwnd, NULL, NULL, NULL);
-	mUrlNameInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 80, 40, width - 100, 20, mHwnd, (HMENU)ID_URL_NAME_INPUT, NULL, NULL);
-	CreateWindow(TEXT("STATIC"), TEXT("地址"), WS_CHILD | WS_VISIBLE, 10, 70, 60, 20, mHwnd, NULL, NULL, NULL);
-	CreateWindow(TEXT("BUTTON"), TEXT("添加"), WS_CHILD | WS_VISIBLE, 80, 70, 60, 20, mHwnd, (HMENU)ID_URL_ADD_STREAM_BUTTON, NULL, NULL);
-	mUrlStreamElementsListWindow = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT, 80, 100, width - 100, (height - 200) / 2 - 10, mHwnd, NULL, NULL, NULL);
+	CreateWindow(TEXT("STATIC"), TEXT("是否重置时间轴"), WS_CHILD | WS_VISIBLE, 10, 40, 120, 20, mHwnd, NULL, NULL, NULL);
+	mReconstructTimeLineTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 40, 50, 20, mHwnd, (HMENU)ID_RECONSTRUCT_TIME_LINE_TRUE_OPTION, NULL, NULL);
+	mReconstructTimeLineFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 200, 40, 50, 20, mHwnd, (HMENU)ID_RECONSTRUCT_TIME_LINE_FALSE_OPTION, NULL, NULL);
+	if (mUrlClickType == UrlClickType::ADD_URL)
+	{
+		SendMessage(mReconstructTimeLineFalseOption, BM_SETCHECK, BST_CHECKED, 0);
+	}
+
+	CreateWindow(TEXT("STATIC"), TEXT("地址名称"), WS_CHILD | WS_VISIBLE, 10, 70, 60, 20, mHwnd, NULL, NULL, NULL);
+	mUrlNameInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 80, 70, width - 100, 20, mHwnd, (HMENU)ID_URL_NAME_INPUT, NULL, NULL);
+	CreateWindow(TEXT("STATIC"), TEXT("地址"), WS_CHILD | WS_VISIBLE, 10, 100, 60, 20, mHwnd, NULL, NULL, NULL);
+	CreateWindow(TEXT("BUTTON"), TEXT("添加"), WS_CHILD | WS_VISIBLE, 80, 100, 60, 20, mHwnd, (HMENU)ID_URL_ADD_STREAM_BUTTON, NULL, NULL);
+	mUrlStreamElementsListWindow = CreateWindow(WC_LISTVIEW, "", WS_CHILD | WS_VISIBLE | LVS_REPORT, 80, 130, width - 100, (height - 200) / 2 - 40, mHwnd, NULL, NULL, NULL);
 	ListView_SetExtendedListViewStyle(mUrlStreamElementsListWindow, LVS_EX_FULLROWSELECT | LVS_EX_TWOCLICKACTIVATE);
 
 	// 添加列头
@@ -323,11 +351,19 @@ void UrlSetting::create_child_window() {
 	{
 		if (mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_media_model()->is_live())
 		{
-			SendMessage(is_live_true_option, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(mIsLiveTrueOption, BM_SETCHECK, BST_CHECKED, 0);
 		}
 		else
 		{
-			SendMessage(is_live_false_option, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(mIsLiveFalseOption, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		if (mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_media_model()->is_reconstruct_time_line())
+		{
+			SendMessage(mReconstructTimeLineTrueOption, BM_SETCHECK, BST_CHECKED, 0);
+		}
+		else
+		{
+			SendMessage(mReconstructTimeLineFalseOption, BM_SETCHECK, BST_CHECKED, 0);
 		}
 		for (DemoMediaStreamElementModel* pinner_model : mStreamElementModelList)
 		{
@@ -374,11 +410,11 @@ void UrlSetting::submit_button_click() {
 	{
 	case ADD_URL: {
 		
-		mpPlayerUrlModelManager->build(mIsLive, mUrlNameInputText);
+		mpPlayerUrlModelManager->build(mIsLive, mReconstructTimeLine, mUrlNameInputText);
 		break;
 	}
 	case MOTIFY_URL:
-		mpPlayerUrlModelManager->build(mIsLive, mUrlNameInputText,mUrlModelIndex);
+		mpPlayerUrlModelManager->build(mIsLive, mReconstructTimeLine, mUrlNameInputText,mUrlModelIndex);
 		break;
 	case DELETE_URL:
 		break;
