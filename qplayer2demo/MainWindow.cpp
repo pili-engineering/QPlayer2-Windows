@@ -79,8 +79,6 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 		{
 			// 更新当前帧
 			CURRENT_FRAME = (CURRENT_FRAME + 1) % NUM_FRAMES;
-
-
 			SetWindowText(pmain_window->mPlayerBuffering, _T(FRAMES[CURRENT_FRAME].c_str()));
 		}
 		return 0;
@@ -1048,7 +1046,8 @@ void MainWindow::on_fps_changed(long fps) {
 
 void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout,const std::unique_ptr<uint8_t[]>& audio_data, uint64_t size) {
 	std::string text = "on_audio_data ";
-	//FileOfWriteAndRead::write_audio_data_to_local_file(sample_rate, format, channel_num, channel_layout, audio_data, size);
+	//不要长时间执行下面代码，仅用于短时间数据上报内容验证使用，长时期开启会导致文件过大，文件过大时可能出现读写冲突导致的崩溃
+	//FileOfWriteAndRead::write_audio_data_to_local_file(sample_rate, format, channel_num, channel_layout, audio_data.get(), size);
 }
 
 void  MainWindow::on_mute_changed(bool is_mute) {
@@ -1381,7 +1380,8 @@ void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
 
 void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type,const std::unique_ptr<uint8_t[]>& buffer, uint64_t size) {
 	std::string text = "on_video_data";
-	//FileOfWriteAndRead::write_video_data_to_local_file(width, height, video_type, buffer, size);
+	//不要长时间执行下面代码，仅用于短时间数据上报内容验证使用，长时期开启会导致文件过大，文件过大时可能出现读写冲突导致的崩溃
+	//FileOfWriteAndRead::write_video_data_to_local_file(width, height, video_type, buffer.get(), size);
 }
 
 void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {
