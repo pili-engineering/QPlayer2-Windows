@@ -75,12 +75,14 @@ PlayerWindow::~PlayerWindow()
 		delete mpVideoRenderWindow;
 		mpVideoRenderWindow = nullptr;
 	}
+	mpCurrentDataModelManager = nullptr;
+	DestroyWindow(mHwnd);
 }
 
 //处理事件循环
 LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param) {
 	PlayerWindow* pplayer_window = (PlayerWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (pplayer_window != nullptr && pplayer_window->mpCurrentDataModelManager->get_player_state() != QMedia::QPlayerState::END) {
+	if (pplayer_window != nullptr && pplayer_window->mpCurrentDataModelManager != nullptr && pplayer_window->mpCurrentDataModelManager->get_player_state() != QMedia::QPlayerState::END) {
 
 		 pplayer_window->on_receive_message(hwnd, message, w_param, l_param);
 	}
