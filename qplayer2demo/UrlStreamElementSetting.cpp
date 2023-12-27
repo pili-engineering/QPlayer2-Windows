@@ -30,6 +30,10 @@
 
 #define ID_SUBMIT_BUTTON 1100
 #define ID_CANCEL_BUTTON 1101
+
+#define ID_URL_METHOD_NORMAL_OPTIONAL 1200
+#define ID_URL_METHOD_RTSP_TCP_OPTIONAL 1201
+#define ID_URL_METHOD_RTSP_UDP_OPTIONAL 1202
 UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance, UrlClickType click_type, DemoMediaStreamElementModel* stream_element_model):
 	mClickType(click_type),
 	mpStreamElementModel(stream_element_model),
@@ -104,7 +108,6 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			return 0;
 		}
 	}
-
 	case WM_COMMAND: {
 		int wm_id = LOWORD(w_param);
 		switch (wm_id)
@@ -224,6 +227,27 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 
 			break;
 		}
+		case ID_URL_METHOD_NORMAL_OPTIONAL: {
+			SendMessage(pstream_element_setting_window->mUrlMethodNormalOption, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(pstream_element_setting_window->mUrlMethodRtspTcpOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			SendMessage(pstream_element_setting_window->mUrlMethodRtspUdpOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			pstream_element_setting_window->mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::NORMAL);
+			break;
+		}
+		case ID_URL_METHOD_RTSP_TCP_OPTIONAL: {
+			SendMessage(pstream_element_setting_window->mUrlMethodNormalOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			SendMessage(pstream_element_setting_window->mUrlMethodRtspTcpOption, BM_SETCHECK, BST_CHECKED, 0);
+			SendMessage(pstream_element_setting_window->mUrlMethodRtspUdpOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			pstream_element_setting_window->mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::RTSP_TCP);
+			break;
+		}
+		case ID_URL_METHOD_RTSP_UDP_OPTIONAL: {
+			SendMessage(pstream_element_setting_window->mUrlMethodNormalOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			SendMessage(pstream_element_setting_window->mUrlMethodRtspTcpOption, BM_SETCHECK, BST_UNCHECKED, 0);
+			SendMessage(pstream_element_setting_window->mUrlMethodRtspUdpOption, BM_SETCHECK, BST_CHECKED, 0);
+			pstream_element_setting_window->mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::RTSP_UDP);
+			break;
+		}
 		case ID_SUBMIT_BUTTON: {
 			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mpStreamElementModel);
 			pstream_element_setting_window = NULL;
@@ -309,6 +333,11 @@ void UrlStreamElementSetting::create_child_window() {
 	CreateWindow(TEXT("STATIC"), TEXT("video_type"), WS_CHILD | WS_VISIBLE, 10, 360, 90, 20, mHwnd, NULL, NULL, NULL);
 	mVideoTypePlanOption = CreateWindow(TEXT("BUTTON"), TEXT("普通视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 360, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_PLAN_OPTIONAL, NULL, NULL);
 	mVideoTypeAROption = CreateWindow(TEXT("BUTTON"), TEXT("AR视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 360, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_AR_OPTIONAL, NULL, NULL);
+	
+	CreateWindow(TEXT("STATIC"), TEXT("url_method"), WS_CHILD | WS_VISIBLE, 10, 390, 90, 20, mHwnd, NULL, NULL, NULL);
+	mUrlMethodNormalOption = CreateWindow(TEXT("BUTTON"), TEXT("normal"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 390, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_NORMAL_OPTIONAL, NULL, NULL);
+	mUrlMethodRtspTcpOption = CreateWindow(TEXT("BUTTON"), TEXT("rtsp_tcp"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 390, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_RTSP_TCP_OPTIONAL, NULL, NULL);
+	mUrlMethodRtspUdpOption = CreateWindow(TEXT("BUTTON"), TEXT("rtsp_udp"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 460, 390, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_RTSP_UDP_OPTIONAL, NULL, NULL);
 
 	if (mClickType == UrlClickType::MOTIFY_URL)
 	{
@@ -355,6 +384,21 @@ void UrlStreamElementSetting::create_child_window() {
 			SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
 			mpStreamElementModel->set_video_type(QMedia::QVideoRenderType::PLANE);
 		}
+		if (mpStreamElementModel->get_url_methond() == QMedia::QUrlMethod::RTSP_UDP)
+		{
+			SendMessage(mUrlMethodRtspUdpOption, BM_SETCHECK, BST_CHECKED, 0);
+			mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::RTSP_UDP);
+		}
+		else if(mpStreamElementModel->get_url_methond() == QMedia::QUrlMethod::RTSP_TCP)
+		{
+			SendMessage(mUrlMethodRtspTcpOption, BM_SETCHECK, BST_CHECKED, 0);
+			mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::RTSP_TCP);
+		}
+		else
+		{
+			SendMessage(mUrlMethodNormalOption, BM_SETCHECK, BST_CHECKED, 0);
+			mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::NORMAL);
+		}
 	}
 	else
 	{
@@ -364,6 +408,8 @@ void UrlStreamElementSetting::create_child_window() {
 		mpStreamElementModel->set_is_selected(true);
 		SendMessage(mVideoTypePlanOption, BM_SETCHECK, BST_CHECKED, 0);
 		mpStreamElementModel->set_video_type(QMedia::QVideoRenderType::PLANE);
+		SendMessage(mUrlMethodNormalOption, BM_SETCHECK, BST_CHECKED, 0);
+		mpStreamElementModel->set_url_methond(QMedia::QUrlMethod::NORMAL);
 	}
 
 	CreateWindow(TEXT("BUTTON"), TEXT("确定"), WS_CHILD | WS_VISIBLE, width / 2 - 55, height - 70, 50, 20, mHwnd, (HMENU)ID_SUBMIT_BUTTON, NULL, NULL);

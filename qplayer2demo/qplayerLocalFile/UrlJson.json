@@ -13,6 +13,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-1080p.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -25,6 +26,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-720p.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -37,6 +39,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-480p.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -49,6 +52,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-360p.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -61,6 +65,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/qiniu-2023-240p.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -92,6 +97,7 @@
                 "referer": "",
                 "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/only-video-1080p-60fps.m4s",
+                "url_method": "NORMAL",
                 "url_type": "QVIDEO",
                 "user_type": ""
             },
@@ -104,6 +110,7 @@
                 "referer": "",
                 "render_type": "NONE",
                 "url": "http://demo-videos.qnsdk.com/only-audio.m4s",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -124,6 +131,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/shortvideo/nike.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -144,6 +152,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/song.mp3",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -164,6 +173,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/only-video-1080p-60fps.m4s",
+                "url_method": "NORMAL",
                 "url_type": "QVIDEO",
                 "user_type": ""
             }
@@ -184,6 +194,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/bbk-bt709.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -204,6 +215,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/Sync-Footage-V1-H264.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -224,6 +236,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://img.qunliao.info:443/4oEGX68t_9505974551.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -244,6 +257,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -256,6 +270,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest@hugo720p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -268,6 +283,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest@hugo480p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -280,6 +296,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/zengtest@hugo240p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -300,6 +317,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -312,6 +330,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@hugo720p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -324,6 +343,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@hugo480p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -336,6 +356,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@hugo240p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -356,6 +377,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.cdn-stg1.zhi-niao.com/zhiniao-stg1/851131_59199A60361D4C54B944130794B1AEEE_1",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -376,6 +398,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -388,6 +411,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@zn720p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -400,6 +424,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@zn480p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -412,6 +437,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-live-rtmp.test.qnsdk.com/sdk-live-test/test6666@zn240p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -432,6 +458,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -444,6 +471,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666@zn720p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -456,6 +484,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666@zn480p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             },
@@ -468,6 +497,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/6666@zn240p",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -488,6 +518,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://pili-hls.qnsdk.com/sdk-live/6666.m3u8",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -508,6 +539,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://stg1-cdn-vod.zhi-niao.com/replays/2023/02/24/853909/853909_D0F915234FC648C7BDE4D62281E7575F.m3u8",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -528,6 +560,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://pili-hdl.qnsdk.com/sdk-live/6666.flv",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -548,6 +581,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://10008gi.playback1.z1.pili.qiniucdn.com/zhiniao-stg1/852373_E1FEB4E6C5B64D06A4B6C6962940BC6C_1.m3u8?start=1676961021&end=1676961045",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -568,6 +602,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/H264-flv.flv",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -588,6 +623,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/10701032_194625-hd%20%281%29.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -608,6 +644,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/1599039859854_9242359.mp3",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -628,6 +665,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/VID_20220207_144828.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -648,6 +686,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/10037108_065355-hd%20%281%29.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -668,6 +707,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/test1.wma",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -688,6 +728,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/flv.flv",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -708,6 +749,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/video1643265479033.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -728,6 +770,7 @@
                 "referer": "",
                 "render_type": "PANORAMA_EQUIRECT_ANGULAR",
                 "url": "http://demo-videos.qnsdk.com/VR-Panorama-Equirect-Angular-4500k.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -748,6 +791,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/long_movie.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -768,6 +812,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/2K_60_6040.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -788,6 +833,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/2K_25_11700.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -808,6 +854,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/1080_60_5390.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -828,6 +875,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/4K_3840%2A1920.m4s",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -848,6 +896,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://demo-qnrtc-files.qnsdk.com/six_second.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -868,6 +917,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/audioonly",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -888,6 +938,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://pili-hls.qnsdk.com/sdk-live/audioonly.m3u8",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -908,6 +959,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://pili-hdl.qnsdk.com/sdk-live/audioonly.flv",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -928,6 +980,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/videoonly",
+                "url_method": "NORMAL",
                 "url_type": "QVIDEO",
                 "user_type": ""
             }
@@ -948,6 +1001,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://pili-hls.qnsdk.com/sdk-live/videoonly.m3u8",
+                "url_method": "NORMAL",
                 "url_type": "QVIDEO",
                 "user_type": ""
             }
@@ -968,6 +1022,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://pili-hdl.qnsdk.com/sdk-live/videoonly.flv",
+                "url_method": "NORMAL",
                 "url_type": "QVIDEO",
                 "user_type": ""
             }
@@ -988,6 +1043,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/only-audio-wav.wav",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -1008,6 +1064,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/audio-only-flac.flac",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO",
                 "user_type": ""
             }
@@ -1028,6 +1085,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "srt://180.101.136.81:1935?streamid=#!::h=pilidemo/timestamp,m=request,domain=live-pilidemo.cloudvdn.com",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1048,6 +1106,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "rtmp://pili-rtmp.qnsdk.com/sdk-live/Hera",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1068,6 +1127,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://stream.0554news.com/hnds1/playlist.m3u8?_upt=cc441e8f1669371377",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1088,6 +1148,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://80rjmu.com1.z0.glb.clouddn.com/ncyY3ioGAakS-Lg252IscrXNxyo=/Fgny-rvibYqoFP-lPkI53JfmoIx5",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1108,6 +1169,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/EnglishVideo.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1134,6 +1196,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "http://demo-videos.qnsdk.com/EnglishVideo.MOV",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1160,6 +1223,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://sdk-release.qnsdk.com/CENC_AES-CTR.mp4",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1180,6 +1244,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://video.sureemed.com/hls-mp4%2F20230717%E7%9F%AD%E8%A7%86%E9%A2%91hls-2023%E5%85%AD%E6%9C%88%E7%9F%AD%E8%A7%86%E9%A2%916.27.mp4-2000k-transcode.m3u8",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }
@@ -1200,6 +1265,7 @@
                 "referer": "",
                 "render_type": "PLANE",
                 "url": "https://mdy-picture.tos-cn-beijing.volces.com/2023%2F09%2F04%2F0599764572694a0c929ca79efcc988b0.wav",
+                "url_method": "NORMAL",
                 "url_type": "QAUDIO_AND_VIDEO",
                 "user_type": ""
             }

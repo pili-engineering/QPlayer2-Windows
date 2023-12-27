@@ -10,7 +10,8 @@ DemoMediaStreamElementModel::DemoMediaStreamElementModel() :
 	mUrl(""),
 	mUrlType(QMedia::QUrlType::NONE),
 	mUserType(""),
-	mVideoType(QMedia::QVideoRenderType::NONE)
+	mVideoType(QMedia::QVideoRenderType::NONE),
+	mUrlMethod(QMedia::QUrlMethod::NORMAL)
 {
 }
 
@@ -97,4 +98,12 @@ void DemoMediaStreamElementModel::set_video_type(QMedia::QVideoRenderType video_
 
 QMedia::QVideoRenderType DemoMediaStreamElementModel::get_video_type() {
 	return mVideoType;
+}
+
+void DemoMediaStreamElementModel::set_url_methond(QMedia::QUrlMethod url_methond) {
+	mUrlMethod = url_methond;
+}
+
+QMedia::QUrlMethod DemoMediaStreamElementModel::get_url_methond() {
+	return mUrlMethod;
 }

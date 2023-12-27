@@ -150,6 +150,7 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 					std::string hls_drm_key = UTF8_To_GB2312(stream_ele["hls_drm_key"]);
 					std::string mp4_drm_key = UTF8_To_GB2312(stream_ele["mp4_drm_key"]);
 					QMedia::QVideoRenderType render_type = string_to_render_type(stream_ele["render_type"]);
+					QMedia::QUrlMethod url_method = string_to_url_method(stream_ele["url_method"]);
 					pmodel_builder->add_stream_element(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, GB2312_To_UTF8(hls_drm_key), GB2312_To_UTF8(mp4_drm_key));
 				}
 			}
@@ -209,6 +210,7 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 			stream_json["hls_drm_key"] = GB2312_To_UTF8(pele->get_hls_drm_key());
 			stream_json["mp4_drm_key"] = GB2312_To_UTF8(pele->get_mp4_drm_key());
 			stream_json["render_type"] = GB2312_To_UTF8(render_type_to_string(pele->get_render_type()));
+			stream_json["url_method"] = GB2312_To_UTF8(url_method_to_string(pele->get_url_method()));
 			stream_ele_array.push_back(stream_json);
 		}
 		json["stream_element"] = stream_ele_array;
@@ -577,13 +579,40 @@ QMedia::QVideoRenderType FileOfWriteAndRead::string_to_render_type(const std::st
 	{
 		return QMedia::QVideoRenderType::PLANE;
 	}
-
 	else if (render_type == "PANORAMA_EQUIRECT_ANGULAR") {
 		return QMedia::QVideoRenderType::PANORAMA_EQUIRECT_ANGULAR;
 	}
 	else
 	{
 		return QMedia::QVideoRenderType::NONE;
+	}
+}
+
+std::string FileOfWriteAndRead::url_method_to_string(QMedia::QUrlMethod url_method) {
+	switch (url_method)
+	{
+	case QMedia::QUrlMethod::NORMAL:
+		return "NORMAL";
+	case QMedia::QUrlMethod::RTSP_TCP:
+		return "RTSP_TCP";
+	case QMedia::QUrlMethod::RTSP_UDP:
+		return "RTSP_UDP";
+	default:
+		return "NORMAL";
+	}
+}
+
+QMedia::QUrlMethod FileOfWriteAndRead::string_to_url_method(const std::string& url_method) {
+	if (url_method == "RTSP_TCP")
+	{
+		return QMedia::QUrlMethod::RTSP_TCP;
+	}
+	else if (url_method == "RTSP_UDP") {
+		return QMedia::QUrlMethod::RTSP_UDP;
+	}
+	else
+	{
+		return QMedia::QUrlMethod::NORMAL;
 	}
 }
 

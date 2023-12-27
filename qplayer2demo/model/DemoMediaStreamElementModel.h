@@ -46,6 +46,10 @@ public:
 	void set_video_type(QMedia::QVideoRenderType video_type);
 
 	QMedia::QVideoRenderType get_video_type();
+
+	void set_url_methond(QMedia::QUrlMethod url_methond);
+
+	QMedia::QUrlMethod get_url_methond();
 private:
 	std::string mUserType;
 	std::string mUrl;
@@ -57,5 +61,6 @@ private:
 	std::string mHlsDrm;
 	std::string mMp4Drm;
 	QMedia::QVideoRenderType mVideoType;
+	QMedia::QUrlMethod mUrlMethod;
 };
 

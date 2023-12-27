@@ -56,6 +56,10 @@ private:
 
 	HWND mVideoTypePlanOption;
 	HWND mVideoTypeAROption;
+
+	HWND mUrlMethodNormalOption;
+	HWND mUrlMethodRtspTcpOption;
+	HWND mUrlMethodRtspUdpOption;
 	StreamElementSettingWindowCloseCallBackFunction mCloseCallBack;
 };
 
