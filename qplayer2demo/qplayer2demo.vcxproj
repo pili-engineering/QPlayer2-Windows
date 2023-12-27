@@ -108,7 +108,8 @@ copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configur
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
+copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.ini" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>
@@ -169,7 +170,8 @@ copy "$(ProjectDir)qplayerLocalFile\*" "$(SolutionDir)out\$(Platform)\$(Configur
     </PreLinkEvent>
     <PreBuildEvent>
       <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.dll" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.manifest" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" 
+copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.ini" "$(SolutionDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
