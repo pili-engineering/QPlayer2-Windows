@@ -89,6 +89,8 @@ UrlSetting::UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager
 }
 
 UrlSetting::~UrlSetting() {
+	DestroyWindow(mUrlStreamElementsListWindow);
+	DestroyWindow(mUrlSubtitleElementsListWindow);
 }
 
 HWND UrlSetting::get_hwnd() {
@@ -288,6 +290,7 @@ void UrlSetting::create_child_window() {
 			pinner_ele_model->set_url(it->get_url());
 			pinner_ele_model->set_url_type(it->get_url_type());
 			pinner_ele_model->set_user_type(it->get_user_type());
+			pinner_ele_model->set_video_type(it->get_render_type());
 			mStreamElementModelList.emplace_back(pinner_ele_model);
 		}
 		for (auto it : mpPlayerUrlModelManager->get_url_model_for_index(mUrlModelIndex)->get_media_model()->get_subtitle_elements()) {
