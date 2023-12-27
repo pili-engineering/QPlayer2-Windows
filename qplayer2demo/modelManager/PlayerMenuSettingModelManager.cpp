@@ -555,6 +555,8 @@ HMENU PlayerMenuSettingModelManager::get_child_menu_for_name(const std::string& 
 			return (*parent_it)->get_child_menu_model()->get_menus();
 		}
 	}
+
+	return nullptr;
 }
 void PlayerMenuSettingModelManager::update_play_start_position_menu_text(long start_position, HMENU position_hmenu) {
 	ModifyMenu(position_hmenu, ID_PLAY_START_POSITION_BUTTON, MF_STRING, ID_PLAY_START_POSITION_BUTTON, std::to_string(start_position).c_str());

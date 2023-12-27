@@ -47,6 +47,7 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 	}
 	file << std::setw(4) << current_json << std::endl;
 	file.close();
+	return true;
 }
 
 //从文件中读取播放器设置
