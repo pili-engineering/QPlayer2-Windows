@@ -1,4 +1,3 @@
-
 #include "MainWindow.h"
 #include "resource.h"
 #include <commctrl.h>
@@ -255,7 +254,6 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	update_quality_list_window();
 
 	SetTimer(mHwnd, TIMER_ID, FRAME_DELAY, NULL);
-
 
     ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
@@ -577,15 +575,12 @@ int MainWindow::get_render_window_width(int parent_window_width)
 
 bool MainWindow::notify_resize_to_player()
 {
-    
     if (mpPlayerWindow != nullptr)
     {
         RECT render_window_rect;
         GetClientRect(mpPlayerWindow->get_hwnd(), &render_window_rect);
         return true;
-
     }
-
     return false;
 }
 //进度条点击响应事件
@@ -612,7 +607,6 @@ void  MainWindow::menu_button_click(int button_id) {
     }
 	if (button_id - ID_SUBTITLE_CLOSE_BUTTON < 90 && button_id - ID_SUBTITLE_CLOSE_BUTTON > 0)
 	{
-
 		mpPlayerWindow->get_control_handler()->set_subtitle_enable(true);
 		mpCurrentDataModelManager->set_subtitle_enable(true);
 
@@ -621,24 +615,20 @@ void  MainWindow::menu_button_click(int button_id) {
 		mpCurrentDataModelManager->set_subtitle_name(pinner_ele->get_name());
 		updata_menu_ui(button_id);
 		return;
-
 	}
     switch (button_id)
     {
 	case ID_QUALITY_CHANGE_BUTTON: {
 		if (IsWindowVisible(mPlayerQualityChangeListWindow))
 		{
-
 			ShowWindow(mPlayerQualityChangeListWindow, SW_HIDE);
 		}
 		else {
-
 			ShowWindow(mPlayerQualityChangeListWindow, SW_SHOW);
 		}
 		break;
 	}
     case ID_PAUSE_PLAY_BUTTON: {
-
 		SetWindowLongPtr(mPlayButton, GWL_ID, (LONG_PTR)ID_RESUME_PLAY_BUTTON);
         SetWindowText(mPlayButton, TEXT("Resume"));
         mpPlayerWindow->get_control_handler()->pause_render();
@@ -663,9 +653,7 @@ void  MainWindow::menu_button_click(int button_id) {
 	case ID_RELEASE_BUTTON:
 		if (mpCurrentDataModelManager->get_player_state() == QMedia::QPlayerState::PLAYING)
 		{
-
 			mpPlayerWindow->get_control_handler()->stop();
-
 		}
 		mpPlayerWindow->get_context()->release();
 		break;
@@ -846,7 +834,7 @@ void  MainWindow::menu_button_click(int button_id) {
 }
 //更新菜单按钮选中状态
 void MainWindow::updata_menu_ui(int button_id) {
-	if (button_id == ID_PLAY_START_POSITION_BUTTON || button_id ==  ID_PAUSE_BUTTON || button_id == ID_RESUME_BUTTON || button_id == ID_STOP_BUTTON)
+	if (button_id == ID_PLAY_START_POSITION_BUTTON || button_id ==  ID_PAUSE_BUTTON || button_id == ID_RESUME_BUTTON || button_id == ID_STOP_BUTTON || button_id == ID_RELEASE_BUTTON)
 	{
 		return;
 	}
@@ -1336,7 +1324,6 @@ void  MainWindow::on_subtitle_text_changed(const std::string& text) {
 	float width = rect.right - rect.left;
     MoveWindow(mPlayerSubtitle, rect.left + width / 2 - gb2312_text.length() * 4, rect.bottom + 10, gb2312_text.length() * 8, 30,true);
 	SetWindowText(mPlayerSubtitle, gb2312_text.c_str());
-	int i = 0;
 }
 
 void  MainWindow::on_subtitle_name_changed(const std::string& name) {
