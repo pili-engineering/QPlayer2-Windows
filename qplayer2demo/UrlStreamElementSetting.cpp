@@ -107,6 +107,7 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			DestroyWindow(hwnd);
 			return 0;
 		}
+		break;
 	}
 	case WM_COMMAND: {
 		int wm_id = LOWORD(w_param);
