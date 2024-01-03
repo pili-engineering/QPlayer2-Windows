@@ -40,6 +40,8 @@ public:
 	static bool write_audio_data_to_local_file(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout, uint8_t* audio_data, uint64_t size);
 
 	static LONG WINAPI write_mini_dump_to_local(EXCEPTION_POINTERS* exceptionInfo);
+
+	static bool clear_record_dir();
 private:
 	static std::string decoder_to_string(QMedia::QPlayerSetting::QPlayerDecoder decoder);
 

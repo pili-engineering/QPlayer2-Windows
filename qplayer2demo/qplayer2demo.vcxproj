@@ -165,7 +165,8 @@ copy "$(ProjectDir)dependency\qplayer-core\x86\lib\*.dll" "$(ProjectDir)out\$(Pl
       <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
 copy "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
-copy "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+copy "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>

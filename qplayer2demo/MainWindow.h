@@ -138,6 +138,11 @@ public:
 
     HWND get_hwnd();
 
+	void record_button_click();
+
+	void record_finish();
+
+	static VOID CALLBACK record_timer_call_back(PVOID lpParam, BOOLEAN TimerOrWaitFired);
 private:
     LRESULT on_create();
     LRESULT on_resize();
@@ -217,6 +222,8 @@ private:
 	bool mIsClose;
 
 	CurrentDataModelManager* mpCurrentDataModelManager;
+
+	HANDLE mHTimerHandle;
 };
 
  

@@ -52,6 +52,9 @@ PlayerMenuSettingModelManager::PlayerMenuSettingModelManager(HWND hwnd, PlayerWi
 
 	add_setting_model("起播时间", ID_PLAY_START_POSITION);
 	add_setting_child_model(create_player_start_list(), ID_PLAY_START_POSITION);
+
+	add_setting_model("录制", ID_RECORD);
+	add_setting_child_model(create_player_record_list(), ID_RECORD);
 }
 
 
@@ -111,7 +114,7 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_play_control_list()
 	pplay_control->emplace_back(create_child_menu("恢复播放", ID_RESUME_BUTTON, false));
 	pplay_control->emplace_back(create_child_menu("暂停播放", ID_PAUSE_BUTTON, false));
 	pplay_control->emplace_back(create_child_menu("停止播放", ID_STOP_BUTTON, false));
-	pplay_control->emplace_back(create_child_menu("释放播放", ID_RELEASE_BUTTON, false));
+	pplay_control->emplace_back(create_child_menu("释放播放器", ID_RELEASE_BUTTON, false));
 
 	return pplay_control;
 }
@@ -530,6 +533,13 @@ std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_player_start_list()
 	pplay_start_position_list->emplace_back(create_child_menu(std::to_string(mpCurrentDataModelManager->get_player_start_position()), ID_PLAY_START_POSITION_BUTTON, false));
 	return pplay_start_position_list;
 }
+
+std::list<ChildMenu*>* PlayerMenuSettingModelManager::create_player_record_list() {
+	std::list<ChildMenu*>* precord_list = new std::list<ChildMenu*>;
+	precord_list->emplace_back(create_child_menu("录制", ID_RECORD_BUTTON, false));
+	return precord_list;
+}
+
 ChildMenu* PlayerMenuSettingModelManager::create_child_menu(const std::string& name, int id, bool is_selected) {
 	ChildMenu* pinner_child_menu = new ChildMenu();
 	pinner_child_menu->set_id(id);

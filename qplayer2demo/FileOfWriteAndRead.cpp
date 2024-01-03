@@ -257,13 +257,14 @@ bool FileOfWriteAndRead::write_image_to_local_file(const uint8_t* pjpeg_data, ui
 }
 
 int count = 0;
+
 bool FileOfWriteAndRead::write_video_data_to_local_file(int width, int height, QMedia::QVideoType video_type, uint8_t* buffer, uint64_t size) {
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + "\\shootImage\\" +std::to_string(1) + ".yuv";
+	std::string file_path = directory + "\\record\\" +std::to_string(1) + ".yuv";
 	std::ofstream outputFile(file_path, std::ios::binary | std::ios::app);
 	if (!outputFile)
 	{
@@ -289,7 +290,7 @@ bool FileOfWriteAndRead::write_audio_data_to_local_file(int sample_rate, QMedia:
 	std::string directory = path;
 	size_t pos = directory.find_last_of("\\");
 	directory = directory.substr(0, pos + 1);
-	std::string file_path = directory + "\\shootImage\\" + "1.pcm";
+	std::string file_path = directory + "\\record\\" + "1.pcm";
 	std::ofstream outputFile(file_path, std::ios::binary | std::ios::app);
 	if (!outputFile)
 	{
@@ -331,8 +332,29 @@ bool FileOfWriteAndRead::write_audio_data_to_local_file(int sample_rate, QMedia:
 	outputFile.close();
 	return true;
 }
+//清理所有录制数据
+bool FileOfWriteAndRead::clear_record_dir() {
+	char path[MAX_PATH];
+	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
+	std::string directory = path;
+	size_t pos = directory.find_last_of("\\");
+	directory = directory.substr(0, pos + 1);
+	std::string all_file_path = directory + "\\record\\" + "*.*";
+	WIN32_FIND_DATA find_file;
+	HANDLE find_handle = FindFirstFile(all_file_path.c_str(), &find_file);
 
+	if (find_handle != INVALID_HANDLE_VALUE) {
+		do {
+			std::string file_path = directory + "\\record\\" + find_file.cFileName;
 
+			if (!DeleteFile(file_path.c_str())) {
+				return false;
+			}
+		} while (FindNextFile(find_handle, &find_file));
+
+		FindClose(find_handle);
+	}
+}
 
 
 

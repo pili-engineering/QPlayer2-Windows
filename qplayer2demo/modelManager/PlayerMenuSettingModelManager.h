@@ -72,6 +72,9 @@
 
 #define ID_PLAY_START_POSITION								 2400
 #define ID_PLAY_START_POSITION_BUTTON						 2401
+
+#define ID_RECORD										     2500
+#define ID_RECORD_BUTTON									 2501
 class PlayerMenuSettingModelManager
 {
 public:
@@ -120,6 +123,8 @@ private:
 	std::list<ChildMenu*>* create_shoot_list();
 
 	std::list<ChildMenu*>* create_player_start_list();
+
+	std::list<ChildMenu*>* create_player_record_list();
 
 
 private:

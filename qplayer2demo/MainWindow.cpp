@@ -41,6 +41,7 @@
 
 
 #define WM_QPLAYER2_STATE_END   (UINT)10000
+#define WM_RECORD_TIMER_FINISH   (UINT)10001
 
 #define CLASS_NAME "UrlSetting"
 using namespace QMedia;
@@ -71,6 +72,10 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 			delete pmain_window->mpPlayerWindow;
 			pmain_window->mpPlayerWindow = nullptr;
 		}
+		break;
+	}
+	case WM_RECORD_TIMER_FINISH: {
+		pmain_window->record_finish();
 		break;
 	}
 	case WM_TIMER:
@@ -341,10 +346,6 @@ LRESULT MainWindow::on_create()
         [this](HWND hwnd, QMedia::QMediaModel* pmodel) {
             url_Click_call_back(hwnd, pmodel);
 			mpSettingMenuManager->update_subtitle_menu_text(mpCurrentDataModelManager->get_media_model(), mpSettingMenuManager->get_child_menu_for_name("字幕设置"));
-			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
-			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_RESUME_BUTTON, MF_UNCHECKED);
-			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_PAUSE_BUTTON, MF_UNCHECKED);
-			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("播放控制"), ID_STOP_BUTTON, MF_UNCHECKED);
 			CheckMenuItem(mpSettingMenuManager->get_child_menu_for_name("鉴权方式"), ID_AURHENTICATION_BUTTON, MF_UNCHECKED);
 			ShowWindow(mPlayerBuffering, SW_HIDE);
 			SetWindowText(mPlayerSubtitle, TEXT(""));
@@ -648,6 +649,9 @@ void  MainWindow::menu_button_click(int button_id) {
     case ID_STOP_BUTTON:
         mpPlayerWindow->get_control_handler()->stop();
         break;
+	case ID_RECORD_BUTTON:
+		record_button_click();
+		break;
 	case ID_RELEASE_BUTTON:
 		if (mpCurrentDataModelManager->get_player_state() == QMedia::QPlayerState::PLAYING)
 		{
@@ -830,9 +834,43 @@ void  MainWindow::menu_button_click(int button_id) {
     }
 	updata_menu_ui(button_id);
 }
+// 定时器回调函数
+VOID CALLBACK MainWindow::record_timer_call_back(PVOID lpParam, BOOLEAN TimerOrWaitFired) {
+	std::cout << "定时器触发！" << std::endl;
+	MainWindow* pmain_window = static_cast<MainWindow*>(lpParam);
+	if (pmain_window != nullptr)
+	{
+		PostMessage(pmain_window->get_hwnd(), WM_RECORD_TIMER_FINISH, NULL, NULL);
+	}
+}
+
+void MainWindow::record_finish() {
+	mpPlayerWindow->get_control_handler()->remove_all_player_audio_data_listeners();
+	mpPlayerWindow->get_control_handler()->remove_all_player_video_data_listeners();
+	EnableWindow(mHwnd, TRUE);
+	// 删除定时器
+	if (!DeleteTimerQueueTimer(NULL, mHTimerHandle, NULL)) {
+		mpToastWindow->add_item("无法删除录制所需定时器");
+		return;
+	}
+	mpToastWindow->add_item("录制完成,恢复操作");
+}
+void MainWindow::record_button_click() {
+	FileOfWriteAndRead::clear_record_dir();
+	mpPlayerWindow->get_control_handler()->add_player_video_data_listener(this);
+	mpPlayerWindow->get_control_handler()->add_player_audio_data_listener(this);
+	EnableWindow(mHwnd, FALSE);
+	// 创建定时器
+	if (!CreateTimerQueueTimer(&mHTimerHandle, NULL, record_timer_call_back, this, 5000, 0, 0)) {
+		mpToastWindow->add_item("无法创建录制所需定时器");
+		return ;
+	}
+	mpToastWindow->add_item("录制中，禁止所有操作");
+}
+
 //更新菜单按钮选中状态
 void MainWindow::updata_menu_ui(int button_id) {
-	if (button_id == ID_PLAY_START_POSITION_BUTTON || button_id ==  ID_PAUSE_BUTTON || button_id == ID_RESUME_BUTTON || button_id == ID_STOP_BUTTON || button_id == ID_RELEASE_BUTTON)
+	if (button_id == ID_RECORD_BUTTON || button_id == ID_PLAY_START_POSITION_BUTTON || button_id ==  ID_PAUSE_BUTTON || button_id == ID_RESUME_BUTTON || button_id == ID_STOP_BUTTON || button_id == ID_RELEASE_BUTTON)
 	{
 		return;
 	}
@@ -936,7 +974,6 @@ void MainWindow::add_listeners() {
     mpPlayerWindow->get_render_handler()->add_render_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_fps_change_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_download_change_listener(this);
-    mpPlayerWindow->get_control_handler()->add_player_audio_data_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_audio_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_authentication_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_bite_rate_listener(this);
@@ -952,7 +989,6 @@ void MainWindow::add_listeners() {
     mpPlayerWindow->get_control_handler()->add_player_shoot_video_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_speed_change_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_subtitle_listener(this);
-    mpPlayerWindow->get_control_handler()->add_player_video_data_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_video_decode_type_listener(this);
     mpPlayerWindow->get_control_handler()->add_player_video_frame_size_change_listener(this);
     
@@ -1047,7 +1083,7 @@ void MainWindow::on_fps_changed(long fps) {
 void  MainWindow::on_audio_data(int sample_rate, QMedia::QSampleFormat format, int channel_num, QMedia::QChannelLayout channel_layout,const std::unique_ptr<uint8_t[]>& audio_data, uint64_t size) {
 	std::string text = "on_audio_data ";
 	//不要长时间执行下面代码，仅用于短时间数据上报内容验证使用，长时期开启会导致文件过大，文件过大时可能出现读写冲突导致的崩溃
-	//FileOfWriteAndRead::write_audio_data_to_local_file(sample_rate, format, channel_num, channel_layout, audio_data.get(), size);
+	FileOfWriteAndRead::write_audio_data_to_local_file(sample_rate, format, channel_num, channel_layout, audio_data.get(), size);
 }
 
 void  MainWindow::on_mute_changed(bool is_mute) {
@@ -1381,7 +1417,7 @@ void  MainWindow::on_subtitle_decoded(const std::string& name, bool result) {
 void  MainWindow::on_video_data(int width, int height, QMedia::QVideoType video_type,const std::unique_ptr<uint8_t[]>& buffer, uint64_t size) {
 	std::string text = "on_video_data";
 	//不要长时间执行下面代码，仅用于短时间数据上报内容验证使用，长时期开启会导致文件过大，文件过大时可能出现读写冲突导致的崩溃
-	//FileOfWriteAndRead::write_video_data_to_local_file(width, height, video_type, buffer.get(), size);
+	FileOfWriteAndRead::write_video_data_to_local_file(width, height, video_type, buffer.get(), size);
 }
 
 void  MainWindow::on_video_decode_by_type(QMedia::QDecoderType type) {
