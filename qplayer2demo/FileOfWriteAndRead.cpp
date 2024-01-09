@@ -346,14 +346,14 @@ bool FileOfWriteAndRead::clear_record_dir() {
 	if (find_handle != INVALID_HANDLE_VALUE) {
 		do {
 			std::string file_path = directory + "\\record\\" + find_file.cFileName;
-
 			if (!DeleteFile(file_path.c_str())) {
-				return false;
+				continue;
 			}
 		} while (FindNextFile(find_handle, &find_file));
 
 		FindClose(find_handle);
 	}
+	return true;
 }
 
 
