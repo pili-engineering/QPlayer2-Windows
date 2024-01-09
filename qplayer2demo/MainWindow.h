@@ -143,6 +143,7 @@ public:
 	void record_finish();
 
 	static VOID CALLBACK record_timer_call_back(PVOID lpParam, BOOLEAN TimerOrWaitFired);
+
 private:
     LRESULT on_create();
     LRESULT on_resize();
@@ -170,15 +171,13 @@ private:
     HWND mHwnd;
     HINSTANCE mHinstance;
 
-
 	std::string mProgressTimeStr;
 
-
-
     static const int MAX_LOADSTRING = 100;
-    WCHAR mTitle[MAX_LOADSTRING];                  // 标题栏文本
-    WCHAR mWindowClass[MAX_LOADSTRING];            // 主窗口类名
 
+    WCHAR mTitle[MAX_LOADSTRING];                  // 标题栏文本
+
+    WCHAR mWindowClass[MAX_LOADSTRING];            // 主窗口类名
 
 	PlayerWindow* mpPlayerWindow;
 
@@ -203,6 +202,7 @@ private:
 	HWND mPlayerBiteRateText;
 
 	HWND mPlayerBuffering;
+
 	HWND mPlayerSubtitle;
 
 	HWND mPlayerProgressAndDurationText;
@@ -223,7 +223,7 @@ private:
 
 	CurrentDataModelManager* mpCurrentDataModelManager;
 
-	HANDLE mHTimerHandle;
+	HANDLE mRecordTimerHandle;
 };
 
  

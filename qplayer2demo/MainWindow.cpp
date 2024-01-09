@@ -54,8 +54,8 @@ const std::string FRAMES[] = {
 };
 const int NUM_FRAMES = sizeof(FRAMES) / sizeof(FRAMES[0]);
 // 全局变量
-const int TIMER_ID = 1;
-const int FRAME_DELAY = 200;  // 帧延迟时间（以毫秒为单位）
+const int BUFFERING_TIMER_ID = 1;
+const int BUFFERING_DELAY = 200; 
 int CURRENT_FRAME = 0;
 
 #define RATE_BAR 1000.0
@@ -80,7 +80,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 	}
 	case WM_TIMER:
 	{
-		if (w_param == TIMER_ID)
+		if (w_param == BUFFERING_TIMER_ID)
 		{
 			// 更新当前帧
 			CURRENT_FRAME = (CURRENT_FRAME + 1) % NUM_FRAMES;
@@ -98,7 +98,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 			if ((int)(pnmhdr->code) == (int)NM_CLICK)
 			{
 				pmain_window->quality_change_click(selected_index);
-							}
+			}
 		}
 		break;
 	}
@@ -108,11 +108,6 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
         if (pmain_window != nullptr)
         {
             pmain_window->on_resize();
-			RECT root_window_rect;
-			GetClientRect(hwnd, &root_window_rect);
-			LPRECT proot_window_rect = (LPRECT)(&root_window_rect);
-			pmain_window->mWidth = proot_window_rect->right - proot_window_rect->left;
-			pmain_window->mHeight = proot_window_rect->bottom - proot_window_rect->top;
         }
     }
     break;
@@ -256,8 +251,7 @@ MainWindow::MainWindow(HINSTANCE instance, int n_cmd_show)
 	//根据url更新清晰度列表
 	update_quality_list_window();
 
-	SetTimer(mHwnd, TIMER_ID, FRAME_DELAY, NULL);
-
+	SetTimer(mHwnd, BUFFERING_TIMER_ID, BUFFERING_DELAY, NULL);
     ShowWindow(mHwnd, n_cmd_show);
     UpdateWindow(mHwnd);
 
@@ -489,9 +483,13 @@ LRESULT MainWindow::on_resize()
 {
     RECT root_window_rect;
     GetClientRect(mHwnd, &root_window_rect);
+	LPRECT proot_window_rect = (LPRECT)(&root_window_rect);
+	mWidth = proot_window_rect->right - proot_window_rect->left;
+	mHeight = proot_window_rect->bottom - proot_window_rect->top;
     EnumChildWindows(mHwnd, resize_child_windows_proc, (LPARAM)(&root_window_rect));
     notify_resize_to_player();
     return TRUE;
+
 }
 
 BOOL MainWindow::resize_child_windows_proc(HWND hwnd, LPARAM lParam)
@@ -514,7 +512,7 @@ BOOL MainWindow::resize_child_windows_proc(HWND hwnd, LPARAM lParam)
     {
         MoveWindow(hwnd, 100, parent_height - 60, parent_width - 330, 25, TRUE);
     }
-    else if (child_window_id == ID_PAUSE_PLAY_BUTTON)
+    else if (child_window_id == ID_PAUSE_PLAY_BUTTON || child_window_id == ID_RESUME_PLAY_BUTTON)
     {
         MoveWindow(hwnd, parent_width - 70, parent_height - 60, 60, 30, TRUE);
     }
@@ -834,9 +832,8 @@ void  MainWindow::menu_button_click(int button_id) {
     }
 	updata_menu_ui(button_id);
 }
-// 定时器回调函数
+// 录制定时器回调函数
 VOID CALLBACK MainWindow::record_timer_call_back(PVOID lpParam, BOOLEAN TimerOrWaitFired) {
-	std::cout << "定时器触发！" << std::endl;
 	MainWindow* pmain_window = static_cast<MainWindow*>(lpParam);
 	if (pmain_window != nullptr)
 	{
@@ -849,22 +846,22 @@ void MainWindow::record_finish() {
 	mpPlayerWindow->get_control_handler()->remove_all_player_video_data_listeners();
 	EnableWindow(mHwnd, TRUE);
 	// 删除定时器
-	if (!DeleteTimerQueueTimer(NULL, mHTimerHandle, NULL)) {
+	if (!DeleteTimerQueueTimer(NULL, mRecordTimerHandle, NULL)) {
 		mpToastWindow->add_item("无法删除录制所需定时器");
 		return;
 	}
 	mpToastWindow->add_item("录制完成,恢复操作");
 }
 void MainWindow::record_button_click() {
+	// 创建定时器
+	if (!CreateTimerQueueTimer(&mRecordTimerHandle, NULL, record_timer_call_back, this, 5000, 0, 0)) {
+		mpToastWindow->add_item("无法创建录制所需定时器");
+		return ;
+	}
 	FileOfWriteAndRead::clear_record_dir();
 	mpPlayerWindow->get_control_handler()->add_player_video_data_listener(this);
 	mpPlayerWindow->get_control_handler()->add_player_audio_data_listener(this);
 	EnableWindow(mHwnd, FALSE);
-	// 创建定时器
-	if (!CreateTimerQueueTimer(&mHTimerHandle, NULL, record_timer_call_back, this, 5000, 0, 0)) {
-		mpToastWindow->add_item("无法创建录制所需定时器");
-		return ;
-	}
 	mpToastWindow->add_item("录制中，禁止所有操作");
 }
 
@@ -993,7 +990,6 @@ void MainWindow::add_listeners() {
     mpPlayerWindow->get_control_handler()->add_player_video_frame_size_change_listener(this);
     
 }
-
 
 /***********************qplayer listeners***********************/
 void MainWindow::on_state_changed(QMedia::QPlayerState state) {
