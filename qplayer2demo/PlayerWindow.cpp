@@ -14,7 +14,6 @@ using namespace QMedia;
 
 #define CLASS_NAME              "PlayerWindow"
 #define ID_RENDER_WINDOW 200
-
 //¹¹Ôì
 PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE instance, CurrentDataModelManager* pcurrent_data_model_manager)
 	:mHwnd(nullptr),
@@ -56,9 +55,8 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE instance, CurrentDataMode
 
 	SetWindowLongPtr(mpVideoRenderWindow->get_hwnd(), GWL_ID, ID_RENDER_WINDOW);
 
-
 	mpPlayerContext = QIPlayerContext::create();
-	mpPlayerContext->init(QLogLevel::LOG_VERBOSE, std::filesystem::current_path().string(), "com.qiniu.qplayer2", "1.3.2", "eb4136eb62d064dcacb2afedee467384", mHwnd);
+	mpPlayerContext->init(QLogLevel::LOG_VERBOSE, std::filesystem::current_path().string(), "com.qiniu.qplayer2", "1.4.0", "eb4136eb62d064dcacb2afedee467384", mHwnd);
 	mpPlayerContext->get_render_hander()->set_window_hwnd(mpVideoRenderWindow->get_hwnd());
 }
 
@@ -84,7 +82,7 @@ LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message,
 	PlayerWindow* pplayer_window = (PlayerWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (pplayer_window != nullptr && pplayer_window->mpCurrentDataModelManager != nullptr && pplayer_window->mpCurrentDataModelManager->get_player_state() != QMedia::QPlayerState::END) {
 
-		 pplayer_window->on_receive_message(hwnd, message, w_param, l_param);
+		pplayer_window->on_receive_message(hwnd, message, w_param, l_param);
 	}
 	switch (message)
 	{
@@ -94,7 +92,6 @@ LRESULT CALLBACK  PlayerWindow::main_player_window_proc(HWND hwnd, UINT message,
 			pplayer_window->on_resize();
 		}
 		break;
-
 		
 	default:
 		break;
