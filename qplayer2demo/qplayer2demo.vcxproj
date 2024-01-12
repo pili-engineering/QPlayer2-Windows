@@ -104,14 +104,18 @@
     <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
-copy "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
-copy "$(ProjectDir)dependency\qplayer-core-debug\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"</Command>
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-debug\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.ini" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.ini" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>
@@ -143,10 +147,15 @@ copy "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.ini" "$(ProjectDir)out\$(Pla
     <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
-copy "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
-copy "$(ProjectDir)dependency\qplayer-core\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"</Command>
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -166,19 +175,22 @@ if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$
     <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
-copy "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
-copy "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"
-copy "$(ProjectDir)dependency\qplayer-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+copy /Y "$(ProjectDir)dependency\qplayer-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>
       </Command>
     </PreLinkEvent>
     <PreBuildEvent>
-      <Command>copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.ini" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.ini" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
     </PreBuildEvent>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
@@ -206,13 +218,18 @@ copy "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.ini" "$(ProjectDir)out\$(
     <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
-copy "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
-copy "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
 if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"</Command>
     </PostBuildEvent>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
     </Manifest>
+    <PreBuildEvent>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="common\QualityImmediatyly.h" />
