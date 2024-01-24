@@ -58,7 +58,7 @@ const int BUFFERING_TIMER_ID = 1;
 const int BUFFERING_DELAY = 200; 
 int CURRENT_FRAME = 0;
 
-#define RATE_BAR 1000.0
+#define STEP_BAR 1000.0
 //主消息
 LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param)
 {
@@ -133,7 +133,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 			int notificationCode = LOWORD(w_param);  // 获取通知代码
             if (notificationCode == TB_ENDTRACK) {
 				long current_position = SendMessage(pmain_window->mSeekBar, TBM_GETPOS, 0, 0);
-				pmain_window->seek_bar_click(current_position/ RATE_BAR * pmain_window->mpCurrentDataModelManager->get_duration_time());
+				pmain_window->seek_bar_click(current_position/ STEP_BAR * pmain_window->mpCurrentDataModelManager->get_duration_time());
 				pmain_window->mpCurrentDataModelManager->set_is_seeking(true);
             }
             else if(notificationCode == TB_PAGEDOWN || notificationCode == TB_PAGEUP)
@@ -146,7 +146,7 @@ LRESULT MainWindow::main_window_proc(HWND hwnd, UINT message, WPARAM w_param, LP
 				SendMessage(pmain_window->mSeekBar, TBM_GETRANGEMAX, TRUE, (LPARAM)&max_value);
 				RECT rect;
 				GetClientRect(pmain_window->mSeekBar, &rect);
-				int pos = (int)(((double)(pt.x - 10) / (rect.right - rect.left - 10)) * RATE_BAR);
+				int pos = (int)(((double)(pt.x - 10) / (rect.right - rect.left - 10)) * STEP_BAR);
 				SendMessage(pmain_window->mSeekBar, TBM_SETPOS, TRUE, pos);
 				pmain_window->mpCurrentDataModelManager->set_is_seeking(true);
             }
@@ -1209,7 +1209,7 @@ void  MainWindow::on_progress_changed(int64_t progress, int64_t duration) {
     if (mpCurrentDataModelManager->get_duration_time() != duration/100)
 	{
         mpCurrentDataModelManager->set_duration_time(duration / 100);
-        SendMessage(mSeekBar, TBM_SETRANGE, TRUE, MAKELONG(0, RATE_BAR));
+        SendMessage(mSeekBar, TBM_SETRANGE, TRUE, MAKELONG(0, STEP_BAR));
     } 
     std::string progress_time_str = to_date_string(progress);
     std::string duraion_time_str = to_date_string(duration);
@@ -1217,7 +1217,7 @@ void  MainWindow::on_progress_changed(int64_t progress, int64_t duration) {
     if (!mpCurrentDataModelManager->get_is_seeking())
 	{
 		float rate = progress*1.0 / duration;
-		SendMessage(mSeekBar, TBM_SETPOS, TRUE, rate * RATE_BAR);
+		SendMessage(mSeekBar, TBM_SETPOS, TRUE, rate * STEP_BAR);
     }
     if (mProgressTimeStr == progress_time_str) {
         return;

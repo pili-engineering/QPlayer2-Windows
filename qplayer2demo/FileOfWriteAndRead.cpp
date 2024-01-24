@@ -14,8 +14,9 @@
 //播放器设置写入文件
 bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* pmodel) {
 #ifdef _DEBUG
-	std::filesystem::path currentPath = std::filesystem::current_path();
-	std::string file_path = currentPath.string() + "\\qplayerLocalFile\\" + file_name;
+	char current_path[FILENAME_MAX];
+	GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -53,8 +54,9 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 //从文件中读取播放器设置
 CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string& file_name) {
 #ifdef _DEBUG
-	std::filesystem::path current_path = std::filesystem::current_path();
-	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
+	char current_path[FILENAME_MAX];
+	GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -100,8 +102,10 @@ CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string&
 //播放地址文件写入
 std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(const std::string& file_name) {
 #ifdef _DEBUG
-	std::filesystem::path current_path = std::filesystem::current_path();
-	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
+
+	char current_path[FILENAME_MAX];
+	GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -178,8 +182,9 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 //读取播放地址文件
 bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, std::list<PlayerUrlListModel*> model_list) {
 #ifdef _DEBUG
-	std::filesystem::path current_path = std::filesystem::current_path();
-	std::string file_path = current_path.string() + "\\qplayerLocalFile\\" + file_name;
+	char current_path[FILENAME_MAX];
+	GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);

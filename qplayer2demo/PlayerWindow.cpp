@@ -10,6 +10,8 @@
 #include "DemoLog.h"
 #include <iostream>
 #include <filesystem>
+
+
 using namespace QMedia;
 
 #define CLASS_NAME              "PlayerWindow"
@@ -56,7 +58,10 @@ PlayerWindow::PlayerWindow(HWND parent_hwnd, HINSTANCE instance, CurrentDataMode
 	SetWindowLongPtr(mpVideoRenderWindow->get_hwnd(), GWL_ID, ID_RENDER_WINDOW);
 
 	mpPlayerContext = QIPlayerContext::create();
-	mpPlayerContext->init(QLogLevel::LOG_VERBOSE, std::filesystem::current_path().string(), "com.qiniu.qplayer2", "1.4.0", "eb4136eb62d064dcacb2afedee467384", mHwnd);
+
+	char current_path[FILENAME_MAX];
+	GetCurrentDirectoryA(MAX_PATH, current_path);
+	mpPlayerContext->init(QLogLevel::LOG_VERBOSE, std::string(current_path), "com.qiniu.qplayer2", "1.4.0", "eb4136eb62d064dcacb2afedee467384", mHwnd);
 	mpPlayerContext->get_render_hander()->set_window_hwnd(mpVideoRenderWindow->get_hwnd());
 }
 
