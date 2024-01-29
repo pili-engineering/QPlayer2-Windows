@@ -1,30 +1,4 @@
 var searchData=
 [
-  ['qiplayeraudiodatalistener_0',['QIPlayerAudioDataListener',['../class_q_media_1_1_q_i_player_audio_data_listener.html',1,'QMedia']]],
-  ['qiplayeraudiolistener_1',['QIPlayerAudioListener',['../class_q_media_1_1_q_i_player_audio_listener.html',1,'QMedia']]],
-  ['qiplayerauthenticationlistener_2',['QIPlayerAuthenticationListener',['../class_q_media_1_1_q_i_player_authentication_listener.html',1,'QMedia']]],
-  ['qiplayerbiteratelistener_3',['QIPlayerBiteRateListener',['../class_q_media_1_1_q_i_player_bite_rate_listener.html',1,'QMedia']]],
-  ['qiplayerbufferinglistener_4',['QIPlayerBufferingListener',['../class_q_media_1_1_q_i_player_buffering_listener.html',1,'QMedia']]],
-  ['qiplayercommandnotallowlistener_5',['QIPlayerCommandNotAllowListener',['../class_q_media_1_1_q_i_player_command_not_allow_listener.html',1,'QMedia']]],
-  ['qiplayerdownloadlistener_6',['QIPlayerDownloadListener',['../class_q_media_1_1_q_i_player_download_listener.html',1,'QMedia']]],
-  ['qiplayerformatlistener_7',['QIPlayerFormatListener',['../class_q_media_1_1_q_i_player_format_listener.html',1,'QMedia']]],
-  ['qiplayerfpslistener_8',['QIPlayerFPSListener',['../class_q_media_1_1_q_i_player_f_p_s_listener.html',1,'QMedia']]],
-  ['qiplayermedianetworklistener_9',['QIPlayerMediaNetworkListener',['../class_q_media_1_1_q_i_player_media_network_listener.html',1,'QMedia']]],
-  ['qiplayerprogresslistener_10',['QIPlayerProgressListener',['../class_q_media_1_1_q_i_player_progress_listener.html',1,'QMedia']]],
-  ['qiplayerqualitylistener_11',['QIPlayerQualityListener',['../class_q_media_1_1_q_i_player_quality_listener.html',1,'QMedia']]],
-  ['qiplayerrenderlistener_12',['QIPlayerRenderListener',['../class_q_media_1_1_q_i_player_render_listener.html',1,'QMedia']]],
-  ['qiplayerseeklistener_13',['QIPlayerSeekListener',['../class_q_media_1_1_q_i_player_seek_listener.html',1,'QMedia']]],
-  ['qiplayerseidatalistener_14',['QIPlayerSEIDataListener',['../class_q_media_1_1_q_i_player_s_e_i_data_listener.html',1,'QMedia']]],
-  ['qiplayershootvideolistener_15',['QIPlayerShootVideoListener',['../class_q_media_1_1_q_i_player_shoot_video_listener.html',1,'QMedia']]],
-  ['qiplayerspeedlistener_16',['QIPlayerSpeedListener',['../class_q_media_1_1_q_i_player_speed_listener.html',1,'QMedia']]],
-  ['qiplayerstatechangelistener_17',['QIPlayerStateChangeListener',['../class_q_media_1_1_q_i_player_state_change_listener.html',1,'QMedia']]],
-  ['qiplayersubtitlelistener_18',['QIPlayerSubtitleListener',['../class_q_media_1_1_q_i_player_subtitle_listener.html',1,'QMedia']]],
-  ['qiplayervideodatalistener_19',['QIPlayerVideoDataListener',['../class_q_media_1_1_q_i_player_video_data_listener.html',1,'QMedia']]],
-  ['qiplayervideodecodelistender_20',['QIPlayerVideoDecodeListender',['../class_q_media_1_1_q_i_player_video_decode_listender.html',1,'QMedia']]],
-  ['qiplayervideoframesizechangelistener_21',['QIPlayerVideoFrameSizeChangeListener',['../class_q_media_1_1_q_i_player_video_frame_size_change_listener.html',1,'QMedia']]],
-  ['qmediamodel_22',['QMediaModel',['../class_q_media_1_1_q_media_model.html',1,'QMedia']]],
-  ['qmediamodelbuilder_23',['QMediaModelBuilder',['../class_q_media_1_1_q_media_model_builder.html',1,'QMedia']]],
-  ['qquality_24',['QQuality',['../class_q_media_1_1_q_quality.html',1,'QMedia']]],
-  ['qstreamelement_25',['QStreamElement',['../class_q_media_1_1_q_stream_element.html',1,'QMedia']]],
-  ['qsubtitleelement_26',['QSubtitleElement',['../class_q_media_1_1_q_subtitle_element.html',1,'QMedia']]]
+  ['loginterface_0',['LogInterface',['../class_q_media_1_1_log_interface.html',1,'QMedia']]]
 ];

@@ -82,16 +82,25 @@ $(function() {
   <div class="headertitle"><div class="title">QMedia::QMediaModel类 参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>视频数据模型  
+ <a href="#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_q_media_model_8h_source.html">QMediaModel.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a2ec62d413653d5770e65feffb559bfa9" id="r_a2ec62d413653d5770e65feffb559bfa9"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="class_q_media_1_1_q_stream_element.html">QStreamElement</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ec62d413653d5770e65feffb559bfa9">get_stream_elements</a> () const</td></tr>
+<tr class="memdesc:a2ec62d413653d5770e65feffb559bfa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取视频元素  <br /></td></tr>
 <tr class="separator:a2ec62d413653d5770e65feffb559bfa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91c7bd5a42b7e245a1bdbe546148beba" id="r_a91c7bd5a42b7e245a1bdbe546148beba"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="class_q_media_1_1_q_subtitle_element.html">QSubtitleElement</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91c7bd5a42b7e245a1bdbe546148beba">get_subtitle_elements</a> () const</td></tr>
+<tr class="memdesc:a91c7bd5a42b7e245a1bdbe546148beba"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取字幕元素  <br /></td></tr>
 <tr class="separator:a91c7bd5a42b7e245a1bdbe546148beba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5781ea83ae2cdd92be8dbac2a9797303" id="r_a5781ea83ae2cdd92be8dbac2a9797303"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5781ea83ae2cdd92be8dbac2a9797303">is_live</a> () const</td></tr>
+<tr class="memdesc:a5781ea83ae2cdd92be8dbac2a9797303"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取地址是否是直播  <br /></td></tr>
 <tr class="separator:a5781ea83ae2cdd92be8dbac2a9797303"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60a9661d63549e34eed9c0ca15a12508" id="r_a60a9661d63549e34eed9c0ca15a12508"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60a9661d63549e34eed9c0ca15a12508">is_reconstruct_time_line</a> () const</td></tr>
+<tr class="memdesc:a60a9661d63549e34eed9c0ca15a12508"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取是否重构时间轴  <br /></td></tr>
 <tr class="separator:a60a9661d63549e34eed9c0ca15a12508"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
@@ -100,7 +109,9 @@ Public 成员函数</h2></td></tr>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModelBuilder</b></td></tr>
 <tr class="separator:acbca540e5000efb50daff6b5125b0e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>视频数据模型 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a1a22d6131529af879d5866f32323fe91" name="a1a22d6131529af879d5866f32323fe91"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a22d6131529af879d5866f32323fe91">&#9670;&#160;</a></span>~QMediaModel()</h2>
 
@@ -160,7 +171,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModelBuilder</
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keywordflow">return</span> mStreamElements; }</div>
+
+<p>获取视频元素 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>{ <span class="keywordflow">return</span> mStreamElements; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -186,7 +200,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModelBuilder</
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   31</span>{ <span class="keywordflow">return</span> mSubtitleElements; }</div>
+
+<p>获取字幕元素 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>{ <span class="keywordflow">return</span> mSubtitleElements; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -212,7 +229,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModelBuilder</
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   33</span>{ <span class="keywordflow">return</span> mIsLive; }</div>
+
+<p>获取地址是否是直播 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keywordflow">return</span> mIsLive; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -238,7 +258,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModelBuilder</
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keywordflow">return</span> mIsReconstructTimeLine; }</div>
+
+<p>获取是否重构时间轴 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keywordflow">return</span> mIsReconstructTimeLine; }</div>
 </div><!-- fragment -->
 </div>
 </div>

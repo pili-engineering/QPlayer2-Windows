@@ -86,10 +86,13 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a0fe7c3021358d9cc2745ea010ad3c790" id="r_a0fe7c3021358d9cc2745ea010ad3c790"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fe7c3021358d9cc2745ea010ad3c790">get_name</a> () const</td></tr>
+<tr class="memdesc:a0fe7c3021358d9cc2745ea010ad3c790"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前字幕元素的名称  <br /></td></tr>
 <tr class="separator:a0fe7c3021358d9cc2745ea010ad3c790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace125177a67fc5d8fcf7ee679ff50311" id="r_ace125177a67fc5d8fcf7ee679ff50311"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace125177a67fc5d8fcf7ee679ff50311">get_url</a> () const</td></tr>
+<tr class="memdesc:ace125177a67fc5d8fcf7ee679ff50311"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前字幕元素的地址  <br /></td></tr>
 <tr class="separator:ace125177a67fc5d8fcf7ee679ff50311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ae2d03617a65feb901e3b4e72595a73" id="r_a9ae2d03617a65feb901e3b4e72595a73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ae2d03617a65feb901e3b4e72595a73">is_selected</a> () const</td></tr>
+<tr class="memdesc:a9ae2d03617a65feb901e3b4e72595a73"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前字幕元素是非被选中  <br /></td></tr>
 <tr class="separator:a9ae2d03617a65feb901e3b4e72595a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
@@ -124,7 +127,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keywordflow">return</span> mName; }</div>
+
+<p>获取当前字幕元素的名称 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keywordflow">return</span> mName; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -150,7 +156,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   32</span>{ <span class="keywordflow">return</span> mUrl; }</div>
+
+<p>获取当前字幕元素的地址 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>{ <span class="keywordflow">return</span> mUrl; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -176,7 +185,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   34</span>{ <span class="keywordflow">return</span> mIsSelected; }</div>
+
+<p>获取当前字幕元素是非被选中 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>{ <span class="keywordflow">return</span> mIsSelected; }</div>
 </div><!-- fragment -->
 </div>
 </div>
