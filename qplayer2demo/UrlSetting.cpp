@@ -308,15 +308,15 @@ void UrlSetting::create_child_window() {
 	int height = windowRect.bottom - windowRect.top;
 	HWND child_window;
 	CreateWindow(TEXT("STATIC"), TEXT("是否直播"), WS_CHILD | WS_VISIBLE, 10, 10, 60, 20, mHwnd, NULL, NULL, NULL);
-	mIsLiveTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 80, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_TRUE_OPTION, NULL, NULL);
-	mIsLiveFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_FALSE_OPTION, NULL, NULL);
+	mIsLiveTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 80, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_TRUE_OPTION, NULL, NULL);
+	mIsLiveFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 140, 10, 50, 20, mHwnd, (HMENU)ID_IS_LIVE_FALSE_OPTION, NULL, NULL);
 	if (mUrlClickType == UrlClickType::ADD_URL)
 	{
 		SendMessage(mIsLiveFalseOption, BM_SETCHECK, BST_CHECKED, 0);
 	}
 	CreateWindow(TEXT("STATIC"), TEXT("是否重置时间轴"), WS_CHILD | WS_VISIBLE, 10, 40, 120, 20, mHwnd, NULL, NULL, NULL);
-	mReconstructTimeLineTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 140, 40, 50, 20, mHwnd, (HMENU)ID_RECONSTRUCT_TIME_LINE_TRUE_OPTION, NULL, NULL);
-	mReconstructTimeLineFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON, 200, 40, 50, 20, mHwnd, (HMENU)ID_RECONSTRUCT_TIME_LINE_FALSE_OPTION, NULL, NULL);
+	mReconstructTimeLineTrueOption = CreateWindow(TEXT("BUTTON"), TEXT("是"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 140, 40, 50, 20, mHwnd, (HMENU)ID_RECONSTRUCT_TIME_LINE_TRUE_OPTION, NULL, NULL);
+	mReconstructTimeLineFalseOption = CreateWindow(TEXT("BUTTON"), TEXT("否"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 200, 40, 50, 20, mHwnd, (HMENU)ID_RECONSTRUCT_TIME_LINE_FALSE_OPTION, NULL, NULL);
 	if (mUrlClickType == UrlClickType::ADD_URL)
 	{
 		SendMessage(mReconstructTimeLineFalseOption, BM_SETCHECK, BST_CHECKED, 0);
