@@ -27,7 +27,6 @@ var searchData=
   ['qiplayervideoframesizechangelistener_24',['QIPlayerVideoFrameSizeChangeListener',['../class_q_media_1_1_q_i_player_video_frame_size_change_listener.html',1,'QMedia']]],
   ['qmediamodel_25',['QMediaModel',['../class_q_media_1_1_q_media_model.html',1,'QMedia']]],
   ['qmediamodelbuilder_26',['QMediaModelBuilder',['../class_q_media_1_1_q_media_model_builder.html',1,'QMedia']]],
-  ['qquality_27',['QQuality',['../class_q_media_1_1_q_quality.html',1,'QMedia']]],
-  ['qstreamelement_28',['QStreamElement',['../class_q_media_1_1_q_stream_element.html',1,'QMedia']]],
-  ['qsubtitleelement_29',['QSubtitleElement',['../class_q_media_1_1_q_subtitle_element.html',1,'QMedia']]]
+  ['qstreamelement_27',['QStreamElement',['../class_q_media_1_1_q_stream_element.html',1,'QMedia']]],
+  ['qsubtitleelement_28',['QSubtitleElement',['../class_q_media_1_1_q_subtitle_element.html',1,'QMedia']]]
 ];

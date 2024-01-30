@@ -113,11 +113,8 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a1e4e338127d1237edbf4910063a43d0d" id="r_a1e4e338127d1237edbf4910063a43d0d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e4e338127d1237edbf4910063a43d0d">set_blind_type</a> (QPlayerSetting::QPlayerBlind blind_type)=0</td></tr>
 <tr class="memdesc:a1e4e338127d1237edbf4910063a43d0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置色觉优化  <br /></td></tr>
 <tr class="separator:a1e4e338127d1237edbf4910063a43d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab5ae272065dc7cad6a4689c2c2609d8" id="r_aab5ae272065dc7cad6a4689c2c2609d8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab5ae272065dc7cad6a4689c2c2609d8">set_panorama_view_rotate</a> (float rotatex, float rotatey)=0</td></tr>
-<tr class="memdesc:aab5ae272065dc7cad6a4689c2c2609d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置VR视频的旋转角度  <br /></td></tr>
-<tr class="separator:aab5ae272065dc7cad6a4689c2c2609d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60b2870b026f07f91837bdbbd6cddf1b" id="r_a60b2870b026f07f91837bdbbd6cddf1b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60b2870b026f07f91837bdbbd6cddf1b">add_render_listener</a> (<a class="el" href="class_q_media_1_1_q_i_player_render_listener.html">QMedia::QIPlayerRenderListener</a> *plistener)=0</td></tr>
-<tr class="memdesc:a60b2870b026f07f91837bdbbd6cddf1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加渲染监听  <br /></td></tr>
+<tr class="memdesc:a60b2870b026f07f91837bdbbd6cddf1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置VR视频的旋转角度(windows 暂不支持 VR 视频)  <br /></td></tr>
 <tr class="separator:a60b2870b026f07f91837bdbbd6cddf1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a6b91e05235c248f48efd1a99483706" id="r_a6a6b91e05235c248f48efd1a99483706"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a6b91e05235c248f48efd1a99483706">remove_render_listener</a> (<a class="el" href="class_q_media_1_1_q_i_player_render_listener.html">QMedia::QIPlayerRenderListener</a> *plistener)=0</td></tr>
 <tr class="memdesc:a6a6b91e05235c248f48efd1a99483706"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除渲染监听  <br /></td></tr>
@@ -153,7 +150,16 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>remove_all_re
 </table>
 </div><div class="memdoc">
 
-<p>添加渲染监听 </p>
+<p>设置VR视频的旋转角度(windows 暂不支持 VR 视频) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rotatex</td><td>横向角度 （360度制） </td></tr>
+    <tr><td class="paramname">rotatey</td><td>纵向角度 （360度制） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 设置成功 false 设置失败 </dd></dl>
+<p>添加渲染监听</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">plistener</td><td>渲染监听 </td></tr>
@@ -223,45 +229,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>remove_all_re
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">blind_type</td><td>色盲模式 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>true 设置成功 false 设置失败 </dd></dl>
-
-</div>
-</div>
-<a id="aab5ae272065dc7cad6a4689c2c2609d8" name="aab5ae272065dc7cad6a4689c2c2609d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab5ae272065dc7cad6a4689c2c2609d8">&#9670;&#160;</a></span>set_panorama_view_rotate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool QMedia::QIPlayerRenderHandler::set_panorama_view_rotate </td>
-          <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>rotatex</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>rotatey</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>设置VR视频的旋转角度 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rotatex</td><td>横向角度 （360度制） </td></tr>
-    <tr><td class="paramname">rotatey</td><td>纵向角度 （360度制） </td></tr>
   </table>
   </dd>
 </dl>
