@@ -1061,7 +1061,7 @@ void MainWindow::on_state_changed(QMedia::QPlayerState state) {
 void MainWindow::on_first_frame_rendered(int64_t elapsed_time) {
 	if (elapsed_time > 100000)
 	{
-		mpToastWindow->add_item("时间异常");
+		mpToastWindow->add_item("首帧时间异常，耗时过大");
 	}
     DemoLog::log_string(CLASS_NAME, __LINE__, "elapsed_time");
     std::string text = "first frame: " + std::to_string(elapsed_time) + "ms";
@@ -1310,7 +1310,7 @@ void  MainWindow::on_sei_data(const std::unique_ptr<uint8_t[]>&  data, uint64_t 
 
 		std::vector<char> buffer(pbyte, pbyte + size - 16);
 		std::string result(buffer.data(), buffer.data() + buffer.size());
-		std::string text = "on_sei_data: " + result;
+		std::string text = "on_sei_data: " + FileOfWriteAndRead::UTF8_To_GB2312(result);
 		std::string uuid_text = "uuid : " + uuid_string;
 		mpToastWindow->add_item(uuid_text);
 
@@ -1323,7 +1323,7 @@ void  MainWindow::on_sei_data(const std::unique_ptr<uint8_t[]>&  data, uint64_t 
 		std::vector<char> buffer(data.get(), data.get() + size);  // 将数据复制到缓冲区
 		// 转换为 std::string
 		std::string result(buffer.data(), buffer.data() + buffer.size());
-		std::string text = "on_sei_data: " + result;
+		std::string text = "on_sei_data: " + FileOfWriteAndRead::UTF8_To_GB2312(result);
 		mpToastWindow->add_item(text);
 	}
 }
