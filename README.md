@@ -47,7 +47,7 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
 3.复制对应平台的qplayer2-core 的 dll 和 manifest 到输出目录
    //复制所有 dll 文件
    copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
-   //赋值 manifest 文件
+   //复制 manifest 文件
    copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
 ```
 
