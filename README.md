@@ -10,7 +10,9 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
  Android | https://github.com/pili-engineering/QPlayer2-Android 
  IOS | https://github.com/pili-engineering/QPlayer2-IOS
  Windows | Last Version: 1.4.0
+ HarmonyOS NEXT| 敬请期待
  Mac | 敬请期待 
+ Linux | 敬请期待 
 ### qplayer2-core 功能列表
 
 | 能力                  | 亮点                                                         | 备注                             |
@@ -32,7 +34,8 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
 | 预加载                | 提前加载点播视频，获得更好的首帧体验                         |         (暂不支持)                         |
 | 截图                  | 自动转换成jpeg格式，可以展示在UI上，也可存放到相册           |                                  |
 | 静音播放              | 针对视频的静音，不影响系统声音                               |                                  |
-| 重构时间轴              | 将时间轴不连续的视频源转换为从0开始的时间轴连续的视频，再播放                              |                                  |
+| 音视频数据上抛              | 适用于业务层需要获取当前播放的音视频数据的场景（比如推流等）                              |                                  |
+| 本地重构时间轴              | 以真是的流逝时间为准，避免某些视频时间轴错乱导致播放过程中异常                              |                                  |
 
 
 
