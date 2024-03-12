@@ -77,7 +77,7 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
 
 1. demo 工程内的 视频播放 是基于 qplayer2-core 来实现的
 
-1. demo 下载：https://github.com/pili-engineering/QPlayer2-Windows
+1. demo 下载：https://sdk-release.qnsdk.com/qplayer2_windows_demo_v1.4.0.zip
 
    
 
