@@ -1,9 +1,13 @@
 ﻿// qplayer2demo.cpp : 定义应用程序的入口点。
 //
 
+#ifdef _DEBUG
+#include "vld.h"
+#endif
 #include "framework.h"
 #include "MainWindow.h"
 #include "qplayer2demo.h"
+#include "FileOfWriteAndRead.h"
 
 
 //using namespace QMedia;
@@ -24,6 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
+    SetUnhandledExceptionFilter(FileOfWriteAndRead::write_mini_dump_to_local);
     MainWindow main_window(hInstance, nCmdShow);
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_QPLAYER2DEMO));
@@ -45,22 +50,4 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-//// “关于”框的消息处理程序。
-//INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-//{
-//    UNREFERENCED_PARAMETER(lParam);
-//    switch (message)
-//    {
-//    case WM_INITDIALOG:
-//        return (INT_PTR)TRUE;
-//
-//    case WM_COMMAND:
-//        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-//        {
-//            EndDialog(hDlg, LOWORD(wParam));
-//            return (INT_PTR)TRUE;
-//        }
-//        break;
-//    }
-//    return (INT_PTR)FALSE;
-//}
+

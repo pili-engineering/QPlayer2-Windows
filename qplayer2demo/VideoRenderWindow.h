@@ -5,14 +5,14 @@
 class VideoRenderWindow
 {
 private:
-    static LRESULT CALLBACK renderViewProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK render_window_proc(HWND hwnd, UINT u_msg, WPARAM w_param, LPARAM l_param);
 
-    LRESULT onReceiveMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    LRESULT on_receive_message(HWND hwnd, UINT u_msg, WPARAM w_param, LPARAM l_param);
 
 public:
-    VideoRenderWindow(HWND parent_hwnd, HINSTANCE hInstance);
+    VideoRenderWindow(HWND parent_hwnd, HINSTANCE hinstance);
 
-    ~VideoRenderWindow();
+    ~VideoRenderWindow() = default;
 
     VideoRenderWindow(const VideoRenderWindow&) = delete;
 
@@ -20,9 +20,9 @@ public:
 
     VideoRenderWindow& operator=(const VideoRenderWindow&) = delete;
 
-    VideoRenderWindow& operator=(VideoRenderWindow&&) = delete;
+    VideoRenderWindow                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         operator=(VideoRenderWindow&&) = delete;
 
-    HWND getHWnd();
+    HWND get_hwnd();
 
 
 private:

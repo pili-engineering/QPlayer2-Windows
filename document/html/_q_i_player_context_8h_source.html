@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>qplayer2-core: C:/Users/wangshenglu/Desktop/QPlayer2/qplayer2-core/platform/windows/qplayer2-core/windows/include/QIPlayerContext.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">qplayer2-core
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_ccb529639c996aac17f3ccd5d7b7100d.html">qplayer2-core</a></li><li class="navelem"><a class="el" href="dir_8c282f0262354d3442cd78302738b495.html">platform</a></li><li class="navelem"><a class="el" href="dir_f82702891942ad69c18e10e022ab8a01.html">windows</a></li><li class="navelem"><a class="el" href="dir_ff4be4a2e8d8dd453ad64f2a68bd0c3c.html">qplayer2-core</a></li><li class="navelem"><a class="el" href="dir_72967e7a43619f3abb8d7ed95635d211.html">windows</a></li><li class="navelem"><a class="el" href="dir_5496081de0a270479b2977aeb4c5c0f5.html">include</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">QIPlayerContext.h</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;QPlayerExport.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;QLogLevel.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;windows.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>QMedia {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="keyword">class </span>QIPlayerRenderHandler;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">class </span>QIPlayerControlHandler;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_q_media_1_1_q_i_player_context.html">   14</a></span>    <span class="keyword">class </span>QPLAYER_API <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">~QIPlayerContext</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>(<a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>&amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>&amp; operator=(<span class="keyword">const</span> <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>&amp; operator=(<a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>&amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="class_q_media_1_1_q_i_player_render_handler.html">QIPlayerRenderHandler</a>* get_render_hander() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="class_q_media_1_1_q_i_player_control_handler.html">QIPlayerControlHandler</a>* get_control_handler() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="class_q_media_1_1_q_i_player_context.html#a4b0a4420a7898ac8d26d15957058b8bf">   42</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_q_media_1_1_q_i_player_context.html#a4b0a4420a7898ac8d26d15957058b8bf">init</a>(QLogLevel log_level, <span class="keyword">const</span> std::string &amp; local_storage_dir,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keyword">const</span> std::string &amp; app_id, <span class="keyword">const</span> std::string &amp; app_version,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keyword">const</span> std::string &amp; author_id, HWND proc_hwnd) = 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="class_q_media_1_1_q_i_player_context.html#a568877bc9e17b2b268a9381ce57c0c59">   54</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_q_media_1_1_q_i_player_context.html#a568877bc9e17b2b268a9381ce57c0c59">on_receive_message</a>(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="class_q_media_1_1_q_i_player_context.html#ae2d55f8aa38332263a16b3d45b0996f8">   60</a></span>        <span class="keyword">virtual</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="class_q_media_1_1_q_i_player_context.html#ae2d55f8aa38332263a16b3d45b0996f8">release</a>() = 0;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="class_q_media_1_1_q_i_player_context.html#a66c3779bb245f6fa14f70b4426802e5e">   66</a></span>        <span class="keyword">static</span> <a class="code hl_class" href="class_q_media_1_1_q_i_player_context.html">QIPlayerContext</a>* <a class="code hl_function" href="class_q_media_1_1_q_i_player_context.html#a66c3779bb245f6fa14f70b4426802e5e">create</a>();</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    };</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>}</div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_context_html"><div class="ttname"><a href="class_q_media_1_1_q_i_player_context.html">QMedia::QIPlayerContext</a></div><div class="ttdoc">播放器 context</div><div class="ttdef"><b>Definition</b> QIPlayerContext.h:14</div></div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_context_html_a4b0a4420a7898ac8d26d15957058b8bf"><div class="ttname"><a href="class_q_media_1_1_q_i_player_context.html#a4b0a4420a7898ac8d26d15957058b8bf">QMedia::QIPlayerContext::init</a></div><div class="ttdeci">virtual bool init(QLogLevel log_level, const std::string &amp;local_storage_dir, const std::string &amp;app_id, const std::string &amp;app_version, const std::string &amp;author_id, HWND proc_hwnd)=0</div><div class="ttdoc">初始化播放器配置</div></div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_context_html_a568877bc9e17b2b268a9381ce57c0c59"><div class="ttname"><a href="class_q_media_1_1_q_i_player_context.html#a568877bc9e17b2b268a9381ce57c0c59">QMedia::QIPlayerContext::on_receive_message</a></div><div class="ttdeci">virtual bool on_receive_message(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)=0</div><div class="ttdoc">配置播放器事件循环</div></div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_context_html_a66c3779bb245f6fa14f70b4426802e5e"><div class="ttname"><a href="class_q_media_1_1_q_i_player_context.html#a66c3779bb245f6fa14f70b4426802e5e">QMedia::QIPlayerContext::create</a></div><div class="ttdeci">static QIPlayerContext * create()</div><div class="ttdoc">创建播放器 context</div></div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_context_html_ae2d55f8aa38332263a16b3d45b0996f8"><div class="ttname"><a href="class_q_media_1_1_q_i_player_context.html#ae2d55f8aa38332263a16b3d45b0996f8">QMedia::QIPlayerContext::release</a></div><div class="ttdeci">virtual bool release()=0</div><div class="ttdoc">释放播放器</div></div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_control_handler_html"><div class="ttname"><a href="class_q_media_1_1_q_i_player_control_handler.html">QMedia::QIPlayerControlHandler</a></div><div class="ttdoc">播放器控制句柄</div><div class="ttdef"><b>Definition</b> QIPlayerControlHandler.h:14</div></div>
+<div class="ttc" id="aclass_q_media_1_1_q_i_player_render_handler_html"><div class="ttname"><a href="class_q_media_1_1_q_i_player_render_handler.html">QMedia::QIPlayerRenderHandler</a></div><div class="ttdoc">播放器渲染句柄</div><div class="ttdef"><b>Definition</b> QIPlayerRenderHandler.h:14</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>
