@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{22874b1a-7d2a-40fd-9ab8-3d1660caacd4}</ProjectGuid>
+    <RootNamespace>qplayer2demo</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)out\$(Platform)\$(Configuration)\bin</OutDir>
+    <IntDir>$(ProjectDir)build\$(Platform)\$(Configuration)\intermediate\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)out\$(Platform)\$(Configuration)\bin</OutDir>
+    <IntDir>$(ProjectDir)build\$(Platform)\$(Configuration)\intermediate\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)out\$(Platform)\$(Configuration)\bin</OutDir>
+    <IntDir>$(ProjectDir)build\$(Platform)\$(Configuration)\intermediate\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)out\$(Platform)\$(Configuration)\bin</OutDir>
+    <IntDir>$(ProjectDir)build\$(Platform)\$(Configuration)\intermediate\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core-debug\x86\include;$(ProjectDir)dependency\qplayer-json\single_include;$(ProjectDir)dependency\qplayer-vld\x86\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependency\qplayer-core-debug\x86\lib;$(ProjectDir)dependency\qplayer-vld\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qplayer2-core.lib;vld.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-debug\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.ini" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core\x86\include;$(ProjectDir)dependency\qplayer-json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependency\qplayer-core\x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qplayer2-core.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
+    </Manifest>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core-debug\x86_64\include;$(ProjectDir)dependency\qplayer-json\single_include;$(ProjectDir)dependency\qplayer-vld\x86_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib;$(ProjectDir)dependency\qplayer-vld\x86_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qplayer2-core.lib;vld.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"
+copy /Y "$(ProjectDir)dependency\qplayer-debug\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core-debug\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+    </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PreBuildEvent>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.ini" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" </Command>
+    </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core\x86_64\include;$(ProjectDir)dependency\qplayer-json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)dependency\qplayer-core\x86_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qplayer2-core.lib;Dbghelp.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile"
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\shootImage"
+copy /Y "$(ProjectDir)qplayerLocalFile\*" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\qplayerLocalFile\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+if not exist "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record" mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\record"</Command>
+    </PostBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)qplayer2-core.manifest</AdditionalManifestFiles>
+    </Manifest>
+    <PreBuildEvent>
+      <Command>rmdir /s /q "$(ProjectDir)out\$(Platform)\$(Configuration)" &amp;
+mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="common\QualityImmediatyly.h" />
+    <ClInclude Include="common\UrlClickType.h" />
+    <ClInclude Include="common\WindowCloseType.h" />
+    <ClInclude Include="DemoLog.h" />
+    <ClInclude Include="FileOfWriteAndRead.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="modelManager\CurrentDataModelManager.h" />
+    <ClInclude Include="modelManager\PlayerMenuSettingModelManager.h" />
+    <ClInclude Include="modelManager\PlayerUrlListModelManager.h" />
+    <ClInclude Include="model\CurrentDataModel.h" />
+    <ClInclude Include="model\DemoMediaStreamElementModel.h" />
+    <ClInclude Include="model\DemoMediaSubtitleElementModel.h" />
+    <ClInclude Include="model\PlayerChildMenuModel.h" />
+    <ClInclude Include="model\PlayerMenuSettingModel.h" />
+    <ClInclude Include="model\PlayerUrlListModel.h" />
+    <ClInclude Include="PlayerWindow.h" />
+    <ClInclude Include="PlayStartPostitionWindow.h" />
+    <ClInclude Include="qplayer2demo.h" />
+    <ClInclude Include="ToastWindow.h" />
+    <ClInclude Include="UrlListWindow.h" />
+    <ClInclude Include="UrlSetting.h" />
+    <ClInclude Include="UrlStreamElementSetting.h" />
+    <ClInclude Include="UrlSubtitleElementSetting.h" />
+    <ClInclude Include="VideoRenderWindow.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DemoLog.cpp" />
+    <ClCompile Include="FileOfWriteAndRead.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="modelManager\CurrentDataModelManager.cpp" />
+    <ClCompile Include="modelManager\PlayerMenuSettingModelManager.cpp" />
+    <ClCompile Include="modelManager\PlayerUrlListModelManager.cpp" />
+    <ClCompile Include="model\CurrentDataModel.cpp" />
+    <ClCompile Include="model\DemoMediaStreamElementModel.cpp" />
+    <ClCompile Include="model\DemoMediaSubtitleElementModel.cpp" />
+    <ClCompile Include="model\PlayerChildMenuModel.cpp" />
+    <ClCompile Include="model\PlayerMenuSettingModel.cpp" />
+    <ClCompile Include="model\PlayerUrlListModel.cpp" />
+    <ClCompile Include="PlayerWindow.cpp" />
+    <ClCompile Include="PlayStartPostitionWindow.cpp" />
+    <ClCompile Include="qplayer2demo.cpp" />
+    <ClCompile Include="ToastWindow.cpp" />
+    <ClCompile Include="UrlListWindow.cpp" />
+    <ClCompile Include="UrlSetting.cpp" />
+    <ClCompile Include="UrlStreamElementSetting.cpp" />
+    <ClCompile Include="UrlSubtitleElementSetting.cpp" />
+    <ClCompile Include="VideoRenderWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="qplayer2demo.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="qplayer2demo.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="qplayerLocalFile\Setting.json" />
+    <None Include="qplayerLocalFile\UrlJson.json" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

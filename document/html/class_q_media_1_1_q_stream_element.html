@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>qplayer2-core: QMedia::QStreamElement类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">qplayer2-core
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>QMedia</b></li><li class="navelem"><a class="el" href="class_q_media_1_1_q_stream_element.html">QStreamElement</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="class_q_media_1_1_q_stream_element-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">QMedia::QStreamElement类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:acaf3225fb565c665af8000b2b83312da" id="r_acaf3225fb565c665af8000b2b83312da"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acaf3225fb565c665af8000b2b83312da">get_user_type</a> () const</td></tr>
+<tr class="memdesc:acaf3225fb565c665af8000b2b83312da"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 user_type  <br /></td></tr>
+<tr class="separator:acaf3225fb565c665af8000b2b83312da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71cceb90e5bad5a45379adc7d1d082aa" id="r_a71cceb90e5bad5a45379adc7d1d082aa"><td class="memItemLeft" align="right" valign="top">QUrlType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71cceb90e5bad5a45379adc7d1d082aa">get_url_type</a> () const</td></tr>
+<tr class="memdesc:a71cceb90e5bad5a45379adc7d1d082aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 url_type  <br /></td></tr>
+<tr class="separator:a71cceb90e5bad5a45379adc7d1d082aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae80ab678d7665170cd72a4a5255e8c5a" id="r_ae80ab678d7665170cd72a4a5255e8c5a"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae80ab678d7665170cd72a4a5255e8c5a">get_quality_index</a> () const</td></tr>
+<tr class="memdesc:ae80ab678d7665170cd72a4a5255e8c5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的清晰度  <br /></td></tr>
+<tr class="separator:ae80ab678d7665170cd72a4a5255e8c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a608a15b96913186da342e3a875930fad" id="r_a608a15b96913186da342e3a875930fad"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a608a15b96913186da342e3a875930fad">get_url</a> () const</td></tr>
+<tr class="memdesc:a608a15b96913186da342e3a875930fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 url  <br /></td></tr>
+<tr class="separator:a608a15b96913186da342e3a875930fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17ff4d3d2df622cc88cbf81e0e4c63a4" id="r_a17ff4d3d2df622cc88cbf81e0e4c63a4"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17ff4d3d2df622cc88cbf81e0e4c63a4">get_back_url</a> () const</td></tr>
+<tr class="memdesc:a17ff4d3d2df622cc88cbf81e0e4c63a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的备用 url  <br /></td></tr>
+<tr class="separator:a17ff4d3d2df622cc88cbf81e0e4c63a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea2924a38787d1a7c593785a66e98ccb" id="r_aea2924a38787d1a7c593785a66e98ccb"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea2924a38787d1a7c593785a66e98ccb">get_referer</a> () const</td></tr>
+<tr class="memdesc:aea2924a38787d1a7c593785a66e98ccb"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 referer  <br /></td></tr>
+<tr class="separator:aea2924a38787d1a7c593785a66e98ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaabcfbfb32e840905496878913c836c6" id="r_aaabcfbfb32e840905496878913c836c6"><td class="memItemLeft" align="right" valign="top">QVideoRenderType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaabcfbfb32e840905496878913c836c6">get_render_type</a> () const</td></tr>
+<tr class="memdesc:aaabcfbfb32e840905496878913c836c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 render type <br  />
+  <br /></td></tr>
+<tr class="separator:aaabcfbfb32e840905496878913c836c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30f19ce331ec1d6d4bb3cfe28a94244c" id="r_a30f19ce331ec1d6d4bb3cfe28a94244c"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30f19ce331ec1d6d4bb3cfe28a94244c">get_hls_drm_key</a> () const</td></tr>
+<tr class="memdesc:a30f19ce331ec1d6d4bb3cfe28a94244c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 hls key  <br /></td></tr>
+<tr class="separator:a30f19ce331ec1d6d4bb3cfe28a94244c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26bc87aaae6553def86b6f90af3bb380" id="r_a26bc87aaae6553def86b6f90af3bb380"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26bc87aaae6553def86b6f90af3bb380">get_mp4_drm_key</a> () const</td></tr>
+<tr class="memdesc:a26bc87aaae6553def86b6f90af3bb380"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 mp4 key  <br /></td></tr>
+<tr class="separator:a26bc87aaae6553def86b6f90af3bb380"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18af69f27e19623cdf2d930354b5b650" id="r_a18af69f27e19623cdf2d930354b5b650"><td class="memItemLeft" align="right" valign="top">QUrlMethod&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18af69f27e19623cdf2d930354b5b650">get_url_method</a> () const</td></tr>
+<tr class="memdesc:a18af69f27e19623cdf2d930354b5b650"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的 url method  <br /></td></tr>
+<tr class="separator:a18af69f27e19623cdf2d930354b5b650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d3730ae63b24e3be6be4bbc53bc273a" id="r_a1d3730ae63b24e3be6be4bbc53bc273a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d3730ae63b24e3be6be4bbc53bc273a">is_selected</a> () const</td></tr>
+<tr class="memdesc:a1d3730ae63b24e3be6be4bbc53bc273a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素是否被选中  <br /></td></tr>
+<tr class="separator:a1d3730ae63b24e3be6be4bbc53bc273a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:acbca540e5000efb50daff6b5125b0e2c" id="r_acbca540e5000efb50daff6b5125b0e2c"><td class="memItemLeft" align="right" valign="top"><a id="acbca540e5000efb50daff6b5125b0e2c" name="acbca540e5000efb50daff6b5125b0e2c"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModelBuilder</b></td></tr>
+<tr class="separator:acbca540e5000efb50daff6b5125b0e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fe37f29c65268abb12d4402b887ca00" id="r_a3fe37f29c65268abb12d4402b887ca00"><td class="memItemLeft" align="right" valign="top"><a id="a3fe37f29c65268abb12d4402b887ca00" name="a3fe37f29c65268abb12d4402b887ca00"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td></tr>
+<tr class="separator:a3fe37f29c65268abb12d4402b887ca00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a17ff4d3d2df622cc88cbf81e0e4c63a4" name="a17ff4d3d2df622cc88cbf81e0e4c63a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17ff4d3d2df622cc88cbf81e0e4c63a4">&#9670;&#160;</a></span>get_back_url()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_back_url </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的备用 url </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>{ <span class="keywordflow">return</span> mBackupUrl; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a30f19ce331ec1d6d4bb3cfe28a94244c" name="a30f19ce331ec1d6d4bb3cfe28a94244c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30f19ce331ec1d6d4bb3cfe28a94244c">&#9670;&#160;</a></span>get_hls_drm_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_hls_drm_key </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 hls key </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>{ <span class="keywordflow">return</span> mHlsDrmKey; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a26bc87aaae6553def86b6f90af3bb380" name="a26bc87aaae6553def86b6f90af3bb380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26bc87aaae6553def86b6f90af3bb380">&#9670;&#160;</a></span>get_mp4_drm_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_mp4_drm_key </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 mp4 key </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>{ <span class="keywordflow">return</span> mMp4DrmKey; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae80ab678d7665170cd72a4a5255e8c5a" name="ae80ab678d7665170cd72a4a5255e8c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae80ab678d7665170cd72a4a5255e8c5a">&#9670;&#160;</a></span>get_quality_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t QMedia::QStreamElement::get_quality_index </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的清晰度 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>{ <span class="keywordflow">return</span> mQualityIndex; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aea2924a38787d1a7c593785a66e98ccb" name="aea2924a38787d1a7c593785a66e98ccb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea2924a38787d1a7c593785a66e98ccb">&#9670;&#160;</a></span>get_referer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_referer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 referer </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>{ <span class="keywordflow">return</span> mReferer; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aaabcfbfb32e840905496878913c836c6" name="aaabcfbfb32e840905496878913c836c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaabcfbfb32e840905496878913c836c6">&#9670;&#160;</a></span>get_render_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVideoRenderType QMedia::QStreamElement::get_render_type </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 render type <br  />
+ </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   85</span>{ <span class="keywordflow">return</span> mVideoRenderType; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a608a15b96913186da342e3a875930fad" name="a608a15b96913186da342e3a875930fad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a608a15b96913186da342e3a875930fad">&#9670;&#160;</a></span>get_url()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_url </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 url </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>{ <span class="keywordflow">return</span> mUrl; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a18af69f27e19623cdf2d930354b5b650" name="a18af69f27e19623cdf2d930354b5b650"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18af69f27e19623cdf2d930354b5b650">&#9670;&#160;</a></span>get_url_method()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrlMethod QMedia::QStreamElement::get_url_method </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 url method </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>{ <span class="keywordflow">return</span> mUrlMethod; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a71cceb90e5bad5a45379adc7d1d082aa" name="a71cceb90e5bad5a45379adc7d1d082aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71cceb90e5bad5a45379adc7d1d082aa">&#9670;&#160;</a></span>get_url_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrlType QMedia::QStreamElement::get_url_type </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 url_type </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keywordflow">return</span> mUrlType; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acaf3225fb565c665af8000b2b83312da" name="acaf3225fb565c665af8000b2b83312da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaf3225fb565c665af8000b2b83312da">&#9670;&#160;</a></span>get_user_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_user_type </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的 user_type </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keywordflow">return</span> mUserType; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1d3730ae63b24e3be6be4bbc53bc273a" name="a1d3730ae63b24e3be6be4bbc53bc273a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d3730ae63b24e3be6be4bbc53bc273a">&#9670;&#160;</a></span>is_selected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool QMedia::QStreamElement::is_selected </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素是否被选中 </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">  109</span>{ <span class="keywordflow">return</span> mIsSelected; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>C:/Users/wangshenglu/Desktop/QPlayer2/qplayer2-core/interface/cplusplus/<a class="el" href="_q_stream_element_8h_source.html">QStreamElement.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>
