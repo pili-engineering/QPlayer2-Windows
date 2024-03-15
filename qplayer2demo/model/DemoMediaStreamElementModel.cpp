@@ -5,6 +5,8 @@ DemoMediaStreamElementModel::DemoMediaStreamElementModel() :
 	mHlsDrm(""),
 	mIsSelected(false),
 	mMp4Drm(""),
+	mMp4QNDrmComkey(""),
+	mMp4QNDrmFilekey(""),
 	mQuality(0),
 	mReferer(""),
 	mUrl(""),
@@ -92,6 +94,21 @@ std::string DemoMediaStreamElementModel::get_mp4_drm() {
 	return mMp4Drm;
 }
 
+void DemoMediaStreamElementModel::set_mp4_qn_drm_com_key(const std::string& mp4_qn_drm_com_key) {
+	mMp4QNDrmComkey = mp4_qn_drm_com_key;
+}
+
+std::string DemoMediaStreamElementModel::get_mp4_qn_drm_com_key() {
+	return mMp4QNDrmComkey;
+}
+
+void DemoMediaStreamElementModel::set_mp4_qn_drm_file_key(const std::string& mp4_qn_drm_file_key) {
+	mMp4QNDrmFilekey = mp4_qn_drm_file_key;
+}
+
+std::string DemoMediaStreamElementModel::get_mp4_qn_drm_file_key() {
+	return mMp4QNDrmFilekey;
+}
 void DemoMediaStreamElementModel::set_video_type(QMedia::QVideoRenderType video_type) {
 	mVideoType = video_type;
 }

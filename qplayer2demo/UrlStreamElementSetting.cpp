@@ -34,6 +34,9 @@
 #define ID_URL_METHOD_NORMAL_OPTIONAL 1200
 #define ID_URL_METHOD_RTSP_TCP_OPTIONAL 1201
 #define ID_URL_METHOD_RTSP_UDP_OPTIONAL 1202
+
+#define ID_MP4_QN_DRM_COM_KEY_INPUT 1300
+#define ID_MP4_QN_DRM_FILE_KEY_INPUT 1400
 UrlStreamElementSetting::UrlStreamElementSetting(HWND hwnd, HINSTANCE hinstance, UrlClickType click_type, DemoMediaStreamElementModel* stream_element_model):
 	mClickType(click_type),
 	mpStreamElementModel(stream_element_model),
@@ -103,8 +106,8 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 	case WM_DESTROY: {
 		if (hwnd == pstream_element_setting_window->get_hwnd()) {
 			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SYSTEM_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mpStreamElementModel);
+			DestroyWindow(pstream_element_setting_window->get_hwnd());
 			pstream_element_setting_window = NULL;
-			DestroyWindow(hwnd);
 			return 0;
 		}
 		break;
@@ -181,6 +184,18 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 			}
 			break;
 		}
+		case ID_MP4_QN_DRM_COM_KEY_INPUT: {
+			if (HIWORD(w_param) == EN_CHANGE) {
+				pstream_element_setting_window->mpStreamElementModel->set_mp4_qn_drm_com_key(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mMp4QNDrmComKeyInput));
+			}
+			break;
+		}
+		case ID_MP4_QN_DRM_FILE_KEY_INPUT: {
+			if (HIWORD(w_param) == EN_CHANGE) {
+				pstream_element_setting_window->mpStreamElementModel->set_mp4_qn_drm_file_key(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mMp4QNDrmFileKeyInput));
+			}
+			break;
+		}
 		case ID_HLS_DRM_INPUT: {
 			if (HIWORD(w_param) == EN_CHANGE) {
 				pstream_element_setting_window->mpStreamElementModel->set_hls_drm(pstream_element_setting_window->wchar_to_string(pstream_element_setting_window->mHlsDrmInput));
@@ -251,14 +266,14 @@ LRESULT CALLBACK  UrlStreamElementSetting::main_stream_element_setting_window_pr
 		}
 		case ID_SUBMIT_BUTTON: {
 			pstream_element_setting_window->mCloseCallBack(WindowCloseType::SUBMIT_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mpStreamElementModel);
+			DestroyWindow(pstream_element_setting_window->get_hwnd());
 			pstream_element_setting_window = NULL;
-			DestroyWindow(hwnd);
 			break;
 		}
 		case ID_CANCEL_BUTTON: {
 			pstream_element_setting_window->mCloseCallBack(WindowCloseType::CANCEL_CLOSE, pstream_element_setting_window->mClickType, pstream_element_setting_window->mpStreamElementModel);
+			DestroyWindow(pstream_element_setting_window->get_hwnd());
 			pstream_element_setting_window = NULL;
-			DestroyWindow(hwnd);
 			break;
 		}
 		default:
@@ -331,14 +346,20 @@ void UrlStreamElementSetting::create_child_window() {
 	CreateWindow(TEXT("STATIC"), TEXT("mp4_drm_key"), WS_CHILD | WS_VISIBLE, 10, 330, 90, 20, mHwnd, NULL, NULL, NULL);
 	mMp4DrmInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 330, width - 130, 20, mHwnd, (HMENU)ID_MP4_DRM_INPUT, mHinstance, NULL);
 
-	CreateWindow(TEXT("STATIC"), TEXT("video_type"), WS_CHILD | WS_VISIBLE, 10, 360, 90, 20, mHwnd, NULL, NULL, NULL);
-	mVideoTypePlanOption = CreateWindow(TEXT("BUTTON"), TEXT("普通视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 360, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_PLAN_OPTIONAL, NULL, NULL);
-	mVideoTypeAROption = CreateWindow(TEXT("BUTTON"), TEXT("AR视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 360, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_AR_OPTIONAL, NULL, NULL);
+	CreateWindow(TEXT("STATIC"), TEXT("mp4_com_key"), WS_CHILD | WS_VISIBLE, 10, 360, 90, 20, mHwnd, NULL, NULL, NULL);
+	mMp4QNDrmComKeyInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 360, width - 130, 20, mHwnd, (HMENU)ID_MP4_QN_DRM_COM_KEY_INPUT, mHinstance, NULL);
+
+	CreateWindow(TEXT("STATIC"), TEXT("mp4_file_key"), WS_CHILD | WS_VISIBLE, 10, 390, 90, 20, mHwnd, NULL, NULL, NULL);
+	mMp4QNDrmFileKeyInput = CreateWindow(TEXT("EDIT"), TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 110, 390, width - 130, 20, mHwnd, (HMENU)ID_MP4_QN_DRM_FILE_KEY_INPUT, mHinstance, NULL);
+
+	CreateWindow(TEXT("STATIC"), TEXT("video_type"), WS_CHILD | WS_VISIBLE, 10, 430, 90, 20, mHwnd, NULL, NULL, NULL);
+	mVideoTypePlanOption = CreateWindow(TEXT("BUTTON"), TEXT("普通视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 430, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_PLAN_OPTIONAL, NULL, NULL);
+	mVideoTypeAROption = CreateWindow(TEXT("BUTTON"), TEXT("AR视频"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 430, 170, 20, mHwnd, (HMENU)ID_VIDEO_TYPE_AR_OPTIONAL, NULL, NULL);
 	
-	CreateWindow(TEXT("STATIC"), TEXT("url_method"), WS_CHILD | WS_VISIBLE, 10, 390, 90, 20, mHwnd, NULL, NULL, NULL);
-	mUrlMethodNormalOption = CreateWindow(TEXT("BUTTON"), TEXT("normal"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 390, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_NORMAL_OPTIONAL, NULL, NULL);
-	mUrlMethodRtspTcpOption = CreateWindow(TEXT("BUTTON"), TEXT("rtsp_tcp"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 390, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_RTSP_TCP_OPTIONAL, NULL, NULL);
-	mUrlMethodRtspUdpOption = CreateWindow(TEXT("BUTTON"), TEXT("rtsp_udp"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 460, 390, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_RTSP_UDP_OPTIONAL, NULL, NULL);
+	CreateWindow(TEXT("STATIC"), TEXT("url_method"), WS_CHILD | WS_VISIBLE, 10, 460, 90, 20, mHwnd, NULL, NULL, NULL);
+	mUrlMethodNormalOption = CreateWindow(TEXT("BUTTON"), TEXT("normal"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 100, 460, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_NORMAL_OPTIONAL, NULL, NULL);
+	mUrlMethodRtspTcpOption = CreateWindow(TEXT("BUTTON"), TEXT("rtsp_tcp"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 280, 460, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_RTSP_TCP_OPTIONAL, NULL, NULL);
+	mUrlMethodRtspUdpOption = CreateWindow(TEXT("BUTTON"), TEXT("rtsp_udp"), WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON, 460, 460, 170, 20, mHwnd, (HMENU)ID_URL_METHOD_RTSP_UDP_OPTIONAL, NULL, NULL);
 
 	if (mClickType == UrlClickType::MOTIFY_URL)
 	{
@@ -363,6 +384,8 @@ void UrlStreamElementSetting::create_child_window() {
 		SetWindowText(mUrlInput, _T(mpStreamElementModel->get_url().c_str()));
 		SetWindowText(mQualityInput, _T(std::to_string(mpStreamElementModel->get_quality()).c_str()));
 		SetWindowText(mMp4DrmInput, _T(mpStreamElementModel->get_mp4_drm()).c_str());
+		SetWindowText(mMp4QNDrmComKeyInput, _T(mpStreamElementModel->get_mp4_qn_drm_com_key()).c_str());
+		SetWindowText(mMp4QNDrmFileKeyInput, _T(mpStreamElementModel->get_mp4_qn_drm_file_key()).c_str());
 		if (mpStreamElementModel->get_is_selected())
 		{
 			SendMessage(mIsSelectedTrueOption, BM_SETCHECK, BST_CHECKED, 0);

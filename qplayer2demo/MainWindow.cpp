@@ -290,6 +290,11 @@ MainWindow::~MainWindow()
 		delete mpCurrentDataModelManager;
 		mpCurrentDataModelManager = nullptr;
 	}
+	if (mpUrlSettingWindow != nullptr)
+	{
+		delete mpUrlSettingWindow;
+		mpUrlSettingWindow = nullptr;
+	}
 }
 //·µ»Ø´°¿Ú¾ä±ú
 HWND MainWindow::get_hwnd()

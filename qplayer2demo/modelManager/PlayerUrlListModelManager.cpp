@@ -257,14 +257,29 @@ int PlayerUrlListModelManager::get_subtitle_element_count_index(int model_index)
 }
 void PlayerUrlListModelManager::add_stream_element(const std::string& user_type, QMedia::QUrlType url_type, uint32_t  quality_index,
 	const std::string& url, bool is_default, const std::string& referer, const std::string& backup_url,
-	QMedia::QVideoRenderType video_render_type, const std::string& hls_drm_key, const std::string& mp4_drm_key, QMedia::QUrlMethod url_method) {
+	QMedia::QVideoRenderType video_render_type, const std::string& hls_drm_key, const std::string& mp4_drm_key, const std::string& mp4_qn_drm_com_key,
+	const std::string& mp4_qn_drm_file_key, QMedia::QUrlMethod url_method) {
 
 	if (mpBulder == nullptr)
 	{
 		mpBulder = new QMedia::QMediaModelBuilder();
 	}
-
-	mpBulder->add_stream_element(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, hls_drm_key, mp4_drm_key, url_method);
+	if (hls_drm_key != "")
+	{
+		mpBulder->add_stream_element_hls_drm(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, hls_drm_key, url_method);
+	}
+	else if(mp4_drm_key != "")
+	{
+		mpBulder->add_stream_element_mp4_drm(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, mp4_drm_key, url_method);
+	}
+	else if (mp4_qn_drm_com_key != "" && mp4_qn_drm_file_key != "")
+	{
+		mpBulder->add_stream_element_qn_mp4_drm(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, mp4_qn_drm_com_key, mp4_qn_drm_file_key, url_method);
+	}
+	else
+	{
+		mpBulder->add_stream_element(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, url_method);
+	}
 }
 
 void PlayerUrlListModelManager::add_subtitle_element(const std::string& name, const std::string& url, bool is_selected) {

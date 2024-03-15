@@ -15,8 +15,15 @@
 bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* pmodel) {
 #ifdef _DEBUG
 	char current_path[FILENAME_MAX];
-	GetCurrentDirectoryA(MAX_PATH, current_path);
-	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
+	GetModuleFileName(NULL, current_path, FILENAME_MAX);
+	//GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string directory = current_path;
+	size_t pos = directory.find("out");
+	if (pos != std::string::npos)
+	{
+		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -55,8 +62,15 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string& file_name) {
 #ifdef _DEBUG
 	char current_path[FILENAME_MAX];
-	GetCurrentDirectoryA(MAX_PATH, current_path);
-	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
+	GetModuleFileName(NULL, current_path, FILENAME_MAX);
+	//GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string directory = current_path;
+	size_t pos = directory.find("out");
+	if (pos != std::string::npos)
+	{
+		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -104,8 +118,15 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 #ifdef _DEBUG
 
 	char current_path[FILENAME_MAX];
-	GetCurrentDirectoryA(MAX_PATH, current_path);
-	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
+	GetModuleFileName(NULL, current_path, FILENAME_MAX);
+	//GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string directory = current_path;
+	size_t pos = directory.find("out");
+	if (pos != std::string::npos)
+	{
+		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -153,9 +174,26 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 					std::string referer = UTF8_To_GB2312(stream_ele["referer"]);
 					std::string hls_drm_key = UTF8_To_GB2312(stream_ele["hls_drm_key"]);
 					std::string mp4_drm_key = UTF8_To_GB2312(stream_ele["mp4_drm_key"]);
+					std::string mp4_drm_com_key = UTF8_To_GB2312(stream_ele["mp4_drm_com_key"]);
+					std::string mp4_drm_file_key = UTF8_To_GB2312(stream_ele["mp4_drm_file_key"]);
 					QMedia::QVideoRenderType render_type = string_to_render_type(stream_ele["render_type"]);
 					QMedia::QUrlMethod url_method = string_to_url_method(stream_ele["url_method"]);
-					pmodel_builder->add_stream_element(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, GB2312_To_UTF8(hls_drm_key), GB2312_To_UTF8(mp4_drm_key));
+					if (hls_drm_key != "")
+					{
+						pmodel_builder->add_stream_element_hls_drm(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, GB2312_To_UTF8(hls_drm_key), url_method);
+					}
+					else if (mp4_drm_key != "")
+					{
+						pmodel_builder->add_stream_element_mp4_drm(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, GB2312_To_UTF8(mp4_drm_key), url_method);
+					}
+					else if (mp4_drm_file_key != "" && mp4_drm_com_key != "")
+					{
+						pmodel_builder->add_stream_element_qn_mp4_drm(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, GB2312_To_UTF8(mp4_drm_com_key), GB2312_To_UTF8(mp4_drm_file_key), url_method);
+					}
+					else
+					{
+						pmodel_builder->add_stream_element(GB2312_To_UTF8(user_type), url_type, quality, GB2312_To_UTF8(url), is_selected, GB2312_To_UTF8(referer), GB2312_To_UTF8(back_up_url), render_type, url_method);
+					}
 				}
 			}
 
@@ -183,8 +221,15 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, std::list<PlayerUrlListModel*> model_list) {
 #ifdef _DEBUG
 	char current_path[FILENAME_MAX];
-	GetCurrentDirectoryA(MAX_PATH, current_path);
-	std::string file_path = std::string(current_path) + "\\qplayerLocalFile\\" + file_name;
+	GetModuleFileName(NULL, current_path, FILENAME_MAX);
+	//GetCurrentDirectoryA(MAX_PATH, current_path);
+	std::string directory = current_path;
+	size_t pos = directory.find("out");
+	if (pos != std::string::npos)
+	{
+		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
 	DWORD length = ::GetModuleFileName(nullptr, path, MAX_PATH);
@@ -216,6 +261,8 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 			stream_json["mp4_drm_key"] = GB2312_To_UTF8(pele->get_mp4_drm_key());
 			stream_json["render_type"] = GB2312_To_UTF8(render_type_to_string(pele->get_render_type()));
 			stream_json["url_method"] = GB2312_To_UTF8(url_method_to_string(pele->get_url_method()));
+			stream_json["mp4_drm_com_key"] = GB2312_To_UTF8(pele->get_mp4_qn_drm_com_key());
+			stream_json["mp4_drm_file_key"] = GB2312_To_UTF8(pele->get_mp4_qn_drm_file_key());
 			stream_ele_array.push_back(stream_json);
 		}
 		json["stream_element"] = stream_ele_array;

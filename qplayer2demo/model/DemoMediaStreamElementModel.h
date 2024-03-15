@@ -43,6 +43,14 @@ public:
 
 	std::string get_mp4_drm();
 
+	void set_mp4_qn_drm_com_key(const std::string& mp4_qn_drm_com_key);
+
+	std::string get_mp4_qn_drm_com_key();
+
+	void set_mp4_qn_drm_file_key(const std::string& mp4_qn_drm_file_key);
+
+	std::string get_mp4_qn_drm_file_key();
+
 	void set_video_type(QMedia::QVideoRenderType video_type);
 
 	QMedia::QVideoRenderType get_video_type();
@@ -60,6 +68,8 @@ private:
 	std::string mReferer;
 	std::string mHlsDrm;
 	std::string mMp4Drm;
+	std::string mMp4QNDrmComkey;
+	std::string mMp4QNDrmFilekey;
 	QMedia::QVideoRenderType mVideoType;
 	QMedia::QUrlMethod mUrlMethod;
 };
