@@ -555,9 +555,9 @@ void UrlSetting::motify_stream_elements_window_create(int item_id) {
 		return;
 	}
 	std::advance(it, item_id);
-	UrlStreamElementSetting purl_stream_element_window = UrlStreamElementSetting(mHwnd, mHinstance, UrlClickType::MOTIFY_URL, *it);
+	UrlStreamElementSetting* purl_stream_element_window =new UrlStreamElementSetting(mHwnd, mHinstance, UrlClickType::MOTIFY_URL, *it);
 	EnableWindow(mHwnd, FALSE);
-	purl_stream_element_window.set_close_call_back(
+	purl_stream_element_window->set_close_call_back(
 		[this](WindowCloseType close_type, UrlClickType click_type, DemoMediaStreamElementModel* pmodel) {
 			EnableWindow(mHwnd, TRUE);
 			if (close_type == WindowCloseType::SUBMIT_CLOSE) {
@@ -589,7 +589,7 @@ void UrlSetting::motify_stream_elements_window_create(int item_id) {
 			}
 		}
 	);
-	SetWindowLong(purl_stream_element_window.get_hwnd(), GWL_ID, ID_URL_ADD_STREAM_WINDOW);
+	SetWindowLong(purl_stream_element_window->get_hwnd(), GWL_ID, ID_URL_ADD_STREAM_WINDOW);
 }
 
 
