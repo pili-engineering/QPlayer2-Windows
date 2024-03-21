@@ -90,7 +90,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;QPLAYER_DEMO_VERSION="1.4.1";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core-debug\x86\include;$(ProjectDir)dependency\qplayer-json\single_include;$(ProjectDir)dependency\qplayer-vld\x86\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
@@ -128,7 +128,7 @@ copy /Y "$(ProjectDir)dependency\qplayer-vld\x86\lib\*.ini" "$(ProjectDir)out\$(
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;QPLAYER_DEMO_VERSION="1.4.1";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core\x86\include;$(ProjectDir)dependency\qplayer-json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -161,7 +161,7 @@ mkdir "$(ProjectDir)out\$(Platform)\$(Configuration)\bin"</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;QPLAYER_DEMO_VERSION="1.4.1";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core-debug\x86_64\include;$(ProjectDir)dependency\qplayer-json\single_include;$(ProjectDir)dependency\qplayer-vld\x86_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
@@ -202,7 +202,7 @@ copy /Y "$(ProjectDir)dependency\qplayer-vld\x86_64\lib\*.ini" "$(ProjectDir)out
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;QPLAYER_DEMO_VERSION="1.4.1";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)common;$(ProjectDir)modelManager;$(ProjectDir)model;$(ProjectDir)dependency\qplayer-core\x86_64\include;$(ProjectDir)dependency\qplayer-json\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

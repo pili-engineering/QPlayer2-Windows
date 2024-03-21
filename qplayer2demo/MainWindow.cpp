@@ -1300,7 +1300,7 @@ void  MainWindow::on_shoot_video_failed() {
 }
 
 void  MainWindow::on_sei_data(const std::unique_ptr<uint8_t[]>&  data, uint64_t size) {
-	if (size > 16)
+	if (size >= 16)
 	{
 		uint8_t* pbyte = new uint8_t[size];
 		std::stringstream uuid;

@@ -23,6 +23,10 @@ bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, 
 	{
 		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
 	}
+	else {
+		pos = directory.find("qplayer2demo.exe");
+		directory = directory.substr(0, pos); // 包括 "bin" 在内的字符串
+	}
 	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
 	char path[MAX_PATH];
@@ -69,6 +73,10 @@ CurrentDataModel* FileOfWriteAndRead::read_setting_local_file(const std::string&
 	if (pos != std::string::npos)
 	{
 		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	else {
+		pos = directory.find("qplayer2demo.exe");
+		directory = directory.substr(0, pos); // 包括 "bin" 在内的字符串
 	}
 	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
@@ -125,6 +133,10 @@ std::list<PlayerUrlListModel*> FileOfWriteAndRead::read_json_from_local_file(con
 	if (pos != std::string::npos)
 	{
 		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	else {
+		pos = directory.find("qplayer2demo.exe");
+		directory = directory.substr(0, pos); // 包括 "bin" 在内的字符串
 	}
 	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
@@ -228,6 +240,10 @@ bool FileOfWriteAndRead::write_json_to_local_file(const std::string& file_name, 
 	if (pos != std::string::npos)
 	{
 		directory = directory.substr(0, pos); // 包括 "out" 在内的字符串
+	}
+	else {
+		pos = directory.find("qplayer2demo.exe");
+		directory = directory.substr(0, pos); // 包括 "bin" 在内的字符串
 	}
 	std::string file_path = directory + "qplayerLocalFile\\" + file_name;
 #else
