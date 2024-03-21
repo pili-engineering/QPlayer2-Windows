@@ -22,6 +22,9 @@ var searchData=
   ['add_5fplayer_5fvideo_5fdecode_5ftype_5flistener_19',['add_player_video_decode_type_listener',['../class_q_media_1_1_q_i_player_control_handler.html#abd117119b5a0d0704aef3a2b049fc7e2',1,'QMedia::QIPlayerControlHandler']]],
   ['add_5fplayer_5fvideo_5fframe_5fsize_5fchange_5flistener_20',['add_player_video_frame_size_change_listener',['../class_q_media_1_1_q_i_player_control_handler.html#a754bb3f907e9b4439a69f220964c388b',1,'QMedia::QIPlayerControlHandler']]],
   ['add_5frender_5flistener_21',['add_render_listener',['../class_q_media_1_1_q_i_player_render_handler.html#a60b2870b026f07f91837bdbbd6cddf1b',1,'QMedia::QIPlayerRenderHandler']]],
-  ['add_5fstream_5felement_22',['add_stream_element',['../class_q_media_1_1_q_media_model_builder.html#a90836629b648b383e44e9850ea18e22c',1,'QMedia::QMediaModelBuilder']]],
-  ['add_5fsubtitle_5felement_23',['add_subtitle_element',['../class_q_media_1_1_q_media_model_builder.html#a58e355726427d0819827fac252cf717f',1,'QMedia::QMediaModelBuilder']]]
+  ['add_5fstream_5felement_22',['add_stream_element',['../class_q_media_1_1_q_media_model_builder.html#a08dbac9a0c9be217278afb9d0fd2a609',1,'QMedia::QMediaModelBuilder']]],
+  ['add_5fstream_5felement_5fhls_5fdrm_23',['add_stream_element_hls_drm',['../class_q_media_1_1_q_media_model_builder.html#a61b7ed81fc81e26ba541d7e1a51834c4',1,'QMedia::QMediaModelBuilder']]],
+  ['add_5fstream_5felement_5fmp4_5fdrm_24',['add_stream_element_mp4_drm',['../class_q_media_1_1_q_media_model_builder.html#aebcb3e2ef7b8f5dfbe04a6d77866b20a',1,'QMedia::QMediaModelBuilder']]],
+  ['add_5fstream_5felement_5fqn_5fmp4_5fdrm_25',['add_stream_element_qn_mp4_drm',['../class_q_media_1_1_q_media_model_builder.html#a4d786a2294e23815731999da1e77d737',1,'QMedia::QMediaModelBuilder']]],
+  ['add_5fsubtitle_5felement_26',['add_subtitle_element',['../class_q_media_1_1_q_media_model_builder.html#a58e355726427d0819827fac252cf717f',1,'QMedia::QMediaModelBuilder']]]
 ];

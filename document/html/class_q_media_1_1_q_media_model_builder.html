@@ -77,6 +77,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#friends">友元</a> &#124;
 <a href="class_q_media_1_1_q_media_model_builder-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">QMedia::QMediaModelBuilder类 参考</div></div>
 </div><!--header-->
@@ -101,12 +102,28 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:ae2af53e6872fd7e90a6051ce300ee1ed" id="r_ae2af53e6872fd7e90a6051ce300ee1ed"><td class="memItemLeft" align="right" valign="top"><a id="ae2af53e6872fd7e90a6051ce300ee1ed" name="ae2af53e6872fd7e90a6051ce300ee1ed"></a>
 <a class="el" href="class_q_media_1_1_q_media_model_builder.html">QMediaModelBuilder</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="class_q_media_1_1_q_media_model_builder.html">QMediaModelBuilder</a> &amp;&amp;)=delete</td></tr>
 <tr class="separator:ae2af53e6872fd7e90a6051ce300ee1ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90836629b648b383e44e9850ea18e22c" id="r_a90836629b648b383e44e9850ea18e22c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90836629b648b383e44e9850ea18e22c">add_stream_element</a> (const std::string &amp;user_type, QUrlType url_type, uint32_t quality_index, const std::string &amp;url, bool is_default, const std::string &amp;referer=&quot;&quot;, const std::string &amp;backup_url=&quot;&quot;, QVideoRenderType video_render_type=QVideoRenderType::PLANE, const std::string &amp;hls_drm_key=&quot;&quot;, const std::string &amp;mp4_drm_key=&quot;&quot;, QUrlMethod url_method=QUrlMethod::NORMAL)</td></tr>
-<tr class="separator:a90836629b648b383e44e9850ea18e22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08dbac9a0c9be217278afb9d0fd2a609" id="r_a08dbac9a0c9be217278afb9d0fd2a609"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08dbac9a0c9be217278afb9d0fd2a609">add_stream_element</a> (const std::string &amp;user_type, QUrlType url_type, uint32_t quality_index, const std::string &amp;url, bool is_default, const std::string &amp;referer, const std::string &amp;backup_url, QVideoRenderType video_render_type, QUrlMethod url_method)</td></tr>
+<tr class="memdesc:a08dbac9a0c9be217278afb9d0fd2a609"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加 steramElement  <br /></td></tr>
+<tr class="separator:a08dbac9a0c9be217278afb9d0fd2a609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebcb3e2ef7b8f5dfbe04a6d77866b20a" id="r_aebcb3e2ef7b8f5dfbe04a6d77866b20a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebcb3e2ef7b8f5dfbe04a6d77866b20a">add_stream_element_mp4_drm</a> (const std::string &amp;user_type, QUrlType url_type, uint32_t quality_index, const std::string &amp;url, bool is_default, const std::string &amp;referer=&quot;&quot;, const std::string &amp;backup_url=&quot;&quot;, QVideoRenderType video_render_type=QVideoRenderType::PLANE, const std::string &amp;mp4_drm_key=&quot;&quot;, QUrlMethod url_method=QUrlMethod::NORMAL)</td></tr>
+<tr class="memdesc:aebcb3e2ef7b8f5dfbe04a6d77866b20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加 steramElement  <br /></td></tr>
+<tr class="separator:aebcb3e2ef7b8f5dfbe04a6d77866b20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d786a2294e23815731999da1e77d737" id="r_a4d786a2294e23815731999da1e77d737"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d786a2294e23815731999da1e77d737">add_stream_element_qn_mp4_drm</a> (const std::string &amp;user_type, QUrlType url_type, uint32_t quality_index, const std::string &amp;url, bool is_default, const std::string &amp;referer=&quot;&quot;, const std::string &amp;backup_url=&quot;&quot;, QVideoRenderType video_render_type=QVideoRenderType::PLANE, const std::string &amp;mp4_qn_drm_com_key=&quot;&quot;, const std::string &amp;mp4_qn_drm_file_key=&quot;&quot;, QUrlMethod url_method=QUrlMethod::NORMAL)</td></tr>
+<tr class="memdesc:a4d786a2294e23815731999da1e77d737"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加 steramElement  <br /></td></tr>
+<tr class="separator:a4d786a2294e23815731999da1e77d737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61b7ed81fc81e26ba541d7e1a51834c4" id="r_a61b7ed81fc81e26ba541d7e1a51834c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61b7ed81fc81e26ba541d7e1a51834c4">add_stream_element_hls_drm</a> (const std::string &amp;user_type, QUrlType url_type, uint32_t quality_index, const std::string &amp;url, bool is_default, const std::string &amp;referer=&quot;&quot;, const std::string &amp;backup_url=&quot;&quot;, QVideoRenderType video_render_type=QVideoRenderType::PLANE, const std::string &amp;hls_drm_key=&quot;&quot;, QUrlMethod url_method=QUrlMethod::NORMAL)</td></tr>
+<tr class="memdesc:a61b7ed81fc81e26ba541d7e1a51834c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加 steramElement  <br /></td></tr>
+<tr class="separator:a61b7ed81fc81e26ba541d7e1a51834c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58e355726427d0819827fac252cf717f" id="r_a58e355726427d0819827fac252cf717f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58e355726427d0819827fac252cf717f">add_subtitle_element</a> (const std::string &amp;name, const std::string &amp;url, bool is_default)</td></tr>
 <tr class="separator:a58e355726427d0819827fac252cf717f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a893e796caf1651c045bdc4b602447802" id="r_a893e796caf1651c045bdc4b602447802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_q_media_1_1_q_media_model.html">QMediaModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a893e796caf1651c045bdc4b602447802">build</a> (bool is_live, bool is_reconstruct_time_line=false)</td></tr>
 <tr class="separator:a893e796caf1651c045bdc4b602447802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:a850d08e625120425d56dd86f574abd13" id="r_a850d08e625120425d56dd86f574abd13"><td class="memItemLeft" align="right" valign="top"><a id="a850d08e625120425d56dd86f574abd13" name="a850d08e625120425d56dd86f574abd13"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>PlayerControlHandlerImpl</b></td></tr>
+<tr class="separator:a850d08e625120425d56dd86f574abd13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>创建视频数据模型 </p>
@@ -174,14 +191,90 @@ Public 成员函数</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">成员函数说明</h2>
-<a id="a90836629b648b383e44e9850ea18e22c" name="a90836629b648b383e44e9850ea18e22c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90836629b648b383e44e9850ea18e22c">&#9670;&#160;</a></span>add_stream_element()</h2>
+<a id="a08dbac9a0c9be217278afb9d0fd2a609" name="a08dbac9a0c9be217278afb9d0fd2a609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08dbac9a0c9be217278afb9d0fd2a609">&#9670;&#160;</a></span>add_stream_element()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void QMedia::QMediaModelBuilder::add_stream_element </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>user_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QUrlType</td>          <td class="paramname"><span class="paramname"><em>url_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>quality_index</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>url</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_default</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>referer</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>backup_url</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVideoRenderType</td>          <td class="paramname"><span class="paramname"><em>video_render_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QUrlMethod</td>          <td class="paramname"><span class="paramname"><em>url_method</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>添加 steramElement </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user_type</td><td>用户自定义Type</td></tr>
+    <tr><td class="paramname">url_type</td><td>媒体的资源属性 只包含视频/只包含音频/同时有视频音频</td></tr>
+    <tr><td class="paramname">quality_index</td><td>清晰度</td></tr>
+    <tr><td class="paramname">url</td><td>视频地址</td></tr>
+    <tr><td class="paramname">is_default</td><td>是否起播时播放该流</td></tr>
+    <tr><td class="paramname">referer</td><td>http/https 协议的地址 支持该属性</td></tr>
+    <tr><td class="paramname">backup_url</td><td>备用地址</td></tr>
+    <tr><td class="paramname">video_render_type</td><td>视频的渲染类型</td></tr>
+    <tr><td class="paramname">url_method</td><td>播放地址类型</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><span class="lineno">   37</span>                                                               {</div>
+<div class="line"><span class="lineno">   38</span>    add_stream_element_inner(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, url_method);</div>
+<div class="line"><span class="lineno">   39</span> </div>
+<div class="line"><span class="lineno">   40</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a61b7ed81fc81e26ba541d7e1a51834c4" name="a61b7ed81fc81e26ba541d7e1a51834c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61b7ed81fc81e26ba541d7e1a51834c4">&#9670;&#160;</a></span>add_stream_element_hls_drm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QMedia::QMediaModelBuilder::add_stream_element_hls_drm </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>user_type</em>, </span></td>
         </tr>
@@ -228,6 +321,83 @@ Public 成员函数</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">QUrlMethod</td>          <td class="paramname"><span class="paramname"><em>url_method</em><span class="paramdefsep"> = </span><span class="paramdefval">QUrlMethod::NORMAL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>添加 steramElement </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user_type</td><td>用户自定义Type</td></tr>
+    <tr><td class="paramname">url_type</td><td>媒体的资源属性 只包含视频/只包含音频/同时有视频音频</td></tr>
+    <tr><td class="paramname">quality_index</td><td>清晰度</td></tr>
+    <tr><td class="paramname">url</td><td>视频地址</td></tr>
+    <tr><td class="paramname">is_default</td><td>是否起播时播放该流</td></tr>
+    <tr><td class="paramname">referer</td><td>http/https 协议的地址 支持该属性</td></tr>
+    <tr><td class="paramname">backup_url</td><td>备用地址</td></tr>
+    <tr><td class="paramname">video_render_type</td><td>视频的渲染类型</td></tr>
+    <tr><td class="paramname">hls_drm_key</td><td>hls 解密秘钥</td></tr>
+    <tr><td class="paramname">url_method</td><td>播放地址类型</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>                                                         {</div>
+<div class="line"><span class="lineno">   46</span>    add_stream_element_inner(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, hls_drm_key, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, url_method);</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aebcb3e2ef7b8f5dfbe04a6d77866b20a" name="aebcb3e2ef7b8f5dfbe04a6d77866b20a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebcb3e2ef7b8f5dfbe04a6d77866b20a">&#9670;&#160;</a></span>add_stream_element_mp4_drm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QMedia::QMediaModelBuilder::add_stream_element_mp4_drm </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>user_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QUrlType</td>          <td class="paramname"><span class="paramname"><em>url_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>quality_index</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>url</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_default</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>referer</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>backup_url</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVideoRenderType</td>          <td class="paramname"><span class="paramname"><em>video_render_type</em><span class="paramdefsep"> = </span><span class="paramdefval">QVideoRenderType::PLANE</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>mp4_drm_key</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
         </tr>
         <tr>
@@ -237,38 +407,114 @@ Public 成员函数</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>添加 steramElement see[<a class="el" href="class_q_media_1_1_q_stream_element.html">QStreamElement</a>] </p><dl class="params"><dt>参数</dt><dd>
+
+<p>添加 steramElement </p>
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">userType</td><td>用户自定义Type </td></tr>
-    <tr><td class="paramname">urlType</td><td>媒体的资源属性 只包含视频/只包含音频/同时有视频音频 see[QURLType] </td></tr>
-    <tr><td class="paramname">quality</td><td>清晰度 </td></tr>
-    <tr><td class="paramname">url</td><td>视频地址 </td></tr>
-    <tr><td class="paramname">isSelected</td><td>是否起播时播放该流 </td></tr>
-    <tr><td class="paramname">backupUrl</td><td>备用地址 </td></tr>
-    <tr><td class="paramname">referer</td><td>http/https 协议的地址 支持该属性 </td></tr>
-    <tr><td class="paramname">videoRenderType</td><td>视频的渲染类型 see[QVideoRenderType] </td></tr>
+    <tr><td class="paramname">user_type</td><td>用户自定义Type</td></tr>
+    <tr><td class="paramname">url_type</td><td>媒体的资源属性 只包含视频/只包含音频/同时有视频音频</td></tr>
+    <tr><td class="paramname">quality_index</td><td>清晰度</td></tr>
+    <tr><td class="paramname">url</td><td>视频地址</td></tr>
+    <tr><td class="paramname">is_default</td><td>是否起播时播放该流</td></tr>
+    <tr><td class="paramname">referer</td><td>http/https 协议的地址 支持该属性</td></tr>
+    <tr><td class="paramname">backup_url</td><td>备用地址</td></tr>
+    <tr><td class="paramname">video_render_type</td><td>视频的渲染类型</td></tr>
+    <tr><td class="paramname">mp4_drm_key</td><td>MP4 drm aes-ctr解密秘钥</td></tr>
+    <tr><td class="paramname">url_method</td><td>播放地址类型</td></tr>
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><span class="lineno">   39</span>{</div>
-<div class="line"><span class="lineno">   40</span> </div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">if</span> (mIsBuild)</div>
-<div class="line"><span class="lineno">   42</span>    {</div>
-<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   44</span>    }</div>
-<div class="line"><span class="lineno">   45</span>    <span class="comment">//QVIDEO 放在最前面，seek的时候需要fix position 以 video的流来fix</span></div>
-<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (url_type == QUrlType::QVIDEO) {</div>
-<div class="line"><span class="lineno">   47</span>        mStreamElements.emplace_front(</div>
-<div class="line"><span class="lineno">   48</span>            <span class="keyword">new</span> QStreamElement(user_type, url_type, quality_index, url,</div>
-<div class="line"><span class="lineno">   49</span>                is_default, backup_url, referer, video_render_type, hls_drm_key, mp4_drm_key, url_method));</div>
-<div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>    }</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   53</span>        mStreamElements.emplace_back(</div>
-<div class="line"><span class="lineno">   54</span>            <span class="keyword">new</span> QStreamElement(user_type, url_type, quality_index, url,</div>
-<div class="line"><span class="lineno">   55</span>                is_default, backup_url, referer, video_render_type, hls_drm_key, mp4_drm_key, url_method));</div>
-<div class="line"><span class="lineno">   56</span>    }</div>
-<div class="line"><span class="lineno">   57</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                                                         {</div>
+<div class="line"><span class="lineno">   53</span>    add_stream_element_inner(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, <span class="stringliteral">&quot;&quot;</span>, mp4_drm_key, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, url_method);</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4d786a2294e23815731999da1e77d737" name="a4d786a2294e23815731999da1e77d737"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d786a2294e23815731999da1e77d737">&#9670;&#160;</a></span>add_stream_element_qn_mp4_drm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void QMedia::QMediaModelBuilder::add_stream_element_qn_mp4_drm </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>user_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QUrlType</td>          <td class="paramname"><span class="paramname"><em>url_type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>quality_index</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>url</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_default</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>referer</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>backup_url</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVideoRenderType</td>          <td class="paramname"><span class="paramname"><em>video_render_type</em><span class="paramdefsep"> = </span><span class="paramdefval">QVideoRenderType::PLANE</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>mp4_qn_drm_com_key</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>mp4_qn_drm_file_key</em><span class="paramdefsep"> = </span><span class="paramdefval">&quot;&quot;</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QUrlMethod</td>          <td class="paramname"><span class="paramname"><em>url_method</em><span class="paramdefsep"> = </span><span class="paramdefval">QUrlMethod::NORMAL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>添加 steramElement </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user_type</td><td>用户自定义Type</td></tr>
+    <tr><td class="paramname">url_type</td><td>媒体的资源属性 只包含视频/只包含音频/同时有视频音频</td></tr>
+    <tr><td class="paramname">quality_index</td><td>清晰度</td></tr>
+    <tr><td class="paramname">url</td><td>视频地址</td></tr>
+    <tr><td class="paramname">is_default</td><td>是否起播时播放该流</td></tr>
+    <tr><td class="paramname">referer</td><td>http/https 协议的地址 支持该属性</td></tr>
+    <tr><td class="paramname">backup_url</td><td>备用地址</td></tr>
+    <tr><td class="paramname">video_render_type</td><td>视频的渲染类型</td></tr>
+    <tr><td class="paramname">mp4_qn_drm_com_key</td><td>七牛私有 MP4 drm 解密 comkey 秘钥</td></tr>
+    <tr><td class="paramname">mp4_qn_drm_file_key</td><td>七牛私有 MP4 drm 解密 filekey 秘钥</td></tr>
+    <tr><td class="paramname">url_method</td><td>播放地址类型</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>                                                                 {</div>
+<div class="line"><span class="lineno">   60</span>    add_stream_element_inner(user_type, url_type, quality_index, url, is_default, referer, backup_url, video_render_type, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, mp4_qn_drm_com_key, mp4_qn_drm_file_key, url_method);</div>
+<div class="line"><span class="lineno">   61</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -303,15 +549,15 @@ Public 成员函数</h2></td></tr>
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><span class="lineno">   60</span>{</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (mIsBuild)</div>
-<div class="line"><span class="lineno">   63</span>    {</div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   65</span>    }</div>
-<div class="line"><span class="lineno">   66</span>    mSubtitleElements.emplace_back(</div>
-<div class="line"><span class="lineno">   67</span>        <span class="keyword">new</span> QSubtitleElement(name, url, is_default));</div>
-<div class="line"><span class="lineno">   68</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>{</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    <span class="keywordflow">if</span> (mIsBuild)</div>
+<div class="line"><span class="lineno">   92</span>    {</div>
+<div class="line"><span class="lineno">   93</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   94</span>    }</div>
+<div class="line"><span class="lineno">   95</span>    mSubtitleElements.emplace_back(</div>
+<div class="line"><span class="lineno">   96</span>        <span class="keyword">new</span> QSubtitleElement(name, url, is_default));</div>
+<div class="line"><span class="lineno">   97</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -340,27 +586,27 @@ Public 成员函数</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>如果返回null 说明builder 已经用过了，无法再次调用该方法 </dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>{</div>
-<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (mIsBuild)</div>
-<div class="line"><span class="lineno">   73</span>    {</div>
-<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   75</span>    }</div>
-<div class="line"><span class="lineno">   76</span>    std::vector&lt;QStreamElement*&gt; stream_elements;</div>
-<div class="line"><span class="lineno">   77</span>    std::vector&lt;QSubtitleElement*&gt; subtitle_elements;</div>
-<div class="line"><span class="lineno">   78</span>    <span class="comment">//list to vector</span></div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; itr : mStreamElements)</div>
-<div class="line"><span class="lineno">   80</span>    {</div>
-<div class="line"><span class="lineno">   81</span>        stream_elements.emplace_back(itr);</div>
-<div class="line"><span class="lineno">   82</span>    }</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; itr : mSubtitleElements)</div>
-<div class="line"><span class="lineno">   85</span>    {</div>
-<div class="line"><span class="lineno">   86</span>        subtitle_elements.emplace_back(itr);</div>
-<div class="line"><span class="lineno">   87</span>    }</div>
-<div class="line"><span class="lineno">   88</span>    mIsBuild = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">return</span> <span class="keyword">new</span> QMediaModel(stream_elements, subtitle_elements, is_live, is_reconstruct_time_line);</div>
-<div class="line"><span class="lineno">   91</span>}</div>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>{</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (mIsBuild)</div>
+<div class="line"><span class="lineno">  102</span>    {</div>
+<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  104</span>    }</div>
+<div class="line"><span class="lineno">  105</span>    std::vector&lt;QStreamElement*&gt; stream_elements;</div>
+<div class="line"><span class="lineno">  106</span>    std::vector&lt;QSubtitleElement*&gt; subtitle_elements;</div>
+<div class="line"><span class="lineno">  107</span>    <span class="comment">//list to vector</span></div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; itr : mStreamElements)</div>
+<div class="line"><span class="lineno">  109</span>    {</div>
+<div class="line"><span class="lineno">  110</span>        stream_elements.emplace_back(itr);</div>
+<div class="line"><span class="lineno">  111</span>    }</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; itr : mSubtitleElements)</div>
+<div class="line"><span class="lineno">  114</span>    {</div>
+<div class="line"><span class="lineno">  115</span>        subtitle_elements.emplace_back(itr);</div>
+<div class="line"><span class="lineno">  116</span>    }</div>
+<div class="line"><span class="lineno">  117</span>    mIsBuild = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">return</span> <span class="keyword">new</span> QMediaModel(stream_elements, subtitle_elements, is_live, is_reconstruct_time_line);</div>
+<div class="line"><span class="lineno">  120</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
