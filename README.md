@@ -9,7 +9,7 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
  -------- | ------------
  Android | https://github.com/pili-engineering/QPlayer2-Android 
  IOS | https://github.com/pili-engineering/QPlayer2-IOS
- Windows | Last Version: 1.4.0
+ Windows | Last Version: 1.4.1
  HarmonyOS NEXT| 敬请期待
  Mac | 敬请期待 
  Linux | 敬请期待 
@@ -33,6 +33,7 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
 | 静音播放              | 针对视频的静音，不影响系统声音                               |                                  |
 | 音视频数据上抛              | 适用于业务层需要获取当前播放的音视频数据的场景（比如推流等）                              |                                  |
 | 本地重构时间轴              | 以真是的流逝时间为准，避免某些视频时间轴错乱导致播放过程中异常                              |                                  |
+| drm              | 支持七牛私有 mp4 加密方式                             |                                  |
 
 
 
