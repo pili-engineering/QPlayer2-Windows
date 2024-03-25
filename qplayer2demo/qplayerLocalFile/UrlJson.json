@@ -1426,28 +1426,5 @@
             }
         ],
         "subtitle_element": []
-    },
-    {
-        "is_live": false,
-        "name": "52-点播-七牛私有drm2----EP77.mp4",
-        "reconstruct_time_line": false,
-        "stream_element": [
-            {
-                "backup_url": "",
-                "hls_drm_key": "",
-                "is_selected": true,
-                "mp4_drm_com_key": "comep77",
-                "mp4_drm_file_key": "fileep77",
-                "mp4_drm_key": "",
-                "quality": 1080,
-                "referer": "",
-                "render_type": "PLANE",
-                "url": "https://kodo.koafun.com/drm-EP77.mp4",
-                "url_method": "NORMAL",
-                "url_type": "QAUDIO_AND_VIDEO",
-                "user_type": ""
-            }
-        ],
-        "subtitle_element": []
     }
 ]
