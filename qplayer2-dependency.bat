@@ -1,3 +1,4 @@
-mkdir qplayer2demo/dependency/qplayer-json
-cd qplayer2demo/dependency/qplayer-json
+
+cd qplayer2demo/dependency
 git clone -b develop git@github.com:AstaTus/json.git
+rename "json" "qplayer-json"
