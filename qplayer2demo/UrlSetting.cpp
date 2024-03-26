@@ -91,6 +91,24 @@ UrlSetting::UrlSetting(HWND hwnd, HINSTANCE hinstance, PlayerUrlListModelManager
 UrlSetting::~UrlSetting() {
 	DestroyWindow(mUrlStreamElementsListWindow);
 	DestroyWindow(mUrlSubtitleElementsListWindow);
+	if (!mSubtitleElementModelList.empty())
+	{
+		std::list<DemoMediaSubtitleElementModel*>::iterator it;
+		for (it = mSubtitleElementModelList.begin(); it != mSubtitleElementModelList.end(); ++it)
+		{
+			delete* it;
+			*it = nullptr;
+		}
+	}
+	if (!mStreamElementModelList.empty())
+	{
+		std::list<DemoMediaStreamElementModel*>::iterator it;
+		for (it = mStreamElementModelList.begin(); it != mStreamElementModelList.end(); ++it)
+		{
+			delete* it;
+			*it = nullptr;
+		}
+	}
 }
 
 HWND UrlSetting::get_hwnd() {
@@ -285,6 +303,8 @@ void UrlSetting::create_child_window() {
 			pinner_ele_model->set_hls_drm(it->get_hls_drm_key());
 			pinner_ele_model->set_is_selected(it->is_selected());
 			pinner_ele_model->set_mp4_drm(it->get_mp4_drm_key());
+			pinner_ele_model->set_mp4_qn_drm_com_key(it->get_mp4_qn_drm_com_key());
+			pinner_ele_model->set_mp4_qn_drm_file_key(it->get_mp4_qn_drm_file_key());
 			pinner_ele_model->set_quality(it->get_quality_index());
 			pinner_ele_model->set_referer(it->get_referer());
 			pinner_ele_model->set_url(it->get_url());
@@ -401,6 +421,8 @@ void UrlSetting::submit_button_click() {
 			it->get_video_type(),
 			it->get_hls_drm(),
 			it->get_mp4_drm(),
+			it->get_mp4_qn_drm_com_key(),
+			it->get_mp4_qn_drm_file_key(),
 			it->get_url_methond()
 		);
 	}
@@ -533,7 +555,7 @@ void UrlSetting::motify_stream_elements_window_create(int item_id) {
 		return;
 	}
 	std::advance(it, item_id);
-	UrlStreamElementSetting* purl_stream_element_window = new UrlStreamElementSetting(mHwnd, mHinstance, UrlClickType::MOTIFY_URL, *it);
+	UrlStreamElementSetting* purl_stream_element_window =new UrlStreamElementSetting(mHwnd, mHinstance, UrlClickType::MOTIFY_URL, *it);
 	EnableWindow(mHwnd, FALSE);
 	purl_stream_element_window->set_close_call_back(
 		[this](WindowCloseType close_type, UrlClickType click_type, DemoMediaStreamElementModel* pmodel) {

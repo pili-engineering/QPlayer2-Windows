@@ -45,6 +45,9 @@ private:
 
 	HWND mMp4DrmInput;
 
+	HWND mMp4QNDrmComKeyInput;
+	HWND mMp4QNDrmFileKeyInput;
+
 	HWND mAudioAndVideoOption;
 	HWND mAudioOption;
 	HWND mVideoOption;

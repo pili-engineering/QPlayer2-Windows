@@ -54,7 +54,8 @@ public:
 
 	void add_stream_element(const std::string& user_type, QMedia::QUrlType url_type, uint32_t  quality_index,
 		const std::string& url, bool is_default, const std::string& referer, const std::string& backup_url,
-		QMedia::QVideoRenderType video_render_type, const std::string& hls_drm_key, const std::string& mp4_drm_key, QMedia::QUrlMethod url_method);
+		QMedia::QVideoRenderType video_render_type, const std::string& hls_drm_key, const std::string& mp4_drm_key, const std::string& mp4_qn_drm_com_key,
+		const std::string& mp4_qn_drm_file_key, QMedia::QUrlMethod url_method);
 
 	void add_subtitle_element(const std::string& name, const std::string& url, bool is_selected);
 

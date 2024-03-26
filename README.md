@@ -1,6 +1,5 @@
 # QPlayer2
 
-
 Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，更致力于各种应用场景的对接。
 
 ### 支持的平台
@@ -9,7 +8,7 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
  -------- | ------------
  Android | https://github.com/pili-engineering/QPlayer2-Android 
  IOS | https://github.com/pili-engineering/QPlayer2-IOS
- Windows | Last Version: 1.4.0
+ Windows | Last Version: 1.4.1
  HarmonyOS NEXT| 敬请期待
  Mac | 敬请期待 
  Linux | 敬请期待 
@@ -33,6 +32,7 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
 | 静音播放              | 针对视频的静音，不影响系统声音                               |                                  |
 | 音视频数据上抛              | 适用于业务层需要获取当前播放的音视频数据的场景（比如推流等）                              |                                  |
 | 本地重构时间轴              | 以真是的流逝时间为准，避免某些视频时间轴错乱导致播放过程中异常                              |                                  |
+| DRM  | 支持HLS 私有加密/通用加密 2种方式，支持 MP4 CENC-AES-CTR 加密，支持七牛私有 MP4 加密方式                          |                                  |
 
 
 
@@ -49,6 +49,8 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
    copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
    //复制 manifest 文件
    copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+4.下载 json 的第三方依赖，执行下面的命令
+   qplayer2-dependency.bat
 ```
 
 
@@ -79,8 +81,9 @@ https://developer.qiniu.com/pili/12642/qplayer2-windows
 
 1. demo 工程内的 视频播放 是基于 qplayer2-core 来实现的
 
-1. demo 下载：https://sdk-release.qnsdk.com/qplayer2_windows_demo_v1.4.0.zip
+2. demo 下载：https://sdk-release.qnsdk.com/qplayer2_windows_demo_v1.4.1.zip
 
+3. demo 需要执行 release 版本，暂不支持 debug
    
 
 #### 技术支持与交流

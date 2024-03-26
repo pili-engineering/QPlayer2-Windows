@@ -119,6 +119,12 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a1d3730ae63b24e3be6be4bbc53bc273a" id="r_a1d3730ae63b24e3be6be4bbc53bc273a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d3730ae63b24e3be6be4bbc53bc273a">is_selected</a> () const</td></tr>
 <tr class="memdesc:a1d3730ae63b24e3be6be4bbc53bc273a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素是否被选中  <br /></td></tr>
 <tr class="separator:a1d3730ae63b24e3be6be4bbc53bc273a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6843d5fae6613784c053b1d1e1d94383" id="r_a6843d5fae6613784c053b1d1e1d94383"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6843d5fae6613784c053b1d1e1d94383">get_mp4_qn_drm_com_key</a> () const</td></tr>
+<tr class="memdesc:a6843d5fae6613784c053b1d1e1d94383"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的七牛私有 MP4 drm comkey  <br /></td></tr>
+<tr class="separator:a6843d5fae6613784c053b1d1e1d94383"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9193203cf399ae55054a9818c6008b6" id="r_af9193203cf399ae55054a9818c6008b6"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9193203cf399ae55054a9818c6008b6">get_mp4_qn_drm_file_key</a> () const</td></tr>
+<tr class="memdesc:af9193203cf399ae55054a9818c6008b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前元素的七牛私有 MP4 drm filekey  <br /></td></tr>
+<tr class="separator:af9193203cf399ae55054a9818c6008b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 友元</h2></td></tr>
@@ -155,7 +161,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的备用 url </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   73</span>{ <span class="keywordflow">return</span> mBackupUrl; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   77</span>{ <span class="keywordflow">return</span> mBackupUrl; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -184,7 +190,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 hls key </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   91</span>{ <span class="keywordflow">return</span> mHlsDrmKey; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   95</span>{ <span class="keywordflow">return</span> mHlsDrmKey; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -213,7 +219,65 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 mp4 key </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   97</span>{ <span class="keywordflow">return</span> mMp4DrmKey; }</div>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>{ <span class="keywordflow">return</span> mMp4DrmKey; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a6843d5fae6613784c053b1d1e1d94383" name="a6843d5fae6613784c053b1d1e1d94383"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6843d5fae6613784c053b1d1e1d94383">&#9670;&#160;</a></span>get_mp4_qn_drm_com_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_mp4_qn_drm_com_key </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的七牛私有 MP4 drm comkey </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>{ <span class="keywordflow">return</span> mMp4QNDrmComKey; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af9193203cf399ae55054a9818c6008b6" name="af9193203cf399ae55054a9818c6008b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9193203cf399ae55054a9818c6008b6">&#9670;&#160;</a></span>get_mp4_qn_drm_file_key()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; QMedia::QStreamElement::get_mp4_qn_drm_file_key </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取当前元素的七牛私有 MP4 drm filekey </p>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">  125</span>{ <span class="keywordflow">return</span> mMp4QNDrmFileKey; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -242,7 +306,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的清晰度 </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>{ <span class="keywordflow">return</span> mQualityIndex; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>{ <span class="keywordflow">return</span> mQualityIndex; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -271,7 +335,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 referer </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   79</span>{ <span class="keywordflow">return</span> mReferer; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>{ <span class="keywordflow">return</span> mReferer; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -301,7 +365,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 <p>获取当前元素的 render type <br  />
  </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   85</span>{ <span class="keywordflow">return</span> mVideoRenderType; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>{ <span class="keywordflow">return</span> mVideoRenderType; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -330,7 +394,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 url </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>{ <span class="keywordflow">return</span> mUrl; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   71</span>{ <span class="keywordflow">return</span> mUrl; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -359,7 +423,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 url method </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>{ <span class="keywordflow">return</span> mUrlMethod; }</div>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>{ <span class="keywordflow">return</span> mUrlMethod; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -388,7 +452,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 url_type </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>{ <span class="keywordflow">return</span> mUrlType; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>{ <span class="keywordflow">return</span> mUrlType; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -417,7 +481,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素的 user_type </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>{ <span class="keywordflow">return</span> mUserType; }</div>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>{ <span class="keywordflow">return</span> mUserType; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -446,7 +510,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>QMediaModel</b></td>
 
 <p>获取当前元素是否被选中 </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>{ <span class="keywordflow">return</span> mIsSelected; }</div>
+<div class="fragment"><div class="line"><span class="lineno">  113</span>{ <span class="keywordflow">return</span> mIsSelected; }</div>
 </div><!-- fragment -->
 </div>
 </div>
