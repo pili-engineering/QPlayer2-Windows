@@ -1,6 +1,5 @@
 # QPlayer2
 
-
 Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，更致力于各种应用场景的对接。
 
 ### 支持的平台
@@ -50,6 +49,8 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
    copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.dll" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
    //复制 manifest 文件
    copy /Y "$(ProjectDir)dependency\qplayer-core\x86_64\lib\*.manifest" "$(ProjectDir)out\$(Platform)\$(Configuration)\bin\" 
+4.下载 json 的第三方依赖，执行下面的命令
+   qplayer2-dependency.bat
 ```
 
 
@@ -78,8 +79,9 @@ Qplayer2是一款跨平台的播放器SDK,除了基础的播放器能力外，�
 
 1. demo 工程内的 视频播放 是基于 qplayer2-core 来实现的
 
-1. demo 下载：https://sdk-release.qnsdk.com/qplayer2_windows_demo_v1.4.1.zip
+2. demo 下载：https://sdk-release.qnsdk.com/qplayer2_windows_demo_v1.4.1.zip
 
+3. demo 需要执行 release 版本，暂不支持 debug
    
 
 #### 技术支持与交流
