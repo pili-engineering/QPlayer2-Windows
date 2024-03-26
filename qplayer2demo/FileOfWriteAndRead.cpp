@@ -11,7 +11,7 @@
 #include <sstream>
 #include <dbghelp.h>
 #include <mmsystem.h>
-//播放器设置写入文件
+//播放器设置写入文件。
 bool FileOfWriteAndRead::write_setting_local_file(const std::string& file_name, CurrentDataModel* pmodel) {
 #ifdef _DEBUG
 	char current_path[FILENAME_MAX];
